@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cpt.mapper.ext.EventExtMapper">
+ <resultMap id="BaseResultMap" type="com.cpt.model.Event">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community" jdbcType="VARCHAR" property="community" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="window" jdbcType="VARCHAR" property="window" />
+    <result column="window_id" jdbcType="INTEGER" property="windowId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="appellant" jdbcType="VARCHAR" property="appellant" />
+    <result column="appellant_tel" jdbcType="VARCHAR" property="appellantTel" />
+    <result column="event_no" jdbcType="VARCHAR" property="eventNo" />
+    <result column="event_type" jdbcType="TINYINT" property="eventType" />
+    <result column="report_time" jdbcType="VARCHAR" property="reportTime" />
+    <result column="grade" jdbcType="TINYINT" property="grade" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="commit_user" jdbcType="VARCHAR" property="commitUser" />
+    <result column="commit_user_id" jdbcType="INTEGER" property="commitUserId" />
+    <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime" />
+    <result column="auditor" jdbcType="VARCHAR" property="auditor" />
+    <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
+    <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
+    <result column="resp_department" jdbcType="INTEGER" property="respDepartment" />
+    <result column="resp_department_id" jdbcType="VARCHAR" property="respDepartmentId" />
+    <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
+    <result column="request" jdbcType="VARCHAR" property="request" />
+    <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
+    <result column="handler" jdbcType="VARCHAR" property="handler" />
+    <result column="handler_id" jdbcType="INTEGER" property="handlerId" />
+    <result column="handle_time" jdbcType="VARCHAR" property="handleTime" />
+    <result column="handle_result" jdbcType="VARCHAR" property="handleResult" />
+    <result column="handle_remark" jdbcType="VARCHAR" property="handleRemark" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="event_status" jdbcType="TINYINT" property="eventStatus" />
+    <result column="cc_user" jdbcType="VARCHAR" property="ccUser" />
+    <result column="cc_user_id" jdbcType="INTEGER" property="ccUserId" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+  
+   <sql id="Base_Column_List">
+    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
+    event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
+    commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
+    expiry_date, request, audit_remark, handler, handler_id, handle_time, handle_result, 
+    handle_remark, update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, 
+    is_deleted
+    </sql>
+    
+    <sql id="Page_Column_List">
+    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
+    event_no, event_type, report_time, grade, description , commit_user, commit_user_id, 
+    commit_time, auditor, auditor_id, auditor_time,   handler, handler_id, handle_time,    
+    event_status, cc_user, cc_user_id
+  </sql>
+   
+  <select id="pageList" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
+    select 
+    <include refid="Page_Column_List" />
+    from t_event a
+    <where>
+          <if test="id != null">
+              AND a.id = #{id}
+          </if>
+          <if test="window != null and window != ''">
+              AND a.window LIKE concat('%',#{window},'%')
+          </if>
+          <if test="appellant != null and appellant != ''">
+              AND a.appellant LIKE concat('%',#{appellant},'%')
+          </if>
+          <if test="event_no != null and event_no != ''">
+              AND a.event_no LIKE concat('%',#{event_no},'%')
+          </if>
+          <if test="community != null and community != ''">
+              AND a.community LIKE concat('%',#{community},'%')
+          </if>
+          <if test="grade != null ">
+              AND a.grade = #{grade} 
+          </if>
+	      </where>
+	      ORDER BY a.status ,a.commit_time DESC 
+  </select>
+     <insert id="insertSelective" parameterType="com.cpt.model.Event">
+       	<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+	      select LAST_INSERT_ID()
+	    </selectKey>
+    insert into t_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="community != null">
+        community,
+      </if>
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="window != null">
+        window,
+      </if>
+      <if test="windowId != null">
+        window_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="appellant != null">
+        appellant,
+      </if>
+      <if test="appellantTel != null">
+        appellant_tel,
+      </if>
+      <if test="eventNo != null">
+        event_no,
+      </if>
+      <if test="eventType != null">
+        event_type,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="commitUser != null">
+        commit_user,
+      </if>
+      <if test="commitUserId != null">
+        commit_user_id,
+      </if>
+      <if test="commitTime != null">
+        commit_time,
+      </if>
+      <if test="auditor != null">
+        auditor,
+      </if>
+      <if test="auditorId != null">
+        auditor_id,
+      </if>
+      <if test="auditorTime != null">
+        auditor_time,
+      </if>
+      <if test="respDepartment != null">
+        resp_department,
+      </if>
+      <if test="respDepartmentId != null">
+        resp_department_id,
+      </if>
+      <if test="expiryDate != null">
+        expiry_date,
+      </if>
+      <if test="request != null">
+        request,
+      </if>
+      <if test="auditRemark != null">
+        audit_remark,
+      </if>
+      <if test="handler != null">
+        handler,
+      </if>
+      <if test="handlerId != null">
+        handler_id,
+      </if>
+      <if test="handleTime != null">
+        handle_time,
+      </if>
+      <if test="handleResult != null">
+        handle_result,
+      </if>
+      <if test="handleRemark != null">
+        handle_remark,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="eventStatus != null">
+        event_status,
+      </if>
+      <if test="ccUser != null">
+        cc_user,
+      </if>
+      <if test="ccUserId != null">
+        cc_user_id,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    </insert>
+</mapper>

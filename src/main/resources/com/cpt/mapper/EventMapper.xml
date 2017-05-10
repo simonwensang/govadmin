@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cpt.mapper.EventMapper">
+  <resultMap id="BaseResultMap" type="com.cpt.model.Event">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community" jdbcType="VARCHAR" property="community" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="window" jdbcType="VARCHAR" property="window" />
+    <result column="window_id" jdbcType="INTEGER" property="windowId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="appellant" jdbcType="VARCHAR" property="appellant" />
+    <result column="appellant_tel" jdbcType="VARCHAR" property="appellantTel" />
+    <result column="event_no" jdbcType="VARCHAR" property="eventNo" />
+    <result column="event_type" jdbcType="TINYINT" property="eventType" />
+    <result column="report_time" jdbcType="VARCHAR" property="reportTime" />
+    <result column="grade" jdbcType="TINYINT" property="grade" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="commit_user" jdbcType="VARCHAR" property="commitUser" />
+    <result column="commit_user_id" jdbcType="INTEGER" property="commitUserId" />
+    <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime" />
+    <result column="auditor" jdbcType="VARCHAR" property="auditor" />
+    <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
+    <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
+    <result column="resp_department" jdbcType="INTEGER" property="respDepartment" />
+    <result column="resp_department_id" jdbcType="VARCHAR" property="respDepartmentId" />
+    <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
+    <result column="request" jdbcType="VARCHAR" property="request" />
+    <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
+    <result column="handler" jdbcType="VARCHAR" property="handler" />
+    <result column="handler_id" jdbcType="INTEGER" property="handlerId" />
+    <result column="handle_time" jdbcType="VARCHAR" property="handleTime" />
+    <result column="handle_result" jdbcType="VARCHAR" property="handleResult" />
+    <result column="handle_remark" jdbcType="VARCHAR" property="handleRemark" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="event_status" jdbcType="TINYINT" property="eventStatus" />
+    <result column="cc_user" jdbcType="VARCHAR" property="ccUser" />
+    <result column="cc_user_id" jdbcType="INTEGER" property="ccUserId" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
+    event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
+    commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
+    expiry_date, request, audit_remark, handler, handler_id, handle_time, handle_result, 
+    handle_remark, update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, 
+    is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.cpt.model.EventExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_event
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cpt.model.EventExample">
+    delete from t_event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cpt.model.Event">
+    insert into t_event (id, community, community_id, 
+      window, window_id, address, 
+      appellant, appellant_tel, event_no, 
+      event_type, report_time, grade, 
+      description, attachment, commit_user, 
+      commit_user_id, commit_time, auditor, 
+      auditor_id, auditor_time, resp_department, 
+      resp_department_id, expiry_date, request, 
+      audit_remark, handler, handler_id, 
+      handle_time, handle_result, handle_remark, 
+      update_user, update_user_id, update_time, 
+      event_status, cc_user, cc_user_id, 
+      is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{community,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}, 
+      #{window,jdbcType=VARCHAR}, #{windowId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{appellant,jdbcType=VARCHAR}, #{appellantTel,jdbcType=VARCHAR}, #{eventNo,jdbcType=VARCHAR}, 
+      #{eventType,jdbcType=TINYINT}, #{reportTime,jdbcType=VARCHAR}, #{grade,jdbcType=TINYINT}, 
+      #{description,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{commitUser,jdbcType=VARCHAR}, 
+      #{commitUserId,jdbcType=INTEGER}, #{commitTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=VARCHAR}, 
+      #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, #{respDepartment,jdbcType=INTEGER}, 
+      #{respDepartmentId,jdbcType=VARCHAR}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
+      #{auditRemark,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{eventStatus,jdbcType=TINYINT}, #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cpt.model.Event">
+    insert into t_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="community != null">
+        community,
+      </if>
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="window != null">
+        window,
+      </if>
+      <if test="windowId != null">
+        window_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="appellant != null">
+        appellant,
+      </if>
+      <if test="appellantTel != null">
+        appellant_tel,
+      </if>
+      <if test="eventNo != null">
+        event_no,
+      </if>
+      <if test="eventType != null">
+        event_type,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="commitUser != null">
+        commit_user,
+      </if>
+      <if test="commitUserId != null">
+        commit_user_id,
+      </if>
+      <if test="commitTime != null">
+        commit_time,
+      </if>
+      <if test="auditor != null">
+        auditor,
+      </if>
+      <if test="auditorId != null">
+        auditor_id,
+      </if>
+      <if test="auditorTime != null">
+        auditor_time,
+      </if>
+      <if test="respDepartment != null">
+        resp_department,
+      </if>
+      <if test="respDepartmentId != null">
+        resp_department_id,
+      </if>
+      <if test="expiryDate != null">
+        expiry_date,
+      </if>
+      <if test="request != null">
+        request,
+      </if>
+      <if test="auditRemark != null">
+        audit_remark,
+      </if>
+      <if test="handler != null">
+        handler,
+      </if>
+      <if test="handlerId != null">
+        handler_id,
+      </if>
+      <if test="handleTime != null">
+        handle_time,
+      </if>
+      <if test="handleResult != null">
+        handle_result,
+      </if>
+      <if test="handleRemark != null">
+        handle_remark,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="eventStatus != null">
+        event_status,
+      </if>
+      <if test="ccUser != null">
+        cc_user,
+      </if>
+      <if test="ccUserId != null">
+        cc_user_id,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="community != null">
+        #{community,jdbcType=VARCHAR},
+      </if>
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="window != null">
+        #{window,jdbcType=VARCHAR},
+      </if>
+      <if test="windowId != null">
+        #{windowId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="appellant != null">
+        #{appellant,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantTel != null">
+        #{appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="eventNo != null">
+        #{eventNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=TINYINT},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUser != null">
+        #{commitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUserId != null">
+        #{commitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="commitTime != null">
+        #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null">
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorTime != null">
+        #{auditorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="respDepartment != null">
+        #{respDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="respDepartmentId != null">
+        #{respDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null">
+        #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRemark != null">
+        #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null">
+        #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerId != null">
+        #{handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="handleTime != null">
+        #{handleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="handleResult != null">
+        #{handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleRemark != null">
+        #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventStatus != null">
+        #{eventStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ccUser != null">
+        #{ccUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ccUserId != null">
+        #{ccUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cpt.model.EventExample" resultType="java.lang.Integer">
+    select count(*) from t_event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_event
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.community != null">
+        community = #{record.community,jdbcType=VARCHAR},
+      </if>
+      <if test="record.communityId != null">
+        community_id = #{record.communityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.window != null">
+        window = #{record.window,jdbcType=VARCHAR},
+      </if>
+      <if test="record.windowId != null">
+        window_id = #{record.windowId,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appellant != null">
+        appellant = #{record.appellant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appellantTel != null">
+        appellant_tel = #{record.appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventNo != null">
+        event_no = #{record.eventNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventType != null">
+        event_type = #{record.eventType,jdbcType=TINYINT},
+      </if>
+      <if test="record.reportTime != null">
+        report_time = #{record.reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=TINYINT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null">
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commitUser != null">
+        commit_user = #{record.commitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commitUserId != null">
+        commit_user_id = #{record.commitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.commitTime != null">
+        commit_time = #{record.commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditor != null">
+        auditor = #{record.auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditorId != null">
+        auditor_id = #{record.auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditorTime != null">
+        auditor_time = #{record.auditorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.respDepartment != null">
+        resp_department = #{record.respDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="record.respDepartmentId != null">
+        resp_department_id = #{record.respDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expiryDate != null">
+        expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.request != null">
+        request = #{record.request,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditRemark != null">
+        audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handler != null">
+        handler = #{record.handler,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handlerId != null">
+        handler_id = #{record.handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.handleTime != null">
+        handle_time = #{record.handleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleResult != null">
+        handle_result = #{record.handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleRemark != null">
+        handle_remark = #{record.handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eventStatus != null">
+        event_status = #{record.eventStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.ccUser != null">
+        cc_user = #{record.ccUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccUserId != null">
+        cc_user_id = #{record.ccUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_event
+    set id = #{record.id,jdbcType=INTEGER},
+      community = #{record.community,jdbcType=VARCHAR},
+      community_id = #{record.communityId,jdbcType=INTEGER},
+      window = #{record.window,jdbcType=VARCHAR},
+      window_id = #{record.windowId,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      appellant = #{record.appellant,jdbcType=VARCHAR},
+      appellant_tel = #{record.appellantTel,jdbcType=VARCHAR},
+      event_no = #{record.eventNo,jdbcType=VARCHAR},
+      event_type = #{record.eventType,jdbcType=TINYINT},
+      report_time = #{record.reportTime,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=TINYINT},
+      description = #{record.description,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      commit_user = #{record.commitUser,jdbcType=VARCHAR},
+      commit_user_id = #{record.commitUserId,jdbcType=INTEGER},
+      commit_time = #{record.commitTime,jdbcType=TIMESTAMP},
+      auditor = #{record.auditor,jdbcType=VARCHAR},
+      auditor_id = #{record.auditorId,jdbcType=INTEGER},
+      auditor_time = #{record.auditorTime,jdbcType=TIMESTAMP},
+      resp_department = #{record.respDepartment,jdbcType=INTEGER},
+      resp_department_id = #{record.respDepartmentId,jdbcType=VARCHAR},
+      expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
+      request = #{record.request,jdbcType=VARCHAR},
+      audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
+      handler = #{record.handler,jdbcType=VARCHAR},
+      handler_id = #{record.handlerId,jdbcType=INTEGER},
+      handle_time = #{record.handleTime,jdbcType=VARCHAR},
+      handle_result = #{record.handleResult,jdbcType=VARCHAR},
+      handle_remark = #{record.handleRemark,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      event_status = #{record.eventStatus,jdbcType=TINYINT},
+      cc_user = #{record.ccUser,jdbcType=VARCHAR},
+      cc_user_id = #{record.ccUserId,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cpt.model.Event">
+    update t_event
+    <set>
+      <if test="community != null">
+        community = #{community,jdbcType=VARCHAR},
+      </if>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="window != null">
+        window = #{window,jdbcType=VARCHAR},
+      </if>
+      <if test="windowId != null">
+        window_id = #{windowId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="appellant != null">
+        appellant = #{appellant,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantTel != null">
+        appellant_tel = #{appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="eventNo != null">
+        event_no = #{eventNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        event_type = #{eventType,jdbcType=TINYINT},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUser != null">
+        commit_user = #{commitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUserId != null">
+        commit_user_id = #{commitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="commitTime != null">
+        commit_time = #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        auditor = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null">
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorTime != null">
+        auditor_time = #{auditorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="respDepartment != null">
+        resp_department = #{respDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="respDepartmentId != null">
+        resp_department_id = #{respDepartmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null">
+        expiry_date = #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null">
+        request = #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRemark != null">
+        audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null">
+        handler = #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerId != null">
+        handler_id = #{handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="handleTime != null">
+        handle_time = #{handleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="handleResult != null">
+        handle_result = #{handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleRemark != null">
+        handle_remark = #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventStatus != null">
+        event_status = #{eventStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ccUser != null">
+        cc_user = #{ccUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ccUserId != null">
+        cc_user_id = #{ccUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cpt.model.Event">
+    update t_event
+    set community = #{community,jdbcType=VARCHAR},
+      community_id = #{communityId,jdbcType=INTEGER},
+      window = #{window,jdbcType=VARCHAR},
+      window_id = #{windowId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      appellant = #{appellant,jdbcType=VARCHAR},
+      appellant_tel = #{appellantTel,jdbcType=VARCHAR},
+      event_no = #{eventNo,jdbcType=VARCHAR},
+      event_type = #{eventType,jdbcType=TINYINT},
+      report_time = #{reportTime,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      commit_user = #{commitUser,jdbcType=VARCHAR},
+      commit_user_id = #{commitUserId,jdbcType=INTEGER},
+      commit_time = #{commitTime,jdbcType=TIMESTAMP},
+      auditor = #{auditor,jdbcType=VARCHAR},
+      auditor_id = #{auditorId,jdbcType=INTEGER},
+      auditor_time = #{auditorTime,jdbcType=TIMESTAMP},
+      resp_department = #{respDepartment,jdbcType=INTEGER},
+      resp_department_id = #{respDepartmentId,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=VARCHAR},
+      request = #{request,jdbcType=VARCHAR},
+      audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      handler = #{handler,jdbcType=VARCHAR},
+      handler_id = #{handlerId,jdbcType=INTEGER},
+      handle_time = #{handleTime,jdbcType=VARCHAR},
+      handle_result = #{handleResult,jdbcType=VARCHAR},
+      handle_remark = #{handleRemark,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      event_status = #{eventStatus,jdbcType=TINYINT},
+      cc_user = #{ccUser,jdbcType=VARCHAR},
+      cc_user_id = #{ccUserId,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
