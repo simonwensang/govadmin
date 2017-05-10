@@ -108,4 +108,29 @@ public class EventController {
     public Result<Integer> sendHandler(EventReq eventReq) {
     	return eventService.sendHandler(eventReq);
     }
+    
+    /**
+     * 上报
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/higherUp", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> higherUp(EventReq eventReq) {
+    	return eventService.higherUp(eventReq);
+    }
+    /**
+     * 处理
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/handle", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> handle(EventReq eventReq) {
+    	return eventService.handle(eventReq);
+    }
 }

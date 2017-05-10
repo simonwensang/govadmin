@@ -23,6 +23,7 @@ import com.cpt.common.constant.AuthorityStatus;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
+import com.cpt.common.util.CodeFactory;
 import com.cpt.convertor.EventConvertor;
 import com.cpt.mapper.EventHandleLogMapper;
 import com.cpt.mapper.EventMapper;
@@ -119,7 +120,8 @@ public class EventServiceImpl implements EventService {
 				}
 				event.setAttachment(realname);
 			}
-			event.setEventStatus(AuthorityStatus.AUDITOR.getKey());
+			event.setEventNo(CodeFactory.getCode());
+			event.setEventStatus(EventStatus.AUDIT.getKey());
 			event.setCommitUser(user.getName());
 			event.setCommitUserId(user.getId().intValue());
 			event.setCommitTime(new Date());
@@ -142,6 +144,9 @@ public class EventServiceImpl implements EventService {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see 派遣
+	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> sendHandler(EventReq eventReq) {
@@ -153,7 +158,7 @@ public class EventServiceImpl implements EventService {
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		User user = userCommonService.getUser();
-		if(!user.getId().equals(event.getCommitUserId())){
+		if(!user.getId().equals(event.getAuditorId())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 		}
 		Event param = new Event();
@@ -163,15 +168,63 @@ public class EventServiceImpl implements EventService {
 		param.setExpiryDate(eventReq.getExpiryDate());
 		param.setRequest(eventReq.getRequest());
 		param.setAuditRemark(eventReq.getAuditRemark());
-		Result.newResult(update(param));
-		
-		this.insertWorkFlow(event.getId().longValue(), user.getId(), user.getId(), AuthorityStatus.COMMIT_USER,EventStatus.INIT);
-		if(null!=event.getCcUserId()){
-			this.insertWorkFlow(event.getId().longValue(), user.getId(),event.getCcUserId().longValue() , AuthorityStatus.CC_USER,EventStatus.INIT);
-		}
-		return Result.newResult(this.insertWorkFlow(event.getId().longValue(), user.getId(), eventReq.getAuditorId().longValue(), AuthorityStatus.AUDITOR,EventStatus.AUDIT));
+		param.setAuditorTime(new Date());
+		param.setEventStatus(EventStatus.HANDLE.getKey());
+		Result.newResult(this.update(param));
+		return Result.newResult(this.insertEventHandleLog(HandleType.AUDITE, user.getName(), user.getId().intValue(), event.getId()));
 	}
 	
+	@Override
+	public Result<Integer> handle(EventReq eventReq) {
+		if(null==eventReq.getId()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
+		}
+		User user = userCommonService.getUser();
+		/*Event event =  this.get(eventReq.getId());
+		if(null==event){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		
+		if(!user.getId().equals(event.getAuditorId())){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}*/
+		Event param = new Event();
+		param.setId(eventReq.getId());
+		param.setHandler(user.getName());
+		param.setHandlerId(user.getId().intValue());
+		param.setHandleTime(eventReq.getHandleTime());
+		param.setHandleResult(eventReq.getHandleResult());
+		param.setHandleRemark(eventReq.getHandleRemark());
+		param.setEventStatus(EventStatus.CLOSE.getKey());
+		Result.newResult(this.update(param));
+		return Result.newResult(this.insertEventHandleLog(HandleType.HANDLE, user.getName(), user.getId().intValue(), eventReq.getId()));
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Result<Integer> higherUp(EventReq eventReq) {
+
+		if(null==eventReq.getAuditorId()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
+		}
+		Event event =  this.get(eventReq.getId());
+		if(null==event){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		User user = userCommonService.getUser();
+		if(!user.getId().equals(event.getAuditorId())){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}
+		Event param = new Event();
+		param.setId(eventReq.getId());
+		param.setAuditor(eventReq.getAuditor());
+		param.setAuditorId(eventReq.getAuditorId());
+		this.update(param);
+		this.insertEventHandleLog(HandleType.AUDITE, user.getName(), user.getId().intValue(), event.getId());
+		
+		return Result.newResult(this.insertWorkFlow(event.getId().longValue(), user.getId(), eventReq.getAuditorId().longValue(), AuthorityStatus.AUDITOR,EventStatus.AUDIT));
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer insertWorkFlow(Long refId,Long appointUser,Long creator,AuthorityStatus authorityStatus,EventStatus eventStatus){
 		WorkFlow workFlow = new WorkFlow();
@@ -182,7 +235,7 @@ public class EventServiceImpl implements EventService {
 		workFlow.setStatus(eventStatus.getKey());
 		return workFlowMapper.insertSelective(workFlow);
 	}
-	
+	 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer insertEventHandleLog(HandleType handleType,String handler,Integer handlerId,Integer eventId){
 		EventHandleLog eventHandleLog = new EventHandleLog();

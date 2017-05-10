@@ -18,4 +18,8 @@ public interface EventService {
 	
 	public Result<Integer> sendHandler(EventReq eventReq);
 	
+	public Result<Integer> higherUp(EventReq eventReq);
+	
+	public Result<Integer> handle(EventReq eventReq);
+	
 }
