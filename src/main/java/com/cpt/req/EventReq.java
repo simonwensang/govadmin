@@ -47,9 +47,9 @@ public class EventReq {
 
 	    private Date auditorTime;
 
-	    private Integer respDepartment;
+	    private String respDepartment;
 
-	    private String respDepartmentId;
+	    private Integer respDepartmentId;
 
 	    private String expiryDate;
 

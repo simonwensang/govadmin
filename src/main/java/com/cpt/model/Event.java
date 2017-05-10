@@ -44,9 +44,9 @@ public class Event {
 
     private Date auditorTime;
 
-    private Integer respDepartment;
+    private String respDepartment;
 
-    private String respDepartmentId;
+    private Integer respDepartmentId;
 
     private String expiryDate;
 
@@ -238,20 +238,20 @@ public class Event {
         this.auditorTime = auditorTime;
     }
 
-    public Integer getRespDepartment() {
+    public String getRespDepartment() {
         return respDepartment;
     }
 
-    public void setRespDepartment(Integer respDepartment) {
-        this.respDepartment = respDepartment;
+    public void setRespDepartment(String respDepartment) {
+        this.respDepartment = respDepartment == null ? null : respDepartment.trim();
     }
 
-    public String getRespDepartmentId() {
+    public Integer getRespDepartmentId() {
         return respDepartmentId;
     }
 
-    public void setRespDepartmentId(String respDepartmentId) {
-        this.respDepartmentId = respDepartmentId == null ? null : respDepartmentId.trim();
+    public void setRespDepartmentId(Integer respDepartmentId) {
+        this.respDepartmentId = respDepartmentId;
     }
 
     public String getExpiryDate() {
@@ -384,5 +384,4 @@ public class Event {
 	public void setEventHandleLogList(List<EventHandleLog> eventHandleLogList) {
 		this.eventHandleLogList = eventHandleLogList;
 	}
-    
 }

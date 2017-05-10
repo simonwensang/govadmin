@@ -1425,52 +1425,62 @@ public class EventExample {
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentEqualTo(Integer value) {
+        public Criteria andRespDepartmentEqualTo(String value) {
             addCriterion("resp_department =", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentNotEqualTo(Integer value) {
+        public Criteria andRespDepartmentNotEqualTo(String value) {
             addCriterion("resp_department <>", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentGreaterThan(Integer value) {
+        public Criteria andRespDepartmentGreaterThan(String value) {
             addCriterion("resp_department >", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentGreaterThanOrEqualTo(Integer value) {
+        public Criteria andRespDepartmentGreaterThanOrEqualTo(String value) {
             addCriterion("resp_department >=", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentLessThan(Integer value) {
+        public Criteria andRespDepartmentLessThan(String value) {
             addCriterion("resp_department <", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentLessThanOrEqualTo(Integer value) {
+        public Criteria andRespDepartmentLessThanOrEqualTo(String value) {
             addCriterion("resp_department <=", value, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIn(List<Integer> values) {
+        public Criteria andRespDepartmentLike(String value) {
+            addCriterion("resp_department like", value, "respDepartment");
+            return (Criteria) this;
+        }
+
+        public Criteria andRespDepartmentNotLike(String value) {
+            addCriterion("resp_department not like", value, "respDepartment");
+            return (Criteria) this;
+        }
+
+        public Criteria andRespDepartmentIn(List<String> values) {
             addCriterion("resp_department in", values, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentNotIn(List<Integer> values) {
+        public Criteria andRespDepartmentNotIn(List<String> values) {
             addCriterion("resp_department not in", values, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentBetween(Integer value1, Integer value2) {
+        public Criteria andRespDepartmentBetween(String value1, String value2) {
             addCriterion("resp_department between", value1, value2, "respDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentNotBetween(Integer value1, Integer value2) {
+        public Criteria andRespDepartmentNotBetween(String value1, String value2) {
             addCriterion("resp_department not between", value1, value2, "respDepartment");
             return (Criteria) this;
         }
@@ -1485,62 +1495,52 @@ public class EventExample {
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdEqualTo(String value) {
+        public Criteria andRespDepartmentIdEqualTo(Integer value) {
             addCriterion("resp_department_id =", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdNotEqualTo(String value) {
+        public Criteria andRespDepartmentIdNotEqualTo(Integer value) {
             addCriterion("resp_department_id <>", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdGreaterThan(String value) {
+        public Criteria andRespDepartmentIdGreaterThan(Integer value) {
             addCriterion("resp_department_id >", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdGreaterThanOrEqualTo(String value) {
+        public Criteria andRespDepartmentIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("resp_department_id >=", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdLessThan(String value) {
+        public Criteria andRespDepartmentIdLessThan(Integer value) {
             addCriterion("resp_department_id <", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdLessThanOrEqualTo(String value) {
+        public Criteria andRespDepartmentIdLessThanOrEqualTo(Integer value) {
             addCriterion("resp_department_id <=", value, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdLike(String value) {
-            addCriterion("resp_department_id like", value, "respDepartmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRespDepartmentIdNotLike(String value) {
-            addCriterion("resp_department_id not like", value, "respDepartmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRespDepartmentIdIn(List<String> values) {
+        public Criteria andRespDepartmentIdIn(List<Integer> values) {
             addCriterion("resp_department_id in", values, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdNotIn(List<String> values) {
+        public Criteria andRespDepartmentIdNotIn(List<Integer> values) {
             addCriterion("resp_department_id not in", values, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdBetween(String value1, String value2) {
+        public Criteria andRespDepartmentIdBetween(Integer value1, Integer value2) {
             addCriterion("resp_department_id between", value1, value2, "respDepartmentId");
             return (Criteria) this;
         }
 
-        public Criteria andRespDepartmentIdNotBetween(String value1, String value2) {
+        public Criteria andRespDepartmentIdNotBetween(Integer value1, Integer value2) {
             addCriterion("resp_department_id not between", value1, value2, "respDepartmentId");
             return (Criteria) this;
         }

@@ -22,8 +22,8 @@
     <result column="auditor" jdbcType="VARCHAR" property="auditor" />
     <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
     <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
-    <result column="resp_department" jdbcType="INTEGER" property="respDepartment" />
-    <result column="resp_department_id" jdbcType="VARCHAR" property="respDepartmentId" />
+    <result column="resp_department" jdbcType="VARCHAR" property="respDepartment" />
+    <result column="resp_department_id" jdbcType="INTEGER" property="respDepartmentId" />
     <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
     <result column="request" jdbcType="VARCHAR" property="request" />
     <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
@@ -157,8 +157,8 @@
       #{eventType,jdbcType=TINYINT}, #{reportTime,jdbcType=VARCHAR}, #{grade,jdbcType=TINYINT}, 
       #{description,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{commitUser,jdbcType=VARCHAR}, 
       #{commitUserId,jdbcType=INTEGER}, #{commitTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=VARCHAR}, 
-      #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, #{respDepartment,jdbcType=INTEGER}, 
-      #{respDepartmentId,jdbcType=VARCHAR}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
+      #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, #{respDepartment,jdbcType=VARCHAR}, 
+      #{respDepartmentId,jdbcType=INTEGER}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
       #{auditRemark,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, 
       #{handleTime,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, 
       #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -342,10 +342,10 @@
         #{auditorTime,jdbcType=TIMESTAMP},
       </if>
       <if test="respDepartment != null">
-        #{respDepartment,jdbcType=INTEGER},
+        #{respDepartment,jdbcType=VARCHAR},
       </if>
       <if test="respDepartmentId != null">
-        #{respDepartmentId,jdbcType=VARCHAR},
+        #{respDepartmentId,jdbcType=INTEGER},
       </if>
       <if test="expiryDate != null">
         #{expiryDate,jdbcType=VARCHAR},
@@ -464,10 +464,10 @@
         auditor_time = #{record.auditorTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.respDepartment != null">
-        resp_department = #{record.respDepartment,jdbcType=INTEGER},
+        resp_department = #{record.respDepartment,jdbcType=VARCHAR},
       </if>
       <if test="record.respDepartmentId != null">
-        resp_department_id = #{record.respDepartmentId,jdbcType=VARCHAR},
+        resp_department_id = #{record.respDepartmentId,jdbcType=INTEGER},
       </if>
       <if test="record.expiryDate != null">
         expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
@@ -541,8 +541,8 @@
       auditor = #{record.auditor,jdbcType=VARCHAR},
       auditor_id = #{record.auditorId,jdbcType=INTEGER},
       auditor_time = #{record.auditorTime,jdbcType=TIMESTAMP},
-      resp_department = #{record.respDepartment,jdbcType=INTEGER},
-      resp_department_id = #{record.respDepartmentId,jdbcType=VARCHAR},
+      resp_department = #{record.respDepartment,jdbcType=VARCHAR},
+      resp_department_id = #{record.respDepartmentId,jdbcType=INTEGER},
       expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
       request = #{record.request,jdbcType=VARCHAR},
       audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
@@ -623,10 +623,10 @@
         auditor_time = #{auditorTime,jdbcType=TIMESTAMP},
       </if>
       <if test="respDepartment != null">
-        resp_department = #{respDepartment,jdbcType=INTEGER},
+        resp_department = #{respDepartment,jdbcType=VARCHAR},
       </if>
       <if test="respDepartmentId != null">
-        resp_department_id = #{respDepartmentId,jdbcType=VARCHAR},
+        resp_department_id = #{respDepartmentId,jdbcType=INTEGER},
       </if>
       <if test="expiryDate != null">
         expiry_date = #{expiryDate,jdbcType=VARCHAR},
@@ -697,8 +697,8 @@
       auditor = #{auditor,jdbcType=VARCHAR},
       auditor_id = #{auditorId,jdbcType=INTEGER},
       auditor_time = #{auditorTime,jdbcType=TIMESTAMP},
-      resp_department = #{respDepartment,jdbcType=INTEGER},
-      resp_department_id = #{respDepartmentId,jdbcType=VARCHAR},
+      resp_department = #{respDepartment,jdbcType=VARCHAR},
+      resp_department_id = #{respDepartmentId,jdbcType=INTEGER},
       expiry_date = #{expiryDate,jdbcType=VARCHAR},
       request = #{request,jdbcType=VARCHAR},
       audit_remark = #{auditRemark,jdbcType=VARCHAR},

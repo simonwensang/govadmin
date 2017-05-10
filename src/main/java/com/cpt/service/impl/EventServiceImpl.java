@@ -140,6 +140,38 @@ public class EventServiceImpl implements EventService {
 			return Result.newResult(this.update(event));
 		}
 	}
+	
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Result<Integer> sendHandler(EventReq eventReq) {
+		if(null==eventReq.getId()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
+		}
+		Event event =  this.get(eventReq.getId());
+		if(null==event){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		User user = userCommonService.getUser();
+		if(!user.getId().equals(event.getCommitUserId())){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}
+		Event param = new Event();
+		param.setId(eventReq.getId());
+		param.setRespDepartment(eventReq.getRespDepartment());
+		param.setRespDepartmentId(eventReq.getRespDepartmentId());
+		param.setExpiryDate(eventReq.getExpiryDate());
+		param.setRequest(eventReq.getRequest());
+		param.setAuditRemark(eventReq.getAuditRemark());
+		Result.newResult(update(param));
+		
+		this.insertWorkFlow(event.getId().longValue(), user.getId(), user.getId(), AuthorityStatus.COMMIT_USER,EventStatus.INIT);
+		if(null!=event.getCcUserId()){
+			this.insertWorkFlow(event.getId().longValue(), user.getId(),event.getCcUserId().longValue() , AuthorityStatus.CC_USER,EventStatus.INIT);
+		}
+		return Result.newResult(this.insertWorkFlow(event.getId().longValue(), user.getId(), eventReq.getAuditorId().longValue(), AuthorityStatus.AUDITOR,EventStatus.AUDIT));
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer insertWorkFlow(Long refId,Long appointUser,Long creator,AuthorityStatus authorityStatus,EventStatus eventStatus){
 		WorkFlow workFlow = new WorkFlow();
@@ -189,14 +221,5 @@ public class EventServiceImpl implements EventService {
 		return eventMapper.updateByPrimaryKeySelective(event);
 	}
 
-	@Override
-	public Result<Integer> sendHandler(EventReq eventReq) {
-		
-		Event event = EventConvertor.reqToEvent(eventReq);
-		
-		
-		
-		return null;
-	}
 	
 }
