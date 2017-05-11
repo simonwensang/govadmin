@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>首页</title>
+
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css"/>
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="css/home.css"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default" id="navbar">
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small>
+                    <i class="icon-leaf"></i>
+                    平安汊涧
+                </small>
+            </a>
+        </div>
+
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo">
+                        <span class="user-info"><small>欢迎</small>管理员</span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="#">
+                                <i class="icon-user"></i>
+                                账号管理
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="icon-off"></i>
+                                退出登录
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="main-container" id="main-container">
+
+    <div class="main-container-inner">
+        <div class="sidebar" id="sidebar">
+            <ul class="nav nav-list">
+                <li class="active">
+                    <a href="home.html">
+                        <i class="icon-dashboard"></i>
+                        <span class="menu-text"> 首页 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-desktop"></i>
+                        <span class="menu-text"> 分类列表 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="elements.html">
+                                <i class="icon-double-angle-right"></i>
+                                治安防范
+                            </a>
+                        </li>
+                        <li>
+                            <a href="buttons.html">
+                                <i class="icon-double-angle-right"></i>
+                                集镇管理
+                            </a>
+                        </li>
+                        <li>
+                            <a href="treeview.html">
+                                <i class="icon-double-angle-right"></i>
+                                矛盾纠纷
+                            </a>
+                        </li>
+                        <li>
+                            <a href="jquery-ui.html">
+                                <i class="icon-double-angle-right"></i>
+                                基层党建
+                            </a>
+                        </li>
+                        <li>
+                            <a href="nestable-list.html">
+                                <i class="icon-double-angle-right"></i>
+                                为民服务
+                            </a>
+                        </li>
+                        <li>
+                            <a href="nestable-list.html">
+                                <i class="icon-double-angle-right"></i>
+                                其他服务
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 数据统计 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="tables.html">
+                                <i class="icon-double-angle-right"></i>
+                                统计
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="jqgrid.html">
+                                <i class="icon-double-angle-right"></i>
+                                统计分析
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-edit"></i>
+                        <span class="menu-text"> 我的 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="form-elements.html">
+                                <i class="icon-double-angle-right"></i>
+                                我的事件
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="form-wizard.html">
+                                <i class="icon-double-angle-right"></i>
+                                发送通知
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="wysiwyg.html">
+                                <i class="icon-double-angle-right"></i>
+                                查看通知
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-tag"></i>
+                        <span class="menu-text"> 更多页面 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu" style="display: none;">
+                        <li>
+                            <a href="submission.html">
+                                <i class="icon-double-angle-right"></i>
+                                提报
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="approval.html">
+                                <i class="icon-double-angle-right"></i>
+                                审批
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="manage.html">
+                                <i class="icon-double-angle-right"></i>
+                                处置
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="allReport.html">
+                                <i class="icon-double-angle-right"></i>
+                                全部上报
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="closed.html">
+                                <i class="icon-double-angle-right"></i>
+                                已关闭的
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+            </div>
+
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="type-list">
+                            <div class="inner">
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/zaff.png">
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/jzgl.png">
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/mdjf.png">
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/jcdj.png">
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/msfw.png">
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <img src="img/index/qtfw.png">
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+
+</body>
+</html>

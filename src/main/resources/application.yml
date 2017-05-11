@@ -3,7 +3,7 @@
 # PROFILES
 ## dev | test | prod
 spring: 
-  profiles: dev
+  profiles.active: dev
   
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1
@@ -92,7 +92,7 @@ server.imagepath.attachment: /attachment
 
 ---
 spring:
-  profiles.active: prod
+  profiles: prod
 
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1

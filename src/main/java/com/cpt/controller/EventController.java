@@ -1,5 +1,7 @@
 package com.cpt.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cpt.common.PageParam;
 import com.cpt.common.PageResult;
 import com.cpt.common.Result;
-import com.cpt.model.Event;
+import com.cpt.common.constant.Constants;
+import com.cpt.common.constant.EventType;
+import com.cpt.model.Organization;
 import com.cpt.req.EventReq;
 import com.cpt.service.CustomerService;
 import com.cpt.service.EventService;
+import com.cpt.service.OrganizationService;
+import com.cpt.vo.EnumBean;
 import com.cpt.vo.EventVo;
 
 @Controller
@@ -29,7 +35,9 @@ public class EventController {
 	
 	@Autowired 
 	private CustomerService customerService;
- 
+	
+	@Autowired 
+	private  OrganizationService organizationService;
 	  /**
      * 工程管理列表
      *
@@ -57,7 +65,7 @@ public class EventController {
     }
     
     /**
-     * 工程详情
+     * 详情
      *
      * @param mav
      * @param id
@@ -68,6 +76,22 @@ public class EventController {
     	EventVo eventVo = eventService.detail(id);
         mav.addObject("eventVo", eventVo);
         mav.setViewName("event/event_detail");
+        return mav;
+    }
+    
+    /**
+     * 详情
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/submission", method = RequestMethod.GET)
+    public ModelAndView submission(ModelAndView mav, Byte id) {
+    	List<Organization> organizationList = organizationService.selectByLevel(Constants.LEVEL_2);
+        mav.addObject("organizationList", organizationList);
+    	mav.addObject("eventType", new EnumBean(id,EventType.getValueByKey(null==id?1:id)));
+        mav.setViewName("event/submission");
         return mav;
     }
     /**

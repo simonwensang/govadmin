@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body> 
+<div class="head">
+    <div class="container">
+        <div class="p1">“平安汊涧”大联动网格管理系统</div>
+        <div class="p2">
+            <a href="javascript:void(0)" class="active">首页</a>
+            <a href="/event/submission?eventType=1">治安防范</a>
+            <a href="/event/submission?eventType=2">集镇管理</a>
+            <a href="/event/submission?eventType=3">矛盾纠纷</a>
+            <a href="/event/submission?eventType=4">基层党建</a>
+            <a href="/event/submission?eventType=5">民生服务</a>
+            <a href="/event/submission?eventType=6">其他服务</a>
+        </div>
+        <div class="p3">
+			#if(!$user.name)
+				<a href="/login">登陆</a>
+			#else
+				$!{user.name}
+			#end
+        <!--<a>注册</a>-->
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <img src="img/index/banner.jpg">
+</div>
+<div class="links">
+    <div class="inner">
+        <a href="/event/submission?eventType=1">
+            <img src="img/index/zaff.png">
+        </a>
+        <a href="/event/submission?eventType=2">
+            <img src="img/index/jzgl.png">
+        </a>
+        <a href="/event/submission?eventType=3">
+            <img src="img/index/mdjf.png">
+        </a>
+        <a href="/event/submission?eventType=4">
+            <img src="img/index/jcdj.png">
+        </a>
+        <a href="/event/submission?eventType=5">
+            <img src="img/index/msfw.png">
+        </a>
+        <a href="/event/submission?eventType=6">
+            <img src="img/index/qtfw.png">
+        </a>
+    </div>
+</div>
+<div class="footer">
+    <div class="f-ng">
+        <img src="img/index/foot-bg.jpg">
+    </div>
+    <div class="container">
+        <div class="f-links">
+            <a href="javascript:void(0)">首页</a>
+            <a href="/event/submission?eventType=1">治安防范</a>
+            <a href="/event/submission?eventType=2">集镇管理</a>
+            <a href="/event/submission?eventType=3">矛盾纠纷</a>
+            <a href="/event/submission?eventType=4">基层党建</a>
+            <a href="/event/submission?eventType=5">民生服务</a>
+            <a href="/event/submission?eventType=6">其他服务</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="beian">Copyright © 2017 www.lvmama.com. 上海景域文化传播股份有限公司版权所有　沪ICP备13011172号-3　增值电信业务经营许可证编号：沪B2-20100030</div>
+    </div>
+</div>
+</body>
+</html>

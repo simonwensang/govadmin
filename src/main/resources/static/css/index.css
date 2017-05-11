@@ -1,0 +1,140 @@
+a {
+  color: #000000;
+}
+.head {
+  padding: 35px 0 25px 0;
+  line-height: 20px;
+}
+.head .p1 {
+  float: left;
+  font-size: 20px;
+}
+.head .p2 {
+  float: left;
+  margin-left: 70px;
+}
+.head .p2 a {
+  color: #000000;
+  font-size: 15px;
+  margin-left: 46px;
+  float: left;
+  position: relative;
+}
+.head .p2 a:hover,
+.head .p2 a.active {
+  text-decoration: none;
+  color: #337ab7;
+}
+.head .p2 a:first-child {
+  margin-left: 0;
+}
+.head .p2 a:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: -22px;
+  width: 2px;
+  height: 14px;
+  background-color: #000;
+}
+.head .p2 a.active:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid #0076ca;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -9px;
+}
+.head .p3 {
+  float: right;
+}
+.banner {
+  height: 684px;
+  position: relative;
+  overflow: hidden;
+}
+.banner img {
+  width: 1920px;
+  height: 684px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -960px;
+}
+.links {
+  width: 884px;
+  margin: 58px auto 0;
+  overflow: hidden;
+}
+.links .inner {
+  margin-left: -82px;
+}
+.links a {
+  float: left;
+  display: block;
+  width: 401px;
+  height: 234px;
+  margin-left: 82px;
+  margin-top: 12px;
+}
+.links a img {
+  width: 401px;
+  height: 234px;
+}
+.footer {
+  background-color: #00589f;
+  margin-top: 120px;
+  padding-bottom: 70px;
+}
+.footer .f-ng {
+  height: 25px;
+  position: relative;
+  overflow: hidden;
+}
+.footer .f-ng img {
+  width: 1920px;
+  height: 25px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -960px;
+}
+.footer .f-links {
+  font-size: 0;
+  text-align: center;
+  margin-top: 50px;
+}
+.footer .f-links a {
+  color: #fff;
+  font-size: 14px;
+  margin-left: 46px;
+  position: relative;
+}
+.footer .f-links a:hover {
+  text-decoration: underline;
+}
+.footer .f-links a:first-child {
+  margin-left: 0;
+}
+.footer .f-links a:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: -22px;
+  width: 2px;
+  height: 14px;
+  background-color: #fff;
+}
+.footer .f-links a:last-child:after {
+  display: none;
+}
+.footer .beian {
+  margin-top: 25px;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+}

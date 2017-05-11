@@ -1,0 +1,70 @@
+   <div id="modal-table" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header no-padding">
+                                        <div class="table-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                <span class="white">×</span>
+                                            </button>
+                                            <span id="model_title">选择审批人</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body no-padding">
+                                        <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
+                                            <input type="tel" placeholder="姓名" style="margin-left: 20px;vertical-align: middle;">
+                                            <button class="btn btn-sm btn-primary" style="height: 30px">筛选</button>
+                                        </div>
+                                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>姓名</th>
+                                                <th>级别</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+ 											#foreach($user in $userList.rows)
+                                            <tr>
+                                                <td>$!{user.id}</td>
+                                                <td>$!{user.name}</td>
+                                                <td>$!{user.role}</td>
+                                                <td><a class="select-p" href="javascript:void(0)" data-id="$!{user.id}" data-name="$!{user.name}">选择</a></td>
+                                            </tr>
+											#end
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="modal-footer no-margin-top">
+                                        <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+                                            <i class="icon-remove"></i>
+                                         		   取消
+                                        </button>
+
+                                        <ul class="pagination pull-right no-margin">
+											<li class="prev">
+                                                <a href="/user/choiceList?page=$!{userList.prev}">
+                                                    <i class="icon-double-angle-left"></i>
+                                                </a>
+                                            </li>
+
+                                            #foreach($page in [1..$userList.total])
+    										<li 
+												#if($userList.page==$!{page})
+												class="active" 
+												#end
+											><a href="/user/choiceList?page=$!{page}">$!{page}</a></li>
+											#end
+ 
+                                            <li class="next">
+                                                <a href="/user/choiceList?page=$!{userList.next}">
+                                                    <i class="icon-double-angle-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>

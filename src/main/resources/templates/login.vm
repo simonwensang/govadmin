@@ -1,28 +1,77 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <meta http-equiv="pragma" content="no-cache"/>
-	<meta http-equiv="cache-control" content="no-cache"/>
-	<meta http-equiv="expires" content="0"/>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>user</title>
- <link rel="stylesheet" href="#springUrl('/css/reset.css')"/>
-<link rel="stylesheet" href="#springUrl('/css/structure.css')"/>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <style>
+        .login-layout {
+            background-color: #438eb9;
+        }
+    </style>
 </head>
+<body class="login-layout">
+<div class="main-container" style="margin-top: 100px">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <span class="white">平安汊涧后台登录</span>
+                        </h1>
+                    </div>
 
-<body >
- <form class="box login"  action="/toLogin" method="post">
-	<fieldset class="boxBody">
-	  <label>用户名</label>
-	  <input type="text" name="account" tabindex="1"  required>
-	  <label>密码</label>
-	  <input type="password"  name="password"  tabindex="2" required>
-	</fieldset>
-	<footer>
-	  <input type="submit" class="btnLogin" value="登录" tabindex="3">
-	</footer>
-</form>
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        <div id="login-box" class="login-box visible widget-box no-border" style="background-color: #dadada;">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header blue lighter bigger">
+                                        <i class="icon-coffee green"></i>
+                                        请输入用户名和密码
+                                    </h4>
+
+                                    <div class="space-6"></div>
+
+                                    <form action="/toLogin" method="post">
+                                        <fieldset>
+                                            <label class="block clearfix">
+												<span class="block input-icon input-icon-right">
+												    <input type="text" name="account" class="form-control" placeholder="用户名"/>
+												    <i class="icon-user"></i>
+												</span>
+                                            </label>
+
+                                            <label class="block clearfix">
+											    <span class="block input-icon input-icon-right">
+												    <input type="password" name="password" class="form-control" placeholder="密码"/>
+												    <i class="icon-lock"></i>
+											    </span>
+                                            </label>
+
+                                            <div class="space"></div>
+                                            <div class="clearfix">
+                                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                    <i class="icon-key"></i>
+                                                    登录
+                                                </button>
+                                            </div>
+
+                                            <div class="space-4"></div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
 </html>

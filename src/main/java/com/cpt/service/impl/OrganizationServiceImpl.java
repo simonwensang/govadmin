@@ -1,27 +1,30 @@
 package com.cpt.service.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cpt.common.constant.Constants;
 import com.cpt.mapper.OrganizationMapper;
 import com.cpt.model.Organization;
 import com.cpt.model.OrganizationExample;
 import com.cpt.service.OrganizationService;
-import com.cpt.vo.JsonModel;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	private OrganizationMapper organizationMapper;
+	
+	@Override
+	public List<Organization> selectByLevel(Byte level) {
+		OrganizationExample example = new OrganizationExample();
+		OrganizationExample.Criteria criteria =example.createCriteria();
+		criteria.andLevelEqualTo(level);
+		return organizationMapper.selectByExample(example);
+	}
 	
 	@Override
 	public String getTreeNode() {

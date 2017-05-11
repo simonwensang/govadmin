@@ -1,0 +1,20 @@
+.type-list {
+  width: 884px;
+  margin: 40px auto 0;
+  overflow: hidden;
+}
+.type-list .inner {
+  margin-left: -82px;
+}
+.type-list a {
+  float: left;
+  display: block;
+  width: 401px;
+  height: 234px;
+  margin-left: 82px;
+  margin-top: 12px;
+}
+.type-list a img {
+  width: 401px;
+  height: 234px;
+}

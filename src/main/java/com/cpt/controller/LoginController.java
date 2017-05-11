@@ -37,8 +37,6 @@ public class LoginController {
 	private MessageService messageService;
 	@Resource
 	private ShiroAuthorizationHelper shiroAuthorizationHelper;
-	@Resource
-	private ProjectService projectService;
 	
 	@RequestMapping({"/login"})
 	public String login(ModelMap map){
@@ -46,30 +44,19 @@ public class LoginController {
 	}
 	
 	@RequestMapping({"/",""})
-	public String index(ModelMap map){
-		return "redirect:/main";
-	}
-	
-	
-	@RequestMapping({"/main"})
 	public String main(ModelMap map){
-		map.put("user", userService.getUser());
-		PageParam pageParam = new PageParam();
-		//pageParam.setRows(30);
-		map.put("messageList", messageService.pageList(pageParam));
-		map.put("scheduleList",projectService.selectProjectSchedule(userCommonService.getUserId()));
-		ProjectReq projectReq = new ProjectReq();
-		projectReq.setStatus(ProjectStatus.INIT_PROJECT.getKey());
-		map.put("projectList",projectService.projectList(pageParam, projectReq));
-		
-		return "main";
+		return "redirect:/index";
+	}
+	@RequestMapping({"/index"})
+	public String index(ModelMap map){
+		return "index";
 	}
 	
     @RequestMapping(value = "unlogin")
     public String unlogin() {
         return "redirect:/login";
     }
-
+    
     @RequestMapping(value = "/toLogin", method = RequestMethod.POST)
     public String toLogin(User user) {
     	
@@ -79,7 +66,7 @@ public class LoginController {
         token.setRememberMe(false);
         try {
         	SecurityUtils.getSubject().login(token);
-        	return "redirect:/main";
+        	return "redirect:/index";
         }catch (Exception e) {
         	log.error("登录失败错误信息:"+e);
         	token.clear();
