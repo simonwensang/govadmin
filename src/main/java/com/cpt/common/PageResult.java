@@ -23,24 +23,36 @@ public class PageResult<T> implements Serializable {
      * 当前页
      */
     private int page;
+    
+    /**
+     * 前一页
+     */
+    private int pre;
+    
+    /**
+     * 下一页
+     */
+    private int next;
 
     public PageResult() {
     }
 
-    public PageResult(List<T> rows, long records, int total, int page) {
+    public PageResult(List<T> rows, long records, int total, int page,int pre,int next) {
         this.rows = rows;
         this.records = records;
         this.total = total;
         this.page = page;
     }
 
-    public static <T> PageResult<T> newPage(List<T> rows, long records, int total, int page) {
-        return new PageResult<T>(rows, records, total, page);
+    public static <T> PageResult<T> newPage(List<T> rows, long records, int total, int page,int pre,int next) {
+        return new PageResult<T>(rows, records, total, page, pre,  next);
     }
 
     public static <T> PageResult<T> newPageResult(List<T> rows, long records, int pageNo,int pageSize) {
-        int totalPages = (int) (records % pageSize == 0 ? records / pageSize : records / pageSize + 1);
-        return new PageResult<T>(rows, records, totalPages, pageNo);
+    	int pre = pageNo<3?1:(pageNo-1);
+    	int totalPages = (int) (records % pageSize == 0 ? records / pageSize : records / pageSize + 1);
+    	int next = pageNo<totalPages?(pageNo+1):1;
+    	return new PageResult<T>(rows, records, totalPages, pageNo, pre,  next);
     }
 
     public List<T> getRows() {
@@ -74,4 +86,21 @@ public class PageResult<T> implements Serializable {
     public void setPage(int page) {
         this.page = page;
     }
+
+	public int getPre() {
+		return pre;
+	}
+
+	public void setPre(int pre) {
+		this.pre = pre;
+	}
+
+	public int getNext() {
+		return next;
+	}
+
+	public void setNext(int next) {
+		this.next = next;
+	}
+    
 }

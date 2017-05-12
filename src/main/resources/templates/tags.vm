@@ -1,35 +1,43 @@
-<link rel="stylesheet" href="#springUrl(assets/css/bootstrap.min.css)" />
-<link rel="stylesheet" href="#springUrl(assets/css/font-awesome.min.css)"/>
-<link rel="stylesheet" href="#springUrl(assets/css/chosen.css)"/>
 
-<link rel="stylesheet" href="#springUrl(assets/css/ace.min.css)"/>
-<link rel="stylesheet" href="#springUrl(assets/css/ace-rtl.min.css)"/>
-<link rel="stylesheet" href="#springUrl(assets/css/ace-skins.min.css)"/>
+ 
+<link rel="stylesheet" href="#springUrl('/assets/css/bootstrap.min.css')" />
+<link rel="stylesheet" href="#springUrl('/assets/css/font-awesome.min.css')"/>
+<link rel="stylesheet" href="#springUrl('/assets/css/chosen.css')"/>
 
-<link rel="stylesheet" href="#springUrl(assets/css/laydate/laydate.css)">
-<link rel="stylesheet" href="#springUrl(assets/css/laydate/skins/default/laydate.css")>
-<script src="#springUrl(assets/js/ace-extra.min.js)"></script>
+<link rel="stylesheet" href="#springUrl('/assets/css/ace.min.css')"/>
+<link rel="stylesheet" href="#springUrl('/assets/css/ace-rtl.min.css')"/>
+<link rel="stylesheet" href="#springUrl('/assets/css/ace-skins.min.css')"/>
+
+<link rel="stylesheet" href="#springUrl('/assets/css/laydate/laydate.css')"/>
+<link rel="stylesheet" href="#springUrl('/assets/css/laydate/skins/default/laydate.css"')/>
+<script src="#springUrl('/assets/js/jquery-1.10.2.min.js')"></script>
+<script src="#springUrl('/assets/js/bootstrap.min.js')"></script>
+<script src="#springUrl('/assets/js/chosen.jquery.min.js')"></script>
+<script src="#springUrl('/assets/js/laydate.js')"></script>
+<script src="#springUrl('/assets/js/ace-elements.min.js')"></script>
+<script src="#springUrl('/assets/js/ace.min.js')"></script>	
+<script src="#springUrl('/assets/js/ace-extra.min.js')"></script>
+
+<link rel="stylesheet" href="#springUrl('/zTree/css/demo.css')" type="text/css"/>
+<link rel="stylesheet" href="#springUrl('/zTree/css/zTreeStyle/zTreeStyle.css')" type="text/css"/>
+<script type="text/javascript" src="#springUrl('/zTree/js/jquery.ztree.core.js')"></script>
+
+
+ 
 <script src="#springUrl('/js/common.js')"></script>
 <script src="#springUrl('/js/calendar.js')"></script>
 <script src="#springUrl('/js/urms.common.js')"></script>
-<script src="#springUrl('/My97DatePicker/WdatePicker.js')"></script>
+ ript>
 <!--jquery validation-->
 <script src="#springUrl('/js/jquery.validate.js')"></script>
 <script src="#springUrl('/js/additional-methods.js')"></script>
 <script src="#springUrl('/js/messages_zh.js')"></script>
 <script src="#springUrl('/js/echarts.common.min.js')"></script>
-
+<!--select2-->
+<script src="#springUrl('/ace/js/select2.min.js')"></script>
 <!--jquery.form.js-->
 <script src="#springUrl('/js/jquery.form.js')"></script>
- 
-##validate depend on
-<script src="#springUrl('/validate/jqExtend.js')"></script>
-<link rel="stylesheet" href="#springUrl('/validate/validate.css')"/>
-<script src="#springUrl('/validate/validate.js')"></script>
 
-<link rel="stylesheet" href="#springUrl('/zTree/css/demo.css')" type="text/css">
-<link rel="stylesheet" href="#springUrl('/zTree/css/zTreeStyle/zTreeStyle.css')" type="text/css">
-<script type="text/javascript" src="#springUrl('/zTree/js/jquery.ztree.core.js')"></script>
 <!--全局变量 路径 -->
 #set($contentPath = "/")
 

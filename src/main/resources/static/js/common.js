@@ -445,11 +445,6 @@ function formatImage(cellvalue, options, cell) {
 	return "<span class='imgmove'><img src='"+cellvalue+"' style='width:100px;height:75px' onmouseover='zoompic(this)' onmouseout='zoompic1()'></span>";
 }
 
-$(function(){
-    //textare 提示
-    $('textarea.limited').inputlimiter({remText: '还可以输入 %n 字符...',limitText: '最多可输入,%n.'});
-});
-
 function zoompic(t){
     var imgsrc = t.src;
     $(".imgpreview0 img").attr("src",imgsrc);

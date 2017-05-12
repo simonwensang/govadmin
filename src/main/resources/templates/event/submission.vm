@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-						<form  role="form" id="createForm"   method="post" action="/event/addOrEdit">
+						<form  role="form" id="createForm" enctype="multipart/form-data"  method="post" action="/event/addOrEdit">
                         <div class="row form-horizontal">
 
                             <div class="widget-box">
@@ -218,7 +218,7 @@
                             <div class="space-10"></div>
 
                             <div style="text-align: center">
-                                <button class="btn btn-lg btn-success" onclick="commit();">
+                                <button class="btn btn-lg btn-success"  >
                                     <i class="icon-ok"></i>
                                     提交
                                 </button>
@@ -238,13 +238,6 @@
 
 
 </div>
-
-<script src="assets/js/jquery-1.10.2.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/chosen.jquery.min.js"></script>
-<script src="assets/js/laydate.js"></script>
-<script src="assets/js/ace-elements.min.js"></script>
-<script src="assets/js/ace.min.js"></script>
 
 <script>
     $(function () {
@@ -296,14 +289,14 @@
         });
     })
     ;
-	
  
     //确认提交
 	
-        function commit(id){
+        function commit(){
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 
+					alert(data.msg);
 					 alertShow(data.msg, function () {
 					 	location.reload();
                     });
