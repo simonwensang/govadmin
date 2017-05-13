@@ -42,6 +42,8 @@ public class PageResult<T> implements Serializable {
         this.records = records;
         this.total = total;
         this.page = page;
+        this.pre=pre;
+        this.next=next;
     }
 
     public static <T> PageResult<T> newPage(List<T> rows, long records, int total, int page,int pre,int next) {

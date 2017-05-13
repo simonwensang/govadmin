@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cpt.common.PageParam;
 import com.cpt.common.PageResult;
 import com.cpt.common.Result;
+import com.cpt.common.ResultCode;
 import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventType;
 import com.cpt.model.Organization;
@@ -38,6 +40,7 @@ public class EventController {
 	
 	@Autowired 
 	private  OrganizationService organizationService;
+	 
 	  /**
      * 工程管理列表
      *
@@ -83,14 +86,15 @@ public class EventController {
      * 详情
      *
      * @param mav
-     * @param id
+     * @param eventType
      * @return
      */
     @RequestMapping(value = "/submission", method = RequestMethod.GET)
-    public ModelAndView submission(ModelAndView mav, Byte id) {
+    public ModelAndView submission(ModelAndView mav, Byte eventType) {
     	List<Organization> organizationList = organizationService.selectByLevel(Constants.LEVEL_2);
-        mav.addObject("organizationList", organizationList);
-    	mav.addObject("eventType", new EnumBean(id,EventType.getValueByKey(null==id?1:id)));
+        
+    	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(null==eventType?1:eventType)));
+    	mav.addObject("organizationList", organizationList);
         mav.setViewName("event/submission");
         return mav;
     }
@@ -116,8 +120,15 @@ public class EventController {
      */
     @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> addOrEdit(EventReq eventReq) {
-    	return eventService.addOrEdit(eventReq);
+    public String addOrEdit(ModelMap map , EventReq eventReq) {
+    	 Result<Integer> result = eventService.addOrEdit(eventReq);
+    	 if(ResultCode.C200.getCode().equals(result.getCode())){
+    		 return "redirect:/event/list";
+    	 }else{
+    		 map.addAttribute("result", result);
+    		 return "error";
+    	 }
+    	 
     }
   
     /**

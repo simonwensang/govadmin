@@ -54,8 +54,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/rolePageList", method = RequestMethod.GET)
-    public PageResult<User> rolePageList(PageParam pageParam, UserQuery userQuery) {
-        return userService.rolePageList(pageParam, userQuery);
+    public PageResult<User> rolePageList( UserQuery userQuery) {
+        return userService.rolePageList(userQuery);
     }
     
     @RequestMapping("/query")

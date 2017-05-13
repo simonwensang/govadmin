@@ -20,7 +20,7 @@ public interface UserService {
 	
 	public PageResult<User> pageList(PageParam pageParam, UserQuery userQuery);
 	
-	public PageResult<User> rolePageList(PageParam pageParam, UserQuery userQuery);
+	public PageResult<User> rolePageList(UserQuery userQuery);
 	
 	public Result<Integer> addOrEdit(User user);
 	

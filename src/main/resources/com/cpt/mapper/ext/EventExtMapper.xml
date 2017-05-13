@@ -22,8 +22,8 @@
     <result column="auditor" jdbcType="VARCHAR" property="auditor" />
     <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
     <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
-    <result column="resp_department" jdbcType="INTEGER" property="respDepartment" />
-    <result column="resp_department_id" jdbcType="VARCHAR" property="respDepartmentId" />
+    <result column="resp_department" jdbcType="VARCHAR" property="respDepartment" />
+    <result column="resp_department_id" jdbcType="INTEGER" property="respDepartmentId" />
     <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
     <result column="request" jdbcType="VARCHAR" property="request" />
     <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
@@ -41,14 +41,14 @@
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
   </resultMap>
   
-   <sql id="Base_Column_List">
+     <sql id="Base_Column_List">
     id, community, community_id, window, window_id, address, appellant, appellant_tel, 
     event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
     commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
     expiry_date, request, audit_remark, handler, handler_id, handle_time, handle_result, 
     handle_remark, update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, 
     is_deleted
-    </sql>
+  </sql>
     
     <sql id="Page_Column_List">
     id, community, community_id, window, window_id, address, appellant, appellant_tel, 
@@ -84,10 +84,10 @@
 	      ORDER BY a.status ,a.commit_time DESC 
   </select>
      <insert id="insertSelective" parameterType="com.cpt.model.Event">
-       	<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+       	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
 	      select LAST_INSERT_ID()
 	    </selectKey>
-    insert into t_event
+	    insert into t_event
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -201,5 +201,118 @@
         is_deleted,
       </if>
     </trim>
-    </insert>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="community != null">
+        #{community,jdbcType=VARCHAR},
+      </if>
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="window != null">
+        #{window,jdbcType=VARCHAR},
+      </if>
+      <if test="windowId != null">
+        #{windowId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="appellant != null">
+        #{appellant,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantTel != null">
+        #{appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="eventNo != null">
+        #{eventNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=TINYINT},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUser != null">
+        #{commitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="commitUserId != null">
+        #{commitUserId,jdbcType=INTEGER},
+      </if>
+      <if test="commitTime != null">
+        #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null">
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="auditorTime != null">
+        #{auditorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="respDepartment != null">
+        #{respDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="respDepartmentId != null">
+        #{respDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null">
+        #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRemark != null">
+        #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null">
+        #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerId != null">
+        #{handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="handleTime != null">
+        #{handleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="handleResult != null">
+        #{handleResult,jdbcType=VARCHAR},
+      </if>
+      <if test="handleRemark != null">
+        #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventStatus != null">
+        #{eventStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ccUser != null">
+        #{ccUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ccUserId != null">
+        #{ccUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
 </mapper>

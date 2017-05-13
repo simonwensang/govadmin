@@ -120,7 +120,7 @@ public class EventServiceImpl implements EventService {
 				} catch (IOException e) {
 					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
 				}
-				event.setAttachment(realname);
+				event.setAttachment(imageName);
 			}
 			event.setEventNo(CodeFactory.getCode());
 			event.setEventStatus(EventStatus.AUDIT.getKey());
@@ -144,7 +144,6 @@ public class EventServiceImpl implements EventService {
 			return Result.newResult(this.update(event));
 		}
 	}
-	
 
 	/* (non-Javadoc)
 	 * @see 派遣

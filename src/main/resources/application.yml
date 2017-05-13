@@ -47,7 +47,7 @@ mybatis.configuration.default-statement-timeout: 30
 spring.datasource.continueOnError: true
 
 spring.datasource.type: com.alibaba.druid.pool.DruidDataSource
-spring.datasource.url: jdbc:mysql://localhost:3306/gov
+spring.datasource.url: jdbc:mysql://localhost:33306/gov
 spring.datasource.username: root
 spring.datasource.password: 123
 spring.datasource.driver-class-name: com.mysql.jdbc.Driver
@@ -87,7 +87,7 @@ spring.velocity.toolbox-config-location: toolbox.xml
 
 ## server image
 image.url: http\://172.16.121.201
-server.imagepath: D\:/images
+server.imagepath: D:/images
 server.imagepath.attachment: /attachment
 
 ---

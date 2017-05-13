@@ -138,8 +138,8 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="alert alert-info" style="text-align: center;font-size: 16px;">
-											<input type="hidden" value="$!{eventType.id}" name="eventType">
-                                            <strong>上报类型：$!{eventType.name}</strong>
+											<input type="hidden" value="$!{eventType.key}" name="eventType">
+                                            <strong>上报类型：$!{eventType.value}</strong>
                                         </div>
                                         <div class="form-group" style="margin-left: 0">
                                              
@@ -269,6 +269,7 @@
         $('.get-people').on('click', function () {
             $('#model_title').text('选择' + $(this).data('title'));
             $('#modal-table').modal('show');
+              getUser(1);
         });
 
         $('.tags').on('click', '.close', function () {
@@ -286,10 +287,56 @@
                 $('#add_csr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
             }
             $('#modal-table').modal('hide');
+           
         });
     })
     ;
- 
+   function getUser(page){
+  	    var name =  $('#sname').val();
+		 $.ajax({
+                type: "get",
+                url: '/user/rolePageList',
+                data: {
+                   page:page,name:name
+                },
+                dataType: 'json',
+                success: function (data) {
+                     //提示审核通过成功信息并刷新页面
+	                 $("#tbody").empty(); 
+	                 var user = data.rows; 
+	                //循环添加  
+	                 for(var j=0;j<user.length;j++){  
+	                    var option = "<tr>"+
+                            "<td>"+user[j].id+"</td>"+
+                            "<td>"+user[j].name+"</td>"+
+                            "<td>"+user[j].roleName+"</td>"+
+                            "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
+                        	"</tr>";  
+	                   
+	                   $("#tbody").append(option);  
+	                }  
+	                
+	                $("#pager").empty(); 
+	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
+	               //循环添加  
+	                 for(var j=1;j<=data.total;j++){  
+	                    var option = "<li ";
+	                    if(data.page==j){option = option+	"class='active' "; }
+                        option = option+ "><a onclick='getUser("+j+")'>"+j+"</a></li>";
+	                   $("#pager").append(option);  
+	                }  
+                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+	 }
     //确认提交
 	
         function commit(){

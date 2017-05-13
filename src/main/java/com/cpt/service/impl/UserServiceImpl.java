@@ -109,14 +109,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageResult<User> rolePageList(PageParam pageParam,
-			UserQuery userQuery) {
+	public PageResult<User> rolePageList( UserQuery userQuery) {
 		 //分页
-        PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
+        PageHelper.startPage(userQuery.getPage(), userQuery.getLimit());
         //当前页列表
         List<User> users = userExtMapper.rolePageList(userQuery);
         //构造分页结果
-        PageResult<User> pageResult = PageResult.newPageResult(users, ((Page<User>)users).getTotal(), pageParam.getPage(), pageParam.getRows());
+        PageResult<User> pageResult = PageResult.newPageResult(users, ((Page<User>)users).getTotal(), userQuery.getPage(), userQuery.getRows());
         return pageResult;
 	}
 
