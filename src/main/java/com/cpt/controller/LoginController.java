@@ -49,6 +49,7 @@ public class LoginController {
 	}
 	@RequestMapping({"/index"})
 	public String index(ModelMap map){
+		map.addAttribute("user",userCommonService.getUser() );
 		return "index";
 	}
 	
@@ -66,7 +67,7 @@ public class LoginController {
         token.setRememberMe(false);
         try {
         	SecurityUtils.getSubject().login(token);
-        	return "redirect:/index";
+        	return "redirect:/event/allReport";
         }catch (Exception e) {
         	log.error("登录失败错误信息:"+e);
         	token.clear();

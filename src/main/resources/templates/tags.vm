@@ -25,7 +25,6 @@
 <script src="#springUrl('/js/common.js')"></script>
 <script src="#springUrl('/js/calendar.js')"></script>
 <script src="#springUrl('/js/urms.common.js')"></script>
- ript>
 <!--jquery validation-->
 <script src="#springUrl('/js/jquery.validate.js')"></script>
 <script src="#springUrl('/js/additional-methods.js')"></script>

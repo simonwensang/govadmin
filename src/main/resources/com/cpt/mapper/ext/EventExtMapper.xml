@@ -39,11 +39,9 @@
     <result column="cc_user" jdbcType="VARCHAR" property="ccUser" />
     <result column="cc_user_id" jdbcType="INTEGER" property="ccUserId" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
- 	<collection property="workFlows"  ofType="com.cpt.model.WorkFlow" >
-	    <id column="w_id" jdbcType="BIGINT" property="id" />
-	    <result column="ref_id" jdbcType="BIGINT" property="refId" />
-	    <result column="authority" jdbcType="TINYINT" property="authority" />
- 	</collection>
+ 	 <collection property="authority" ofType="java.lang.Byte">
+	    <result column="f_authority" jdbcType="TINYINT"/>
+    </collection>
   </resultMap>
   
      <sql id="Base_Column_List">
@@ -64,7 +62,7 @@
    
     <select id="selectAllReqport" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
 	    select 
-	  	 distinct  <include refid="Page_Column_List" />  , b.id as w_id, b.ref_id , b.authority
+	  	 distinct  <include refid="Page_Column_List" />  ,b.authority   f_authority
 	    from   t_event a join t_work_flow b  on b.ref_id=a.id
 	    <where>
 	      <if test="userId != null">
@@ -84,6 +82,9 @@
           </if>
           <if test="grade != null ">
               AND a.grade = #{grade} 
+          </if>
+           <if test="eventType != null ">
+              AND a.event_type = #{eventType} 
           </if>
 	      </where>
 	      ORDER BY a.event_status ,a.commit_time DESC 

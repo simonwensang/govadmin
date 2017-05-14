@@ -123,6 +123,7 @@
                                             <th>审核人</th>
                                             <th>派遣人</th>
                                             <th>状态</th>
+                                            <th>操作</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -174,6 +175,23 @@
 														已关闭
 													#else
 														--
+													#end
+												</td>
+												<td>
+													#if ($!{event.showAudit}==true)
+													<a class='btn btn-primary btn-sm ' style='margin-right: 6px' 
+													href= '/event/approval?id=$!{event.id}' >
+													<i class='ace-icon fa fa-pencil'></i>审批</a> 
+													#end	
+													#if	($!{event.showManager}==true)
+														<a class='btn btn-primary btn-sm ' style='margin-right: 6px' 
+														href= '/event/manage?id=$!{event.id}' >
+														<i class='ace-icon fa fa-pencil'></i>处理</a> 
+													#end
+													#if	($!{event.showDetail}==true)
+														<a class='btn btn-primary btn-sm ' style='margin-right: 6px' 
+													href= '/event/detail?id=$!{event.id}' >
+													<i class='ace-icon fa fa-pencil'></i>明细</a> 
 													#end
 												</td>
                                             </tr>

@@ -10,5 +10,5 @@ public interface OrganizationService {
 	public  String getTreeNode();
 
 	List<Organization> selectByLevel(Byte level); 
-	
+	public Organization selectById(Long id);
 }

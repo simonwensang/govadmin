@@ -29,7 +29,7 @@
 
     <div class="main-container-inner">
 
-       #parse("header.vm")
+       #parse("menu.vm")
 
         <div class="main-content">
             <div class="breadcrumbs" id="breadcrumbs">
@@ -188,11 +188,21 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-												 #foreach($eventHandleLog in $eventHandleLogVoList)
+												 #foreach($eventHandleLog in $event.eventHandleLogList)
 													<tr>
-                                                        <td>$!{eventHandleLog.id}</td>
+                                                        <td>
+														#if ($!{eventHandleLog.handleType}==1)
+															提报
+														#elseif	($!{eventHandleLog.handleType}==2)
+															审核
+														#elseif	($!{eventHandleLog.handleType}==3)
+															派遣
+														#else
+															 --
+														#end 
+														</td>
                                                         <td>$!{eventHandleLog.handler}</td>
-                                                        <td>$dateTimeUtil.format($!{eventHandleLog.handle_time},'yyyy-MM-dd HH:mm:ss') </td>
+                                                        <td>$dateTimeUtil.format($!{eventHandleLog.handleTime},'yyyy-MM-dd HH:mm:ss') </td>
                                                     </tr>
 												 #end
                                             </tbody>
@@ -207,103 +217,18 @@
 
                             <div style="text-align: center">
                                 <button class="btn btn-lg btn-primary" id="dispatch_task">任务派遣</button>
+                                #if  ($!{role.roleCode}!="superuser" && $!{role.roleCode}!="admin" )
                                 <button class="btn btn-lg btn-success select-p">继续上报</button>
+                                #end
+                                #if  ( $!{role.roleCode}=="superuser" || $!{role.roleCode}=="admin")
                                 <button class="btn btn-lg btn-pink select-p" style="float: right;">指派人员</button>
+                                 #end
                             </div>
                         </div>
 
 
                         <!--审批人选择弹窗-->
-                        <div id="modal-table" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header no-padding">
-                                        <div class="table-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                <span class="white">×</span>
-                                            </button>
-                                            <span id="model_title">选择审批人</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-body no-padding">
-                                        <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
-                                            <input type="tel" placeholder="姓名" style="margin-left: 20px;vertical-align: middle;">
-                                            <button class="btn btn-sm btn-primary" style="height: 30px">筛选</button>
-                                        </div>
-                                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-                                            <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>姓名</th>
-                                                <th>级别</th>
-                                                <th>操作</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>王宝强</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="1" data-name="王宝强">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>淞泽</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="2" data-name="淞泽">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>武艺</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="3" data-name="武艺">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>林碧</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="4" data-name="林碧">选择</a></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-                                            <i class="icon-remove"></i>
-                                            取消
-                                        </button>
-
-                                        <ul class="pagination pull-right no-margin">
-                                            <li class="prev disabled">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-left"></i>
-                                                </a>
-                                            </li>
-
-                                            <li class="active">
-                                                <a href="#">1</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-
-                                            <li class="next">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        	#parse("common/choice_user.vm")
 
                         <!--任务派遣弹窗-->
                         <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
@@ -317,34 +242,35 @@
                                             <span id="model_1_title">任务派遣</span>
                                         </div>
                                     </div>
-
+					<form  role="form" id="createForm" 	 method="post" action="/event/sendHandler">
+                                   <input type="hidden" id="eventId" value="$!{event.id}" name="id">
                                     <div class="modal-body no-padding">
                                         <div class="form-group clearfix" style="margin-top: 10px;margin-bottom: 10px">
                                             <label class="col-sm-2 control-label no-padding-right" style="width: auto;"> 责任部门 </label>
                                             <div class="btn-group col-sm-3">
-                                                <select class="form-control" id="form-field-select-1">
-                                                    <option value="AL">王村一对</option>
-                                                    <option value="AK">王村一对</option>
-                                                    <option value="AZ">王村一对</option>
-                                                    <option value="AZ">王村一对</option>
-                                                    <option value="AZ">王村一对</option>
+                                                <select class="form-control" id="form-field-select-1" name="respDepartmentId">
+                                                    <option value="1">王村一队</option>
+                                                    <option value="2">王村二队</option>
+                                                    <option value="3">王村三队</option>
+                                                    <option value="4">王村四队</option>
+                                                    <option value="5">王村五队</option>
                                                 </select>
                                             </div>
                                             <label class="col-sm-2 control-label no-padding-right text-right"> 处理截止时间 </label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
-                                                    <input class="" id="report-time-picker" type="text">
+                                                    <input class="" id="report-time-picker" type="text" name="expiryDate">
                                                     <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group" style="padding: 0 10px">
                                             <label for="form-field-8">处理要求：</label>
-                                            <textarea class="form-control" id="form-field-1" placeholder="点击填写" style="height: 100px"></textarea>
+                                            <textarea class="form-control" id="form-field-1" name="request" placeholder="点击填写" style="height: 100px"></textarea>
                                         </div>
                                         <div class="form-group" style="padding: 0 10px">
                                             <label for="form-field-8">备注</label>
-                                            <textarea class="form-control" id="form-field-8" placeholder="点击填写" style="height: 100px"></textarea>
+                                            <textarea class="form-control" id="form-field-8" name="auditRemark" placeholder="点击填写" style="height: 100px"></textarea>
                                         </div>
                                     </div>
 
@@ -359,6 +285,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                         </div>
 
@@ -390,11 +317,67 @@
 
     $('.select-p').on('click',function () {
         $('#modal-table').modal('show');
+         getUser(1);
     });
 
     $('#dispatch_task').on('click',function () {
         $('#modal-table-1').modal('show');
     });
+     $('.select-p-wrap').on('click', '.select-p', function () {
+            $(this).data('id');
+            $('#modal-table').modal('hide');
+           
+        });
+    
+    
+        
+    function getUser(page){
+  	    var name =  $('#sname').val();
+  	    var eventId =  $('#eventId').val();
+		 $.ajax({
+                type: "get",
+                url: '/user/rolePageList',
+                data: {
+                   page:page,name:name
+                },
+                dataType: 'json',
+                success: function (data) {
+                     //提示审核通过成功信息并刷新页面
+	                 $("#tbody").empty(); 
+	                 var user = data.rows; 
+	                //循环添加  
+	                 for(var j=0;j<user.length;j++){  
+	                    var option = "<tr>"+
+                            "<td>"+user[j].id+"</td>"+
+                            "<td>"+user[j].name+"</td>"+
+                            "<td>"+user[j].roleName+"</td>"+
+                            "<td>"+"<a class='select-p' href='/event/higherUp?auditorId="+user[j].id+"&id="+eventId+"' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
+                        	"</tr>";  
+	                   
+	                   $("#tbody").append(option);  
+	                }  
+	                
+	                $("#pager").empty(); 
+	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
+	               //循环添加  
+	                 for(var j=1;j<=data.total;j++){  
+	                    var option = "<li ";
+	                    if(data.page==j){option = option+	"class='active' "; }
+                        option = option+ "><a onclick='getUser("+j+")'>"+j+"</a></li>";
+	                   $("#pager").append(option);  
+	                }  
+                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+	 }
 </script>
 </body>
 </html>

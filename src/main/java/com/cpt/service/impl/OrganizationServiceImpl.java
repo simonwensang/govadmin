@@ -26,6 +26,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return organizationMapper.selectByExample(example);
 	}
 	
+	public Organization selectById(Long id) {
+		return organizationMapper.selectByPrimaryKey(id);
+	}
 	@Override
 	public String getTreeNode() {
 		OrganizationExample example = new OrganizationExample();

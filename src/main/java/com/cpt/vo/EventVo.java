@@ -3,6 +3,7 @@ package com.cpt.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.cpt.model.EventHandleLog;
 import com.cpt.model.WorkFlow;
 
 import lombok.Data;
@@ -80,11 +81,17 @@ public class EventVo {
     private Integer ccUserId;
 
     private String description;
+    private List<Byte> authority;
     //------------
-    private List<EventHandleLogVo>  eventHandleLogVoList;
+    private List<EventHandleLog> eventHandleLogList;
     
     private List<WorkFlow> workFlows;
-   
     
+    //("是否显示审核")
+  	private Boolean showAudit=false;
+  	//("是否显示选择处理")
+  	private Boolean showManager=false;
+  	//("是否显示查看明细")
+  	private Boolean showDetail=false;
     
 }
