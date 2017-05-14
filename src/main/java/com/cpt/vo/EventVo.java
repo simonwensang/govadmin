@@ -3,6 +3,8 @@ package com.cpt.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.cpt.model.WorkFlow;
+
 import lombok.Data;
 @Data
 public class EventVo {
@@ -78,7 +80,11 @@ public class EventVo {
     private Integer ccUserId;
 
     private String description;
-
+    //------------
     private List<EventHandleLogVo>  eventHandleLogVoList;
+    
+    private List<WorkFlow> workFlows;
+   
+    
     
 }

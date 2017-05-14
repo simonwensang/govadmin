@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>处置</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    #parse("tags.vm")
+
+    <style>
+        .laydate_box, .laydate_box *, .laydate_box *:before, .laydate_box *:after {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+
+        .laydate_box input[readonly] {
+            background: #fff !important;
+        }
+
+        .input-group-addon {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+#parse("header.vm")
+
+<div class="main-container" id="main-container">
+
+    <div class="main-container-inner">
+
+        #parse("header.vm")
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="row form-horizontal">
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>事发地点</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 村/社区： </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left">$!{event.community} </label>
+                                            <label class="col-sm-1 control-label no-padding-right"> 网格： </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.window}  </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 详细位置： </label>
+                                            <label class="col-sm-5 control-label no-padding-right text-left">  $!{event.address}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>上报来源</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 述求人： </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left">$!{event.appellant} </label>
+                                            <label class="col-sm-1 control-label no-padding-right"> 联系方式： </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.appellantTel} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>问题详情</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="alert alert-info" style="text-align: center;font-size: 16px;">
+                                            <strong>上报类型：#if ($!{event.eventType}==1)
+														治安防范 
+													#elseif	($!{event.eventType}==2)
+														集镇管理
+													#elseif	($!{event.eventType}==3)
+														矛盾纠纷
+													#elseif	($!{event.eventType}==4)
+														基层党建
+													#elseif	($!{event.eventType}==5)
+														民生服务
+													#elseif	($!{event.eventType}==6)
+														其他服务
+													#else
+														--
+													#end</strong>
+                                        </div>
+                                        <div class="form-group" style="margin-left: 0">
+                                            <span class="col-sm-3 label label-xlg label-primary arrowed">事件编号：$!{event.eventNo}</span>
+                                            <label class="col-sm-1 control-label no-padding-right"> 上报时间： </label>
+                                            <label class="col-sm-2 control-label no-padding-right text-left">$!{event.reportTime} </label>
+                                            <label class="col-sm-1 control-label no-padding-right"> 事件级别： </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left"> #if ($!{event.grade}==1)
+														<span class="label">一般</span>
+													#elseif	($!{event.grade}==2)
+														<span class="label label-danger">重大</span>
+													#elseif	($!{event.grade}==2)
+														<span class="label label-warning">严重</span>
+													#else
+														<span class="label">--</span>
+													#end </label>
+                                        </div>
+
+                                        <div class="alert alert-block alert-success">
+                                            <label>事件描述：</label>
+                                            <div>$!{event.description}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>附件</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <label>$!{event.attachment}</label>
+                                        <!--a style="cursor: pointer;margin-left: 10px">查看附件</a-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>相关人员</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">提报人：$!{event.commitUser}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">审核人：$!{event.auditor}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">抄送人：$!{event.ccUser}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">派遣人：$!{event.handler}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>处理记录</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                            <thead>
+                                            <tr>
+                                                <th>处理内容</th>
+                                                <th>处理人</th>
+                                                <th>处理时间</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+												 #foreach($eventHandleLog in $eventHandleLogVoList)
+													<tr>
+                                                        <td>$!{eventHandleLog.id}</td>
+                                                        <td>$!{eventHandleLog.handler}</td>
+                                                        <td>$dateTimeUtil.format($!{eventHandleLog.handle_time},'yyyy-MM-dd HH:mm:ss') </td>
+                                                    </tr>
+												 #end
+                                           
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>审批信息</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <div class="well well-sm col-sm-2" style="margin-left: 12px">责任部门：王村一队</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 12px">处置完成时间：2017/4/18 12:00</div>
+                                        </div>
+                                        <div class="alert alert-block alert-success">
+                                            <label>处理要求：</label>
+                                            <div>通过本接口获取的群ID和群名称，开发者可以知道用户是否来自同一个微信群。一方面可为不同微信群内的用户提供更个性化的服务；另一方面相同微信群内的用户之间可以更好地进行协作，例如共同编辑文档、协同合作等。</div>
+                                        </div>
+                                        <div class="alert alert-block alert-success">
+                                            <label>备注：</label>
+                                            <div>通过本接口获取的群ID和群名称，开发者可以知道用户是否来自同一个微信群。一方面可为不同微信群内的用户提供更个性化的服务；另一方面相同微信群内的用户之间可以更好地进行协作，例如共同编辑文档、协同合作等。</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div style="text-align: center">
+                                <button class="btn btn-lg btn-primary" id="dispatch_task">填写处置结果</button>
+                            </div>
+                        </div>
+
+                        <!--任务派遣弹窗-->
+                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header no-padding">
+                                        <div class="table-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                <span class="white">×</span>
+                                            </button>
+                                            <span id="model_1_title">任务派遣</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body no-padding">
+                                        <div class="form-group clearfix" style="margin-top: 10px;margin-bottom: 10px">
+                                            <label class="col-sm-2 control-label no-padding-right text-right"> 处理截止时间 </label>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <input class="" id="report-time-picker" type="text">
+                                                    <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="padding: 0 10px">
+                                            <label for="form-field-8">处理要求：</label>
+                                            <textarea class="form-control" id="form-field-1" placeholder="点击填写" style="height: 100px"></textarea>
+                                        </div>
+                                        <div class="form-group" style="padding: 0 10px">
+                                            <label for="form-field-8">备注</label>
+                                            <textarea class="form-control" id="form-field-8" placeholder="点击填写" style="height: 100px"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer no-margin-top text-center">
+                                        <button class="btn btn-sm" data-dismiss="modal">
+                                            <i class="icon-remove"></i>
+                                            取消
+                                        </button>
+                                        <button class="btn btn-sm btn-primary">
+                                            <i class="icon-remove"></i>
+                                            提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+<script src="assets/js/laydate.js"></script>
+<script>
+    laydate({
+        elem: '#report-time-picker',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        festival: true, //显示节日,
+        istime: true, //是否开启时间选择
+        choose: function (datas) { //选择日期完毕的回调
+//                alert('得到：' + datas);
+        }
+    });
+
+    $('#dispatch_task').on('click',function () {
+        $('#modal-table-1').modal('show');
+    });
+</script>
+</body>
+</html>

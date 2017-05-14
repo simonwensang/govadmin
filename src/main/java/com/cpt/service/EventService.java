@@ -8,6 +8,8 @@ import com.cpt.vo.EventVo;
 
 public interface EventService {
 
+	PageResult<EventVo> allReport(EventReq eventReq);
+	
 	PageResult<EventVo> pageList(PageParam pageParam,EventReq eventReq);
 	 
 	EventVo detail(Integer id);

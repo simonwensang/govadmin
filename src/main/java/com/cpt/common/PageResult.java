@@ -54,7 +54,7 @@ public class PageResult<T> implements Serializable {
     	int pre = pageNo<3?1:(pageNo-1);
     	int totalPages = (int) (records % pageSize == 0 ? records / pageSize : records / pageSize + 1);
     	int next = pageNo<totalPages?(pageNo+1):1;
-    	return new PageResult<T>(rows, records, totalPages, pageNo, pre,  next);
+    	return new PageResult<T>(rows, records, totalPages==0?1:totalPages, pageNo, pre,  next);
     }
 
     public List<T> getRows() {

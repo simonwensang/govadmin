@@ -3,6 +3,8 @@ package com.cpt.model;
 import java.util.Date;
 import java.util.List;
 
+import com.cpt.vo.EventHandleLogVo;
+
 public class Event {
     private Integer id;
 
@@ -376,7 +378,9 @@ public class Event {
     
     //---------------
     private List<EventHandleLog> eventHandleLogList;
-
+    
+    private List<WorkFlow> workFlows;
+    
 	public List<EventHandleLog> getEventHandleLogList() {
 		return eventHandleLogList;
 	}
@@ -384,4 +388,14 @@ public class Event {
 	public void setEventHandleLogList(List<EventHandleLog> eventHandleLogList) {
 		this.eventHandleLogList = eventHandleLogList;
 	}
+  
+	public List<WorkFlow> getWorkFlows() {
+		return workFlows;
+	}
+
+	public void setWorkFlows(List<WorkFlow> workFlows) {
+		this.workFlows = workFlows;
+	}
+    
+    
 }

@@ -197,7 +197,7 @@
                                             <div class="col-sm-2">
 												<input type="hidden" id="auditorId" name="auditorId">
                                                 <div class="tags" id="add_shr">
-                                                    <span class="tag">习近平<button type="button" class="close">×</button></span>
+                                                    
                                                 </div>
                                                 <i class="icon-plus-sign get-people" data-title="审核人"></i>
                                             </div>
@@ -206,7 +206,7 @@
                                             <div class="col-sm-2">
 												<input type="hidden"  id="ccUserId" name="ccUserId">
                                                 <div class="tags" id="add_csr">
-                                                    <span class="tag">习近平<button type="button" class="close">×</button></span>
+                                                    
                                                 </div>
                                                 <i class="icon-plus-sign get-people" data-title="抄送人"></i>
                                             </div>

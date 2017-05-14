@@ -39,6 +39,11 @@
     <result column="cc_user" jdbcType="VARCHAR" property="ccUser" />
     <result column="cc_user_id" jdbcType="INTEGER" property="ccUserId" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+ 	<collection property="workFlows"  ofType="com.cpt.model.WorkFlow" >
+	    <id column="w_id" jdbcType="BIGINT" property="id" />
+	    <result column="ref_id" jdbcType="BIGINT" property="refId" />
+	    <result column="authority" jdbcType="TINYINT" property="authority" />
+ 	</collection>
   </resultMap>
   
      <sql id="Base_Column_List">
@@ -51,11 +56,38 @@
   </sql>
     
     <sql id="Page_Column_List">
-    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
-    event_no, event_type, report_time, grade, description , commit_user, commit_user_id, 
-    commit_time, auditor, auditor_id, auditor_time,   handler, handler_id, handle_time,    
-    event_status, cc_user, cc_user_id
+    a.id,  a.community,  a.community_id,  a.window,  a.window_id,  a.address,  a.appellant, a.appellant_tel, 
+     a.event_no,  a.event_type,  a.report_time,  a.grade,  a.description ,  a.commit_user,  a.commit_user_id, 
+     a.commit_time,  a.auditor,  a.auditor_id,  a.auditor_time,    a.handler,  a.handler_id,  a.handle_time,    
+     a.event_status,  a.cc_user,  a.cc_user_id
   </sql>
+   
+    <select id="selectAllReqport" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
+	    select 
+	  	 distinct  <include refid="Page_Column_List" />  , b.id as w_id, b.ref_id , b.authority
+	    from   t_event a join t_work_flow b  on b.ref_id=a.id
+	    <where>
+	      <if test="userId != null">
+              AND b.user_id=#{userId}
+          </if>
+          <if test="window != null and window != ''">
+              AND a.window LIKE concat('%',#{window},'%')
+          </if>
+          <if test="appellant != null and appellant != ''">
+              AND a.appellant LIKE concat('%',#{appellant},'%')
+          </if>
+          <if test="eventNo != null and eventNo != ''">
+              AND a.event_no LIKE concat('%',#{eventNo},'%')
+          </if>
+          <if test="community != null and community != ''">
+              AND a.community LIKE concat('%',#{community},'%')
+          </if>
+          <if test="grade != null ">
+              AND a.grade = #{grade} 
+          </if>
+	      </where>
+	      ORDER BY a.event_status ,a.commit_time DESC 
+	 </select>
    
   <select id="pageList" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
     select 
@@ -71,8 +103,8 @@
           <if test="appellant != null and appellant != ''">
               AND a.appellant LIKE concat('%',#{appellant},'%')
           </if>
-          <if test="event_no != null and event_no != ''">
-              AND a.event_no LIKE concat('%',#{event_no},'%')
+          <if test="eventNo != null and eventNo != ''">
+              AND a.event_no LIKE concat('%',#{eventNo},'%')
           </if>
           <if test="community != null and community != ''">
               AND a.community LIKE concat('%',#{community},'%')
@@ -81,7 +113,7 @@
               AND a.grade = #{grade} 
           </if>
 	      </where>
-	      ORDER BY a.status ,a.commit_time DESC 
+	      ORDER BY a.event_status ,a.commit_time DESC 
   </select>
      <insert id="insertSelective" parameterType="com.cpt.model.Event">
        	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >

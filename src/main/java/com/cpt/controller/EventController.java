@@ -41,7 +41,23 @@ public class EventController {
 	@Autowired 
 	private  OrganizationService organizationService;
 	 
-	  /**
+	 /**
+     * 事件分页查询
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/allReport", method = RequestMethod.GET)
+    public ModelAndView allReport(ModelAndView mav,EventReq eventReq) {
+    	
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	
+    	mav.addObject("result", result);
+        mav.setViewName("event/allReport");
+        return mav;
+    }
+  
+    /**
      * 工程管理列表
      *
      * @param mav
@@ -52,7 +68,6 @@ public class EventController {
         mav.setViewName("event/event_list");
         return mav;
     }
-  
     
 	 /**
      * 分页数据
@@ -92,8 +107,8 @@ public class EventController {
     @RequestMapping(value = "/submission", method = RequestMethod.GET)
     public ModelAndView submission(ModelAndView mav, Byte eventType) {
     	List<Organization> organizationList = organizationService.selectByLevel(Constants.LEVEL_2);
-        
-    	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(null==eventType?1:eventType)));
+    	eventType = null==eventType?1:eventType;
+    	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(eventType)));
     	mav.addObject("organizationList", organizationList);
         mav.setViewName("event/submission");
         return mav;
@@ -119,11 +134,10 @@ public class EventController {
      * @return
      */
     @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    @ResponseBody
     public String addOrEdit(ModelMap map , EventReq eventReq) {
     	 Result<Integer> result = eventService.addOrEdit(eventReq);
     	 if(ResultCode.C200.getCode().equals(result.getCode())){
-    		 return "redirect:/event/list";
+    		 return "redirect:allReport";
     	 }else{
     		 map.addAttribute("result", result);
     		 return "error";

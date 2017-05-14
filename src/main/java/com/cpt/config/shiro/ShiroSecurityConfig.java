@@ -66,7 +66,7 @@ public class ShiroSecurityConfig {
 	     //   definitionsMap.put("/logout", "logout");//anon
 	       // definitionsMap.put("/**", "authc");//authc
 	        definitionsMap.put("/main", "authc");
-			definitionsMap.put("/project/**", "authc");
+			definitionsMap.put("/event/**", "authc");
 			definitionsMap.put("/customer/**", "authc");
 			definitionsMap.put("/expenses/**", "authc");
 			definitionsMap.put("/message/**", "authc");

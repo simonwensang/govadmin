@@ -2,11 +2,13 @@ package com.cpt.req;
 
 import java.util.Date;
 
+import lombok.Data;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
+import com.cpt.common.PageParam;
 @Data
-public class EventReq {
+public class EventReq extends PageParam{
 	  	private Integer id;
 
 	    private String community;
@@ -80,4 +82,6 @@ public class EventReq {
 	    private Integer ccUserId;
 
 	    private String description;
+	    //------------------------
+	    private Integer userId;
 }
