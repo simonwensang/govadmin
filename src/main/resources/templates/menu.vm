@@ -15,37 +15,43 @@
                     </a>
                     <ul class="submenu">
                         <li>
-                            <a href="elements.html">
+							 <a href="/event/submission?eventType=1">治安防范</a>
+            <a href="/event/submission?eventType=2">集镇管理</a>
+            <a href="/event/submission?eventType=3">矛盾纠纷</a>
+            <a href="/event/submission?eventType=4">基层党建</a>
+            <a href="/event/submission?eventType=5">民生服务</a>
+            <a href="/event/submission?eventType=6">其他服务</a>
+                            <a href="/event/submission?eventType=1">
                                 <i class="icon-double-angle-right"></i>
                                 治安防范
                             </a>
                         </li>
                         <li>
-                            <a href="buttons.html">
+                            <a href="/event/submission?eventType=2">
                                 <i class="icon-double-angle-right"></i>
                                 集镇管理
                             </a>
                         </li>
                         <li>
-                            <a href="treeview.html">
+                            <a href="/event/submission?eventType=3">
                                 <i class="icon-double-angle-right"></i>
                                 矛盾纠纷
                             </a>
                         </li>
                         <li>
-                            <a href="jquery-ui.html">
+                            <a href="/event/submission?eventType=4">
                                 <i class="icon-double-angle-right"></i>
                                 基层党建
                             </a>
                         </li>
                         <li>
-                            <a href="nestable-list.html">
+                            <a href="/event/submission?eventType=5">
                                 <i class="icon-double-angle-right"></i>
                                 为民服务
                             </a>
                         </li>
                         <li>
-                            <a href="nestable-list.html">
+                            <a href="/event/submission?eventType=6">
                                 <i class="icon-double-angle-right"></i>
                                 其他服务
                             </a>
