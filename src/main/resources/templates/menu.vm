@@ -62,14 +62,14 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="tables.html">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 统计
                             </a>
                         </li>
 
                         <li>
-                            <a href="jqgrid.html">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 统计分析
                             </a>
@@ -93,14 +93,14 @@
                         </li>
 
                         <li>
-                            <a href="form-wizard.html">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 发送通知
                             </a>
                         </li>
 
                         <li>
-                            <a href="wysiwyg.html">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 查看通知
                             </a>
