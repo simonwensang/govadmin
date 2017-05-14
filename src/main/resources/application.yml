@@ -3,7 +3,7 @@
 # PROFILES
 ## dev | test | prod
 spring: 
-  profiles.active: dev
+  profiles: dev
   
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1
@@ -92,7 +92,7 @@ server.imagepath.attachment: /attachment
 
 ---
 spring:
-  profiles: prod
+  profiles.active: prod
 
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1
@@ -112,8 +112,8 @@ logging:
   level.com.cpt: INFO
 
 # REDIS (RedisProperties)
-spring.redis.shiro.database: 3
-spring.redis.database: 2
+spring.redis.shiro.database: 5
+spring.redis.database: 4
 spring.redis.host: r-bp11b90f462293a4.redis.rds.aliyuncs.com
 spring.redis.password: Cpt123456
 spring.redis.pool.max-active: 8
