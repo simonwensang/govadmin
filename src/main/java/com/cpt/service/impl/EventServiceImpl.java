@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +45,9 @@ import com.cpt.vo.EventVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
-public class EventServiceImpl implements EventService {@Autowired
+@Service
+public class EventServiceImpl implements EventService {
+	@Autowired
 	private EventMapper eventMapper;
 	@Autowired
 	private EventExtMapper eventExtMapper;
