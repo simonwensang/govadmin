@@ -24,6 +24,7 @@ import com.cpt.common.constant.AuthorityStatus;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
+import com.cpt.common.constant.RespDepartment;
 import com.cpt.common.util.CodeFactory;
 import com.cpt.convertor.EventConvertor;
 import com.cpt.mapper.EventHandleLogMapper;
@@ -37,8 +38,10 @@ import com.cpt.model.EventHandleLog;
 import com.cpt.model.EventHandleLogExample;
 import com.cpt.model.User;
 import com.cpt.model.WorkFlow;
+import com.cpt.model.WorkFlowExample;
 import com.cpt.req.EventReq;
 import com.cpt.service.EventService;
+import com.cpt.service.OrganizationService;
 import com.cpt.service.UserCommonService;
 import com.cpt.service.UserService;
 import com.cpt.vo.EventVo;
@@ -63,7 +66,8 @@ public class EventServiceImpl implements EventService {
 	private WorkFlowExtMapper workFlowExtMapper;
 	@Resource
 	private EventHandleLogMapper eventHandleLogMapper;
-	
+	@Resource
+	private  OrganizationService organizationService;
 	@Value("${image.url}")
 	private String imageurl ; 
 	
@@ -80,9 +84,11 @@ public class EventServiceImpl implements EventService {
         PageHelper.startPage(eventReq.getPage(), eventReq.getLimit());
         //当前页列表
         eventReq.setUserId(userCommonService.getUserId().intValue());
-        List<Event> events = eventExtMapper.pageList(eventReq);
+        List<Event> events = eventExtMapper.selectAllReqport(eventReq);
+        List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
+        this.packageProjectButton(eventVos);
         //构造分页结果
-        PageResult<EventVo> pageResult = PageResult.newPageResult(EventConvertor.toEventVoList( events), ((Page<Event>)events).getTotal(), eventReq.getPage(), eventReq.getRows());
+        PageResult<EventVo> pageResult = PageResult.newPageResult(eventVos, ((Page<Event>)events).getTotal(), eventReq.getPage(), eventReq.getRows());
         return pageResult;
 	
 	}
@@ -93,10 +99,56 @@ public class EventServiceImpl implements EventService {
         PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
         //当前页列表
         List<Event> events = eventExtMapper.pageList(eventReq);
+        List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
+        this.packageProjectButton(eventVos);
         //构造分页结果
-        PageResult<EventVo> pageResult = PageResult.newPageResult(EventConvertor.toEventVoList( events), ((Page<Event>)events).getTotal(), pageParam.getPage(), pageParam.getRows());
+        PageResult<EventVo> pageResult = PageResult.newPageResult(eventVos, ((Page<Event>)events).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
 	
+	}
+	private void packageProjectButton(List<EventVo> eventVos){
+		for(EventVo eventVo:eventVos){
+			List<Byte> authoritys = eventVo.getAuthority();
+			for(int i =0 ;i<authoritys.size();i++){
+				Byte authority = authoritys.get(i); 
+				
+				 if(AuthorityStatus.COMMIT_USER.getKey().equals(authority)){
+					 eventVo.setShowDetail(true);
+				 }
+				 if(AuthorityStatus.AUDITOR.getKey().equals(authority)){
+					 if(EventStatus.AUDIT.getKey().equals(eventVo.getEventStatus())){
+						 eventVo.setShowAudit(true);
+					 }else if(EventStatus.HANDLE.getKey().equals(eventVo.getEventStatus())){
+						 eventVo.setShowManager(true);
+					 }else{
+						 eventVo.setShowDetail(true);
+					 }
+				 }
+				 if(AuthorityStatus.HANDLER.getKey().equals(authority)){
+					 if(EventStatus.HANDLE.getKey().equals(eventVo.getEventStatus())){
+						 eventVo.setShowManager(true);
+					 }else{
+						 eventVo.setShowDetail(true);
+					 }
+				 }
+				 if(AuthorityStatus.CC_USER.getKey().equals(authority)){
+					 eventVo.setShowDetail(true);
+				 }
+			}
+		}
+		
+	}
+	@Override
+	public Result<EventVo> approval(Integer id) {
+		Event event = this.get(id);
+		if( null == event){
+			return new Result<EventVo>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
+		}
+		if(userCommonService.getUserId().intValue()!= event.getAuditorId().intValue()){
+			return new Result<EventVo>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}
+		
+		return  Result.newResult(this.detail(id));
 	}
 
 	@Override
@@ -106,14 +158,15 @@ public class EventServiceImpl implements EventService {
 			return new EventVo();
 		}
 		List<EventHandleLog> eventHandleLogList = this.selectEventHandleLogByEventId(id);
-		event.setEventHandleLogList(eventHandleLogList);
-		return EventConvertor.toEventVo(event);
+		EventVo eventVo = EventConvertor.toEventVo(event);
+		eventVo.setEventHandleLogList(eventHandleLogList);
+		return eventVo;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> addOrEdit(EventReq eventReq) {
-		if(null==eventReq.getAuditorId()){
+		if(null==eventReq.getAuditorId()||null==eventReq.getCommunityId()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
 		if(null!=eventReq.getCcUserId() && eventReq.getCcUserId().equals(eventReq.getAuditorId())){
@@ -123,6 +176,10 @@ public class EventServiceImpl implements EventService {
 		User user = userCommonService.getUser();
 		User auditor = userService.get(eventReq.getAuditorId().longValue());
 		event.setAuditor(auditor.getName());
+		if(null!=eventReq.getCcUserId()){
+			User ccUser = userService.get(eventReq.getCcUserId().longValue());
+			event.setCcUser(ccUser.getName());
+		}
 		if(eventReq.getId()==null){
 			//保存图片
 			if(null!=eventReq.getMultFile()){
@@ -137,6 +194,7 @@ public class EventServiceImpl implements EventService {
 				}
 				event.setAttachment(imageName);
 			}
+			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setEventNo(CodeFactory.getCode());
 			event.setEventStatus(EventStatus.AUDIT.getKey());
 			event.setCommitUser(user.getName());
@@ -166,7 +224,7 @@ public class EventServiceImpl implements EventService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> sendHandler(EventReq eventReq) {
-		if(null==eventReq.getId()){
+		if(null==eventReq.getId()||null==eventReq.getRespDepartmentId()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
 		Event event =  this.get(eventReq.getId());
@@ -174,12 +232,12 @@ public class EventServiceImpl implements EventService {
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		User user = userCommonService.getUser();
-		if(!user.getId().equals(event.getAuditorId())){
+		if(user.getId().intValue()!=event.getAuditorId().intValue()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 		}
 		Event param = new Event();
 		param.setId(eventReq.getId());
-		param.setRespDepartment(eventReq.getRespDepartment());
+		param.setRespDepartment(RespDepartment.getValueByKey(eventReq.getRespDepartmentId().byteValue()));
 		param.setRespDepartmentId(eventReq.getRespDepartmentId());
 		param.setExpiryDate(eventReq.getExpiryDate());
 		param.setRequest(eventReq.getRequest());
@@ -196,14 +254,14 @@ public class EventServiceImpl implements EventService {
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
 		User user = userCommonService.getUser();
-		/*Event event =  this.get(eventReq.getId());
+		Event event =  this.get(eventReq.getId());
 		if(null==event){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		
-		if(!user.getId().equals(event.getAuditorId())){
+		if(user.getId().intValue()!=event.getAuditorId().intValue() && user.getId().intValue()!=event.getHandlerId().intValue()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
-		}*/
+		}
 		Event param = new Event();
 		param.setId(eventReq.getId());
 		param.setHandler(user.getName());
@@ -220,7 +278,7 @@ public class EventServiceImpl implements EventService {
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> higherUp(EventReq eventReq) {
 
-		if(null==eventReq.getAuditorId()){
+		if(null==eventReq.getAuditorId()||null==eventReq.getId()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
 		Event event =  this.get(eventReq.getId());
@@ -228,16 +286,17 @@ public class EventServiceImpl implements EventService {
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		User user = userCommonService.getUser();
-		if(!user.getId().equals(event.getAuditorId())){
+		if(user.getId().intValue()!=event.getAuditorId().intValue()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 		}
 		Event param = new Event();
+		User auditor = userService.get(eventReq.getAuditorId().longValue());
 		param.setId(eventReq.getId());
-		param.setAuditor(eventReq.getAuditor());
+		param.setAuditor(auditor.getName());
 		param.setAuditorId(eventReq.getAuditorId());
 		this.update(param);
 		this.insertEventHandleLog(HandleType.AUDITE, user.getName(), user.getId().intValue(), event.getId());
-		
+		this.deleteWorkFlow(event.getId().longValue(), user.getId(), AuthorityStatus.AUDITOR);
 		return Result.newResult(this.insertWorkFlow(event.getId().longValue(), eventReq.getAuditorId().longValue(), user.getId(), AuthorityStatus.AUDITOR,EventStatus.AUDIT));
 	}
 
@@ -251,7 +310,15 @@ public class EventServiceImpl implements EventService {
 		workFlow.setStatus(eventStatus.getKey());
 		return workFlowMapper.insertSelective(workFlow);
 	}
-	 
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Integer deleteWorkFlow(Long refId, Long appointUser, AuthorityStatus authorityStatus ){
+		WorkFlowExample example = new WorkFlowExample();
+		WorkFlowExample.Criteria  criteria= example.createCriteria();
+		criteria.andAuthorityEqualTo(authorityStatus.getKey());
+		criteria.andUserIdEqualTo(appointUser);
+		criteria.andRefIdEqualTo(refId);
+		return workFlowMapper.deleteByExample(example);
+	}
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer insertEventHandleLog(HandleType handleType,String handler,Integer handlerId,Integer eventId){
 		EventHandleLog eventHandleLog = new EventHandleLog();

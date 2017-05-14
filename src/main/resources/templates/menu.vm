@@ -15,43 +15,37 @@
                     </a>
                     <ul class="submenu">
                         <li>
-							 <a href="/event/submission?eventType=1">治安防范</a>
-            <a href="/event/submission?eventType=2">集镇管理</a>
-            <a href="/event/submission?eventType=3">矛盾纠纷</a>
-            <a href="/event/submission?eventType=4">基层党建</a>
-            <a href="/event/submission?eventType=5">民生服务</a>
-            <a href="/event/submission?eventType=6">其他服务</a>
-                            <a href="/event/submission?eventType=1">
+							 <a href="/event/allReport?eventType=1">
                                 <i class="icon-double-angle-right"></i>
                                 治安防范
                             </a>
                         </li>
                         <li>
-                            <a href="/event/submission?eventType=2">
+                            <a href="/event/allReport?eventType=2">
                                 <i class="icon-double-angle-right"></i>
                                 集镇管理
                             </a>
                         </li>
                         <li>
-                            <a href="/event/submission?eventType=3">
+                            <a href="/event/allReport?eventType=3">
                                 <i class="icon-double-angle-right"></i>
                                 矛盾纠纷
                             </a>
                         </li>
                         <li>
-                            <a href="/event/submission?eventType=4">
+                            <a href="/event/allReport?eventType=4">
                                 <i class="icon-double-angle-right"></i>
                                 基层党建
                             </a>
                         </li>
                         <li>
-                            <a href="/event/submission?eventType=5">
+                            <a href="/event/allReport?eventType=5">
                                 <i class="icon-double-angle-right"></i>
                                 为民服务
                             </a>
                         </li>
                         <li>
-                            <a href="/event/submission?eventType=6">
+                            <a href="/event/allReport?eventType=6">
                                 <i class="icon-double-angle-right"></i>
                                 其他服务
                             </a>
@@ -115,50 +109,6 @@
                     </ul>
                 </li>
 
-                <li class="active open">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-tag"></i>
-                        <span class="menu-text"> 更多页面 </span>
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu" style="display: none;">
-                        <li class="active">
-                            <a href="/event/submission">
-                                <i class="icon-double-angle-right"></i>
-                                提报
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="approval.html">
-                                <i class="icon-double-angle-right"></i>
-                                审批
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="manage.html">
-                                <i class="icon-double-angle-right"></i>
-                                处置
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/allReport">
-                                <i class="icon-double-angle-right"></i>
-                                全部上报
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="closed.html">
-                                <i class="icon-double-angle-right"></i>
-                                已关闭的
-                            </a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
 
             <div class="sidebar-collapse" id="sidebar-collapse">

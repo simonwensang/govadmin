@@ -396,6 +396,14 @@ public class Event {
 	public void setWorkFlows(List<WorkFlow> workFlows) {
 		this.workFlows = workFlows;
 	}
-    
+    private List<Byte> authority;
+
+	public List<Byte> getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(List<Byte> authority) {
+		this.authority = authority;
+	}
     
 }

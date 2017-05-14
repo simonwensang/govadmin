@@ -32,9 +32,9 @@ public class EventConvertor {
         }
         EventVo eventVo = new EventVo();
         beanCopierForEventVo.copy(event, eventVo, null);
-        if(null!=event.getEventHandleLogList()){
+       /* if(null!=event.getEventHandleLogList()){
         	eventVo.setEventHandleLogVoList(EventHandleLogConvertor.toEventHandleLogVoList(event.getEventHandleLogList()));
-        }
+        }*/
         return eventVo;
     }
     public static  List<EventVo>  toEventVoList(List<Event> eventList) {

@@ -2,11 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>处置</title>
+    <title>明细</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     #parse("tags.vm")
-
     <style>
         .laydate_box, .laydate_box *, .laydate_box *:before, .laydate_box *:after {
             -webkit-box-sizing: content-box;
@@ -240,60 +239,29 @@
 
                             <div class="space-10"></div>
 
-                            <div style="text-align: center">
-                                <button class="btn btn-lg btn-primary" id="dispatch_task">填写处置结果</button>
-                            </div>
-                        </div>
-
-                        <!--任务派遣弹窗-->
-            		<form  role="form" id="createForm" 	 method="post" action="/event/handle">
-                       <input type="hidden" value="$!{event.id}" name="id">
-                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header no-padding">
-                                        <div class="table-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                <span class="white">×</span>
-                                            </button>
-                                            <span id="model_1_title">处置结果</span>
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>处置信息</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <div class="well well-sm col-sm-2" style="margin-left: 12px">处置完成时间：$!{event.handleTime}</div>
                                         </div>
-                                    </div>
-
-                                    <div class="modal-body no-padding">
-                                        <div class="form-group clearfix" style="margin-top: 10px;margin-bottom: 10px">
-                                            <label class="col-sm-2 control-label no-padding-right text-right"> 处理时间 </label>
-                                            <div class="col-sm-4">
-                                                <div class="input-group">
-                                                    <input class="" id="report-time-picker" type="text" name="handleTime">
-                                                    <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
-                                                </div>
-                                            </div>
+                                        <div class="alert alert-block alert-success">
+                                            <label>处置结果内容：</label>
+                                            <div>$!{event.handleResult}</div>
                                         </div>
-                                        <div class="form-group" style="padding: 0 10px">
-                                            <label for="form-field-8">处理结果：</label>
-                                            <textarea class="form-control" id="form-field-1" name="handleResult" placeholder="点击填写" style="height: 100px"></textarea>
+                                        <div class="alert alert-block alert-success">
+                                            <label>备注：</label>
+                                            <div>$!{event.handleRemark}</div>
                                         </div>
-                                        <div class="form-group" style="padding: 0 10px">
-                                            <label for="form-field-8">备注</label>
-                                            <textarea class="form-control" id="form-field-8" name="handleRemark" placeholder="点击填写" style="height: 100px"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer no-margin-top text-center">
-                                        <button class="btn btn-sm" data-dismiss="modal">
-                                            <i class="icon-remove"></i>
-                                            取消
-                                        </button>
-                                        <button class="btn btn-sm btn-primary">
-                                            <i class="icon-remove"></i>
-                                            提交
-                                        </button>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
-					</form>
                         <!-- PAGE CONTENT ENDS -->
                     </div>
                 </div>
@@ -307,23 +275,7 @@
 
 <script src="assets/js/jquery-1.10.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
 <script src="assets/js/laydate.js"></script>
-<script>
-    laydate({
-        elem: '#report-time-picker',
-        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
-        festival: true, //显示节日,
-        istime: true, //是否开启时间选择
-        choose: function (datas) { //选择日期完毕的回调
-//                alert('得到：' + datas);
-        }
-    });
-
-    $('#dispatch_task').on('click',function () {
-        $('#modal-table-1').modal('show');
-    });
-</script>
 </body>
 </html>

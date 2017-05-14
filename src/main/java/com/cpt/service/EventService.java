@@ -11,7 +11,9 @@ public interface EventService {
 	PageResult<EventVo> allReport(EventReq eventReq);
 	
 	PageResult<EventVo> pageList(PageParam pageParam,EventReq eventReq);
-	 
+	
+	 Result<EventVo>  approval(Integer id); 
+	
 	EventVo detail(Integer id);
 	
 	Result<Integer> addOrEdit(EventReq eventReq);
