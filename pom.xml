@@ -30,6 +30,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<shiro.redis.version>2.4.2.1-RELEASE</shiro.redis.version>
 			<jackson.version>2.6.1</jackson.version>
 			<jackson.asl.version>1.9.13</jackson.asl.version>
+			<aliyun.oss>2.2.1</aliyun.oss>
 	</properties>
    <dependencies>
    <dependency>
@@ -52,6 +53,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-velocity</artifactId>
     </dependency>
+    <!-- 阿里云oss -->
+     <dependency>
+         <groupId>com.aliyun.oss</groupId>
+         <artifactId>aliyun-sdk-oss</artifactId>
+         <version>${aliyun.oss}</version>
+     </dependency>
     <!-- Mybatis -->
     <dependency>
 			<groupId>org.springframework.session</groupId>

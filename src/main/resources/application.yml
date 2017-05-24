@@ -3,7 +3,7 @@
 # PROFILES
 ## dev | test | prod
 spring: 
-  profiles: dev
+  profiles.active: dev
   
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1
@@ -21,7 +21,13 @@ logging:
   path: /var/log
   file: cptadmin.log
   level.com.cpt: INFO
-
+## osspath
+oss.endpoint: http\://oss-cn-shanghai.aliyuncs.com
+oss.accessKeyId: LTAILAkR3Yb9Qnpt
+oss.accessKeySecret: cL34LxbVmvFVx4JSe18p3CNwFcTvT5
+oss.bucketName: govadmin
+oss.web.url: govadmin.oss-cn-shanghai.aliyuncs.com/
+oss.path.file: gov/file
 # REDIS (RedisProperties)
 spring.redis.shiro.database: 3
 spring.redis.database: 2
@@ -92,7 +98,7 @@ server.imagepath.attachment: /attachment
 
 ---
 spring:
-  profiles.active: prod
+  profiles: prod
 
 # IDENTITY (ContextIdApplicationContextInitializer)
 spring.application.index: MyBatis.v1.1

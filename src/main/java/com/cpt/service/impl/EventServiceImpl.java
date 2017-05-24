@@ -1,13 +1,11 @@
 package com.cpt.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,7 @@ import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.RespDepartment;
 import com.cpt.common.util.CodeFactory;
+import com.cpt.common.util.ImageOSSUtil;
 import com.cpt.convertor.EventConvertor;
 import com.cpt.mapper.EventHandleLogMapper;
 import com.cpt.mapper.EventMapper;
@@ -68,6 +67,8 @@ public class EventServiceImpl implements EventService {
 	private EventHandleLogMapper eventHandleLogMapper;
 	@Resource
 	private  OrganizationService organizationService;
+	@Resource
+	private  ImageOSSUtil imageOSSUtil;
 	@Value("${image.url}")
 	private String imageurl ; 
 	
@@ -76,6 +77,12 @@ public class EventServiceImpl implements EventService {
 	
 	@Value("${server.imagepath.attachment}")
 	public  String attachment ; 
+	
+	@Value("${oss.path.file}")
+	public String ossPathFile;
+	
+	@Value("${oss.web.url}")
+	public String ossWebUrl;
 	
 	
 	@Override
@@ -157,6 +164,7 @@ public class EventServiceImpl implements EventService {
 		if( null == event){
 			return new EventVo();
 		}
+		event.setAttachment(ossWebUrl+event.getAttachment());
 		List<EventHandleLog> eventHandleLogList = this.selectEventHandleLogByEventId(id);
 		EventVo eventVo = EventConvertor.toEventVo(event);
 		eventVo.setEventHandleLogList(eventHandleLogList);
@@ -184,11 +192,17 @@ public class EventServiceImpl implements EventService {
 			//保存图片
 			if(null!=eventReq.getMultFile()){
 				MultipartFile image = eventReq.getMultFile();
-				String path = this.imagepath+this.attachment;
+//				String path = this.imagepath+this.attachment;
 				String imageName= image.getOriginalFilename();
-				String realname = path+"/"+imageName;
+//				String realname = path+"/"+imageName;
+//				try {
+//					FileUtils.copyInputStreamToFile(image.getInputStream(), new File(realname));
+//				} catch (IOException e) {
+//					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
+//				}
+				String targetFile = ossPathFile+"/"+imageName;
 				try {
-					FileUtils.copyInputStreamToFile(image.getInputStream(), new File(realname));
+					imageOSSUtil.upload(targetFile,image.getInputStream());
 				} catch (IOException e) {
 					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
 				}
