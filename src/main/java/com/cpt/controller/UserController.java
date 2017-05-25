@@ -25,13 +25,18 @@ public class UserController {
 	private UserService userService;
 	@Autowired 
 	private  OrganizationService organizationService;
+	
 	@RequestMapping("/list")
 	public ModelAndView list (ModelAndView modelMap){
-		modelMap.addObject("zNode",organizationService.getTreeNode());
-		modelMap.setViewName("user/user_list");
+		//modelMap.addObject("zNode",organizationService.getTreeNode());
+		modelMap.setViewName("user/user-management");
 		return modelMap;
 	}
-	
+	@RequestMapping("/account")
+	public ModelAndView account (ModelAndView modelMap,Long id){
+		modelMap.setViewName("user/account");
+		return modelMap;
+	}
 	 /**
      * 分页数据
      *
@@ -86,6 +91,7 @@ public class UserController {
 		return modelMap;
 	}
 	
+
 	@RequestMapping(value = "/zNode", method = RequestMethod.POST)
     @ResponseBody
     public String zNode(User user) {

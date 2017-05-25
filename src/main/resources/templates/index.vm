@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>主页</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body> 
@@ -21,7 +22,8 @@
         </div>
         <div class="p3">
 			#if(!$user.name)
-				<a href="/login">登陆</a>
+				 <a href="/login">登陆</a>/
+				 <a id="register">注册</a>
 			#else
 				$!{user.name}
 			#end
@@ -72,6 +74,127 @@
     <div class="container">
         <div class="beian">Copyright © 2017 www.lvmama.com. 上海景域文化传播股份有限公司版权所有　沪ICP备13011172号-3　增值电信业务经营许可证编号：沪B2-20100030</div>
     </div>
+  <div class="pops">
+        <div id="modal_login" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header no-padding">
+                        <div class="table-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <span class="white">×</span>
+                            </button>
+                            <span class="user-reg-title">用户注册</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-body no-padding">
+                        <div class="alert alert-warning">
+                            提示：注册信息必须是真实信息，否则上报事件无法及时何时是否属实，可能导致处置延迟
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+								        <span class="input-group-addon">用户名</span>
+                                        <input class="form-control" type="text" name="">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+								        <span class="input-group-addon">责任部门</span>
+                                        <select class="form-control" id="">
+                                            <option value="AZ">A部门</option>
+                                            <option value="AR">B部门</option>
+                                            <option value="CA">C部门</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">密码</span>
+                                        <input class="form-control" type="text" name="">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">真实姓名</span>
+                                        <input class="form-control" type="text" name="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">确认密码</span>
+                                        <input class="form-control" type="text" name="">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">手机号</span>
+                                        <input class="form-control" type="text" name="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">验证码</span>
+                                        <input class="form-control" type="text" name="" style="width: 120px">
+                                        <img style="margin-left: 10px;margin-top: 2px;" src="https://login.lvmama.com/captcha/account/checkcode/login_web.htm?secureLevel=primary">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <a id="reg_submit" class="btn btn-sm btn-info pull-right" type="button" style="margin-right: 8px;">
+                                        <i class="icon-ok bigger-110"></i>提交
+                                    </a>
+                                    <a class="btn btn-sm btn-danger pull-right" data-dismiss="modal" style="margin-right: 10px">
+                                        <i class="icon-remove"></i>取消
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/msgbox.js"></script>
+<script src="assets/js/alert.min.js"></script>
+<script>
+    $('#register').on('click', function () {
+        $('#modal_login').modal('show');
+    });
+
+    $('#reg_submit').on('click',function () {
+        //TODO 提交表单
+
+        /**
+         * 第一个参数：要提示的信息
+         * 第二个参数：图标类型:[1:提醒,4:成功,5:错误,6:加载中]
+         * 第三个参数：多少毫秒后关闭
+         */
+        // 表单错误搞这个
+        CHE.msgbox.show('用户名已注册', 5, 2000);
+
+
+        // 提交成功搞这个
+        CHE.alert({
+            title: "注册申请已提交",
+            text: '<p>注册申请已提交</p><p>请等待管理员的审核</p><p>审核通过后即可登录系统</p>',
+            html: true,
+            showConfirmButton: true,
+            type:'success'
+        });
+
+    });
+
+</script>
 </body>
 </html>

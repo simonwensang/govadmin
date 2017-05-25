@@ -24,6 +24,8 @@
     <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
     <result column="resp_department" jdbcType="VARCHAR" property="respDepartment" />
     <result column="resp_department_id" jdbcType="INTEGER" property="respDepartmentId" />
+    <result column="responsible" jdbcType="VARCHAR" property="responsible" />
+    <result column="responsible_id" jdbcType="INTEGER" property="responsibleId" />
     <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
     <result column="request" jdbcType="VARCHAR" property="request" />
     <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
@@ -45,12 +47,12 @@
   </resultMap>
   
      <sql id="Base_Column_List">
-    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
+        id, community, community_id, window, window_id, address, appellant, appellant_tel, 
     event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
     commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
-    expiry_date, request, audit_remark, handler, handler_id, handle_time, handle_result, 
-    handle_remark, update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, 
-    is_deleted
+    responsible, responsible_id, expiry_date, request, audit_remark, handler, handler_id, 
+    handle_time, handle_result, handle_remark, update_user, update_user_id, update_time, 
+    event_status, cc_user, cc_user_id, is_deleted
   </sql>
     
     <sql id="Page_Column_List">
@@ -83,8 +85,15 @@
           <if test="grade != null ">
               AND a.grade = #{grade} 
           </if>
-           <if test="eventType != null ">
+          <if test="eventType != null ">
               AND a.event_type = #{eventType} 
+          </if>
+          <if test="eventStatus != null ">
+              AND a.event_status in 
+              <foreach collection="eventStatusList" item="item" separator=","  index="index"
+					 open="(" close=")" >
+				#{item,jdbcType=TINYINT}
+			  </foreach>
           </if>
 	      </where>
 	      ORDER BY a.event_status ,a.commit_time DESC 

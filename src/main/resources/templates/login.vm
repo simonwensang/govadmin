@@ -10,6 +10,16 @@
         .login-layout {
             background-color: #438eb9;
         }
+        .yzm-l{
+            float: left;
+            width: 55px;
+            line-height: 34px;
+            margin-bottom: 0 !important;
+        }
+        .yzm-i{
+            float: left;
+            width: 120px;
+        }
     </style>
 </head>
 <body class="login-layout">
@@ -53,7 +63,13 @@
 											    </span>
                                             </label>
 
-                                            <div class="space"></div>
+                                             <label class="block clearfix">
+											    <span class="block">
+                                                    <label class="yzm-l">验证码</label>
+												    <input type="text" class="form-control yzm-i" placeholder="验证码"/>
+                                                    <img style="margin-left: 10px;margin-top: 2px;" src="https://login.lvmama.com/captcha/account/checkcode/login_web.htm?secureLevel=primary">
+											    </span>
+                                            </label>
                                             <div class="clearfix">
                                                 <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
                                                     <i class="icon-key"></i>

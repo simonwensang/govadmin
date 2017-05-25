@@ -1,6 +1,12 @@
 a {
   color: #000000;
 }
+body {
+  background-color: #fff;
+}
+#register {
+  cursor: pointer;
+}
 .head {
   padding: 35px 0 25px 0;
   line-height: 20px;
@@ -66,19 +72,19 @@ a {
   margin-left: -960px;
 }
 .links {
-  width: 884px;
+  width: 886px;
   margin: 58px auto 0;
   overflow: hidden;
 }
 .links .inner {
-  margin-left: -82px;
+  margin-left: -80px;
 }
 .links a {
   float: left;
   display: block;
   width: 401px;
   height: 234px;
-  margin-left: 82px;
+  margin-left: 80px;
   margin-top: 12px;
 }
 .links a img {
@@ -137,4 +143,34 @@ a {
   color: #fff;
   text-align: center;
   font-size: 12px;
+}
+#modal_login .modal-dialog {
+  padding-top: 100px;
+  width: 700px;
+}
+#modal_login .user-reg-title {
+  display: block;
+  text-align: center;
+}
+#modal_login .alert-warning {
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+}
+#modal_login .input-group-addon {
+  width: 82px;
+  text-align: left;
+}
+#modal_login .form-control {
+  width: 225px;
+}
+#modal_login .row {
+  margin-bottom: 10px;
+}
+#modal_login .btn {
+  height: 33.6px;
+  width: 120px;
+}
+.row {
+  margin: 0;
 }

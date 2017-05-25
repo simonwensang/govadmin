@@ -21,13 +21,15 @@ logging:
   path: /var/log
   file: cptadmin.log
   level.com.cpt: INFO
+
 ## osspath
-oss.endpoint: http\://oss-cn-shanghai.aliyuncs.com
+oss.endpoint: http://oss-cn-shanghai.aliyuncs.com
 oss.accessKeyId: LTAILAkR3Yb9Qnpt
 oss.accessKeySecret: cL34LxbVmvFVx4JSe18p3CNwFcTvT5
 oss.bucketName: govadmin
-oss.web.url: govadmin.oss-cn-shanghai.aliyuncs.com/
+oss.web.url: http://govadmin.oss-cn-shanghai.aliyuncs.com/
 oss.path.file: gov/file
+
 # REDIS (RedisProperties)
 spring.redis.shiro.database: 3
 spring.redis.database: 2
@@ -117,6 +119,15 @@ logging:
   file: cptadmin.log
   level.com.cpt: INFO
 
+## osspath
+oss.endpoint: http://oss-cn-shanghai.aliyuncs.com
+oss.accessKeyId: LTAILAkR3Yb9Qnpt
+oss.accessKeySecret: cL34LxbVmvFVx4JSe18p3CNwFcTvT5
+oss.bucketName: govadmin
+oss.web.url: http://govadmin.oss-cn-shanghai.aliyuncs.com/
+oss.path.file: gov/file
+multipart.maxFileSize: 10MB
+multipart.maxRequestSize: 100MB
 # REDIS (RedisProperties)
 spring.redis.shiro.database: 5
 spring.redis.database: 4

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -164,6 +165,7 @@ public class EventServiceImpl implements EventService {
 		if( null == event){
 			return new EventVo();
 		}
+		event.setAttachmentFile(StringUtils.substringAfterLast(event.getAttachment(), "/"));
 		event.setAttachment(ossWebUrl+event.getAttachment());
 		List<EventHandleLog> eventHandleLogList = this.selectEventHandleLogByEventId(id);
 		EventVo eventVo = EventConvertor.toEventVo(event);
@@ -206,7 +208,7 @@ public class EventServiceImpl implements EventService {
 				} catch (IOException e) {
 					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
 				}
-				event.setAttachment(imageName);
+				event.setAttachment(targetFile);
 			}
 			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setEventNo(CodeFactory.getCode());
@@ -253,6 +255,10 @@ public class EventServiceImpl implements EventService {
 		param.setId(eventReq.getId());
 		param.setRespDepartment(RespDepartment.getValueByKey(eventReq.getRespDepartmentId().byteValue()));
 		param.setRespDepartmentId(eventReq.getRespDepartmentId());
+		if(null!=eventReq.getResponsibleId()){
+			User Responsible = userService.get(eventReq.getResponsibleId().longValue());
+			param.setResponsible(Responsible.getName());
+		}
 		param.setExpiryDate(eventReq.getExpiryDate());
 		param.setRequest(eventReq.getRequest());
 		param.setAuditRemark(eventReq.getAuditRemark());

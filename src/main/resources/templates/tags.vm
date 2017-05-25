@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="#springUrl('/assets/css/bootstrap.min.css')" />
 <link rel="stylesheet" href="#springUrl('/assets/css/font-awesome.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/chosen.css')"/>
-
+<link rel="stylesheet" href="#springUrl('/css/common.css')">
 <link rel="stylesheet" href="#springUrl('/assets/css/ace.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/ace-rtl.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/ace-skins.min.css')"/>

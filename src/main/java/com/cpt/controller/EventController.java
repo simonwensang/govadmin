@@ -1,5 +1,6 @@
 package com.cpt.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import com.cpt.common.PageResult;
 import com.cpt.common.Result;
 import com.cpt.common.ResultCode;
 import com.cpt.common.constant.Constants;
+import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
 import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.model.Organization;
@@ -56,15 +58,43 @@ public class EventController {
      */
     @RequestMapping(value = "/allReport", method = RequestMethod.GET)
     public ModelAndView allReport(ModelAndView mav,EventReq eventReq) {
-    	
     	PageResult<EventVo> result = eventService.allReport(eventReq);
-    	
     	mav.addObject("result", result);
     	mav.addObject("user",userCommonService.getUser() );
         mav.setViewName("event/allReport");
         return mav;
     }
-  
+    /**
+     * 未处理的
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/untreated", method = RequestMethod.GET)
+    public ModelAndView untreated(ModelAndView mav,EventReq eventReq) {
+    	eventReq.setEventStatusList(Arrays.asList(EventStatus.INIT.getKey(),EventStatus.AUDIT.getKey(),EventStatus.HANDLE.getKey()));
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	mav.addObject("result", result);
+    	mav.addObject("user",userCommonService.getUser() );
+        mav.setViewName("event/allReport");
+        return mav;
+    }
+    
+    /**
+     * 已经处理的
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/treated", method = RequestMethod.GET)
+    public ModelAndView treated(ModelAndView mav,EventReq eventReq) {
+    	eventReq.setEventStatusList(Arrays.asList(EventStatus.CLOSE.getKey()));
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	mav.addObject("result", result);
+    	mav.addObject("user",userCommonService.getUser() );
+        mav.setViewName("event/allReport");
+        return mav;
+    }
     /**
      * 工程管理列表
      *

@@ -134,7 +134,7 @@ public class ShiroSecurityConfig {
     	redisManager.setTimeout(3000);
     	return redisManager;
     }*/
-	@Bean
+     @Bean
     public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("127.0.0.1");

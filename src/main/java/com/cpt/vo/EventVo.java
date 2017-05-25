@@ -87,6 +87,8 @@ public class EventVo {
     
     private List<WorkFlow> workFlows;
     
+    private String attachmentFile ;
+    
     //("是否显示审核")
   	private Boolean showAudit=false;
   	//("是否显示选择处理")

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>统计分析</title>
+    #parse("tags.vm")
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+ #parse("header.vm")
+<div class="main-container" id="main-container">
+
+    <div class="main-container-inner">
+
+       #parse("menu.vm")
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="row form-horizontal">
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>添加分析</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div>
+                                            <textarea class="form-control" id="form-field-8" placeholder="点击填写" style="height: 100px"></textarea>
+                                        </div>
+                                        <div style="text-align: center;margin-top: 10px">
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="icon-ok"></i>
+                                                添加
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>查看分析</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group" style="margin-left: 0">
+                                            <label class="col-sm-1 control-label no-padding-right"> 查询开始时间 </label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input class="" id="start_date" type="text">
+                                                    <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-1 control-label no-padding-right"> 查询截止时间 </label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input class="" id="end_date" type="text">
+                                                    <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-sm btn-primary">
+                                                    <i class="icon-ok"></i>
+                                                    查询
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table id="sample-table-1" class="table table-striped table-bordered table-hover" style="margin-bottom: 0;">
+                                                <thead>
+                                                <tr>
+                                                    <th>添加时间</th>
+                                                    <th>分析内容</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2017/05/23 18:20</td>
+                                                    <td>waht the fuck</td>
+                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">删除</a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div style="text-align: center;">
+                                            <ul class="pagination">
+                                                <li class="disabled">
+                                                    <a href="#">
+                                                        <i class="icon-double-angle-left"></i>
+                                                    </a>
+                                                </li>
+
+                                                <li class="active">
+                                                    <a href="#">1</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">2</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">3</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">4</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">5</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="icon-double-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                        </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/laydate.js"></script>
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<script>
+    $(function () {
+
+        laydate({
+            elem: '#start_date',
+            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+            festival: true, //显示节日,
+            istime: false, //是否开启时间选择
+            choose: function (datas) { //选择日期完毕的回调
+//                alert('得到：' + datas);
+            }
+        });
+
+        laydate({
+            elem: '#end_date',
+            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+            festival: true, //显示节日,
+            istime: false, //是否开启时间选择
+            choose: function (datas) { //选择日期完毕的回调
+//                alert('得到：' + datas);
+            }
+        });
+
+        $('#sample-table-1').on('click', '.delete', function () {
+            var id = $(this).data('id');
+            alert(id);
+            // TODO ajax删除当前的行
+        });
+    })
+    ;
+</script>
+
+</body>
+</html>

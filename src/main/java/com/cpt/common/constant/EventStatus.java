@@ -2,11 +2,10 @@ package com.cpt.common.constant;
 
 public enum EventStatus {
 
-	//项目状态0待制定项目负责人1待指派报价负责人2待指派报价人3报价中4合同已签订5合同不签订
 	INIT((byte)0,"初始状态"),
 	AUDIT((byte)1,"待审核"),
 	HANDLE((byte)2,"待处置"),
-	CLOSE((byte)3,"已关闭") ;
+	CLOSE((byte)3,"已处理") ;
 	private Byte  key;
 	private String value;
 	

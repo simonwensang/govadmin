@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>账号管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    #parse("tags.vm")
+	<!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+#parse("header.vm")
+ 
+<div class="main-container" id="main-container">
+    <div class="main-container-inner">
+         #parse("menu.vm")
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="row form-horizontal">
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>相关人员</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group" style="margin-bottom: 0;">
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px">用户名：woca</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">真实姓名：代笔</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">所在责能部门：王村一队</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">手机号：18854658987</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">用户权限：村级网格人员</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>修改手机号</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 新手机号 </label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="col-sm-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 再次输入 </label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="col-sm-12">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-sm btn-primary">
+                                                    <i class="icon-ok"></i>
+                                                    确认
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>修改手机号</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 修改密码 </label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="col-sm-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right"> 确认密码 </label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="col-sm-12">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-sm btn-primary">
+                                                    <i class="icon-ok"></i>
+                                                    确认
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+</body>
+</html>

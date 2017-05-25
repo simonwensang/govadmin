@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	#parse("tags.vm")
-    <style>
+      <style>
         .laydate_box, .laydate_box *, .laydate_box *:before, .laydate_box *:after {
             -webkit-box-sizing: content-box;
             -moz-box-sizing: content-box;
@@ -19,6 +19,20 @@
 
         .input-group-addon {
             width: auto;
+        }
+
+        .tags {
+            height: 41px;
+            width: 100%;
+        }
+
+        .icon-plus-sign {
+            position: absolute;
+            right: 16px;
+            top: 8px;
+            font-size: 25px;
+            color: #5a87a2;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -147,8 +161,8 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main">
-                                        <label>$!{event.attachment}</label>
-                                        <!--a style="cursor: pointer;margin-left: 10px">查看附件</a-->
+                                        <label>$!{event.attachmentFile}</label>
+                                        <a href="$!{event.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
                                     </div>
                                 </div>
                             </div>
@@ -218,17 +232,13 @@
                             <div style="text-align: center">
                                 <button class="btn btn-lg btn-primary" id="dispatch_task">任务派遣</button>
                                 #if  ($!{role.roleCode}!="superuser" && $!{role.roleCode}!="admin" )
-                                <button class="btn btn-lg btn-success select-p">继续上报</button>
+                                <button  data-title="派遣人" class="btn btn-lg btn-success select-p">继续上报</button>
                                 #end
                                 #if  ( $!{role.roleCode}=="superuser" || $!{role.roleCode}=="admin")
-                                <button class="btn btn-lg btn-pink select-p" style="float: right;">指派人员</button>
+                                <button  data-title="指派人" class="btn btn-lg btn-pink select-p" style="float: right;">指派人员</button>
                                  #end
                             </div>
                         </div>
-
-
-                        <!--审批人选择弹窗-->
-                        	#parse("common/choice_user.vm")
 
                         <!--任务派遣弹窗-->
                         <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
@@ -264,6 +274,13 @@
                                                 </div>
                                             </div>
                                         </div>
+										<div class="form-group clearfix" style="padding: 0 10px;">
+                                            <label class="control-label no-padding-right text-right pull-left" style="line-height: 40px"> 责任人 </label>
+                                            <div class="tags pull-left" id="add_shr" style="width: 200px;position: relative;">
+												<input type="hidden"  id="responsibleId" name="responsibleId">
+                                                <i class="icon-plus-sign get-people" data-title="责任人"></i>
+                                            </div>
+                                        </div>
                                         <div class="form-group" style="padding: 0 10px">
                                             <label for="form-field-8">处理要求：</label>
                                             <textarea class="form-control" id="form-field-1" name="request" placeholder="点击填写" style="height: 100px"></textarea>
@@ -274,6 +291,11 @@
                                         </div>
                                     </div>
 
+									
+                        <!--审批人选择弹窗-->
+                        	#parse("common/choice_user.vm")
+
+									
                                     <div class="modal-footer no-margin-top text-center">
                                         <button class="btn btn-sm" data-dismiss="modal">
                                             <i class="icon-remove"></i>
@@ -316,6 +338,7 @@
     });
 
     $('.select-p').on('click',function () {
+		$('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
          getUser(1);
     });
@@ -324,12 +347,20 @@
         $('#modal-table-1').modal('show');
     });
      $('.select-p-wrap').on('click', '.select-p', function () {
-            $(this).data('id');
+            if ($('#model_title').text().indexOf('责任人') > 0) {
+                //弹出的窗口是给负责人的
+				$('#responsibleId').val($(this).data('id'));
+                $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
+            } 
             $('#modal-table').modal('hide');
            
         });
     
-    
+    $('.get-people').on('click', function () {
+        $('#model_title').text('选择' + $(this).data('title'));
+        $('#modal-table').modal('show');
+		  getRespUser(1);
+    });
         
     function getUser(page){
   	    var name =  $('#sname').val();
@@ -367,6 +398,53 @@
 	                   $("#pager").append(option);  
 	                }  
                     $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+	 }
+	 
+	   function getRespUser(page){
+  	    var name =  $('#sname').val();
+		 $.ajax({
+                type: "get",
+                url: '/user/rolePageList',
+                data: {
+                   page:page,name:name
+                },
+                dataType: 'json',
+                success: function (data) {
+                     //提示审核通过成功信息并刷新页面
+	                 $("#tbody").empty(); 
+	                 var user = data.rows; 
+	                //循环添加  
+	                 for(var j=0;j<user.length;j++){  
+	                    var option = "<tr>"+
+                            "<td>"+user[j].id+"</td>"+
+                            "<td>"+user[j].name+"</td>"+
+                            "<td>"+user[j].roleName+"</td>"+
+                            "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
+                        	"</tr>";  
+	                   
+	                   $("#tbody").append(option);  
+	                }  
+	                
+	                $("#pager").empty(); 
+	                $("#pager").append("<li class='prev'><a onclick='getRespUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
+	               //循环添加  
+	                 for(var j=1;j<=data.total;j++){  
+	                    var option = "<li ";
+	                    if(data.page==j){option = option+	"class='active' "; }
+                        option = option+ "><a onclick='getRespUser("+j+")'>"+j+"</a></li>";
+	                   $("#pager").append(option);  
+	                }  
+                    $("#pager").append("<li class='next'><a onclick='getRespUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
                 },
                 error: function (data) {
                     if(data.msg){

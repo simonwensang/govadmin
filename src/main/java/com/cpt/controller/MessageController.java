@@ -32,7 +32,31 @@ public class MessageController {
         modelMap.setViewName("message/message_list");
 		return modelMap;
     }
+    /**
+     * 发送消息
+     *
+     * @param UserQuery
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/view")
+    public ModelAndView view(ModelAndView modelMap,PageParam pageParam ) {
+        modelMap.setViewName("message/view-notification");
+		return modelMap;
+    }
     
+    /**
+     * 发送消息
+     *
+     * @param UserQuery
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/send")
+    public ModelAndView send(ModelAndView modelMap,PageParam pageParam ) {
+        modelMap.setViewName("message/send-notification");
+		return modelMap;
+    }
     /**
      * 增加或者修改
      *

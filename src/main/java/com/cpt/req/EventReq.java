@@ -1,6 +1,7 @@
 package com.cpt.req;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -53,6 +54,10 @@ public class EventReq extends PageParam{
 
 	    private Integer respDepartmentId;
 
+	    private String responsible;
+
+	    private Integer responsibleId;
+	    
 	    private String expiryDate;
 
 	    private String request;
@@ -84,4 +89,6 @@ public class EventReq extends PageParam{
 	    private String description;
 	    //------------------------
 	    private Integer userId;
+	    
+	    private List<Byte> eventStatusList;
 }

@@ -62,14 +62,14 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="#">
+                            <a href="/statistics/chart">
                                 <i class="icon-double-angle-right"></i>
                                 统计
                             </a>
                         </li>
 
                         <li>
-                            <a href="#">
+                            <a href="/statistics/analysis">
                                 <i class="icon-double-angle-right"></i>
                                 统计分析
                             </a>
@@ -86,26 +86,36 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/event/allReport">
+                            <a href="/event/untreated">
                                 <i class="icon-double-angle-right"></i>
-                                我的事件
+                                未处理事件
                             </a>
                         </li>
-
+						<li>
+                            <a href="/event/treated">
+                                <i class="icon-double-angle-right"></i>
+                                已处理事件
+                            </a>
+                        </li>
                         <li>
-                            <a href="#">
+                            <a href="/message/send">
                                 <i class="icon-double-angle-right"></i>
                                 发送通知
                             </a>
                         </li>
 
                         <li>
-                            <a href="#">
+                            <a href="/message/view">
                                 <i class="icon-double-angle-right"></i>
                                 查看通知
                             </a>
                         </li>
-
+						<li>
+                            <a href="/user/list">
+                                <i class="icon-double-angle-right"></i>
+                                用户管理
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

@@ -24,6 +24,8 @@
     <result column="auditor_time" jdbcType="TIMESTAMP" property="auditorTime" />
     <result column="resp_department" jdbcType="VARCHAR" property="respDepartment" />
     <result column="resp_department_id" jdbcType="INTEGER" property="respDepartmentId" />
+    <result column="responsible" jdbcType="VARCHAR" property="responsible" />
+    <result column="responsible_id" jdbcType="INTEGER" property="responsibleId" />
     <result column="expiry_date" jdbcType="VARCHAR" property="expiryDate" />
     <result column="request" jdbcType="VARCHAR" property="request" />
     <result column="audit_remark" jdbcType="VARCHAR" property="auditRemark" />
@@ -102,9 +104,9 @@
     id, community, community_id, window, window_id, address, appellant, appellant_tel, 
     event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
     commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
-    expiry_date, request, audit_remark, handler, handler_id, handle_time, handle_result, 
-    handle_remark, update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, 
-    is_deleted
+    responsible, responsible_id, expiry_date, request, audit_remark, handler, handler_id, 
+    handle_time, handle_result, handle_remark, update_user, update_user_id, update_time, 
+    event_status, cc_user, cc_user_id, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cpt.model.EventExample" resultMap="BaseResultMap">
     select
@@ -145,12 +147,13 @@
       description, attachment, commit_user, 
       commit_user_id, commit_time, auditor, 
       auditor_id, auditor_time, resp_department, 
-      resp_department_id, expiry_date, request, 
-      audit_remark, handler, handler_id, 
-      handle_time, handle_result, handle_remark, 
-      update_user, update_user_id, update_time, 
-      event_status, cc_user, cc_user_id, 
-      is_deleted)
+      resp_department_id, responsible, responsible_id, 
+      expiry_date, request, audit_remark, 
+      handler, handler_id, handle_time, 
+      handle_result, handle_remark, update_user, 
+      update_user_id, update_time, event_status, 
+      cc_user, cc_user_id, is_deleted
+      )
     values (#{id,jdbcType=INTEGER}, #{community,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}, 
       #{window,jdbcType=VARCHAR}, #{windowId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
       #{appellant,jdbcType=VARCHAR}, #{appellantTel,jdbcType=VARCHAR}, #{eventNo,jdbcType=VARCHAR}, 
@@ -158,12 +161,13 @@
       #{description,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{commitUser,jdbcType=VARCHAR}, 
       #{commitUserId,jdbcType=INTEGER}, #{commitTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=VARCHAR}, 
       #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, #{respDepartment,jdbcType=VARCHAR}, 
-      #{respDepartmentId,jdbcType=INTEGER}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
-      #{auditRemark,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, 
-      #{handleTime,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{eventStatus,jdbcType=TINYINT}, #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=TINYINT})
+      #{respDepartmentId,jdbcType=INTEGER}, #{responsible,jdbcType=VARCHAR}, #{responsibleId,jdbcType=INTEGER}, 
+      #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, #{auditRemark,jdbcType=VARCHAR}, 
+      #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, #{handleTime,jdbcType=VARCHAR}, 
+      #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{eventStatus,jdbcType=TINYINT}, 
+      #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.cpt.model.Event">
     insert into t_event
@@ -233,6 +237,12 @@
       </if>
       <if test="respDepartmentId != null">
         resp_department_id,
+      </if>
+      <if test="responsible != null">
+        responsible,
+      </if>
+      <if test="responsibleId != null">
+        responsible_id,
       </if>
       <if test="expiryDate != null">
         expiry_date,
@@ -346,6 +356,12 @@
       </if>
       <if test="respDepartmentId != null">
         #{respDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="responsible != null">
+        #{responsible,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleId != null">
+        #{responsibleId,jdbcType=INTEGER},
       </if>
       <if test="expiryDate != null">
         #{expiryDate,jdbcType=VARCHAR},
@@ -469,6 +485,12 @@
       <if test="record.respDepartmentId != null">
         resp_department_id = #{record.respDepartmentId,jdbcType=INTEGER},
       </if>
+      <if test="record.responsible != null">
+        responsible = #{record.responsible,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responsibleId != null">
+        responsible_id = #{record.responsibleId,jdbcType=INTEGER},
+      </if>
       <if test="record.expiryDate != null">
         expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
       </if>
@@ -543,6 +565,8 @@
       auditor_time = #{record.auditorTime,jdbcType=TIMESTAMP},
       resp_department = #{record.respDepartment,jdbcType=VARCHAR},
       resp_department_id = #{record.respDepartmentId,jdbcType=INTEGER},
+      responsible = #{record.responsible,jdbcType=VARCHAR},
+      responsible_id = #{record.responsibleId,jdbcType=INTEGER},
       expiry_date = #{record.expiryDate,jdbcType=VARCHAR},
       request = #{record.request,jdbcType=VARCHAR},
       audit_remark = #{record.auditRemark,jdbcType=VARCHAR},
@@ -628,6 +652,12 @@
       <if test="respDepartmentId != null">
         resp_department_id = #{respDepartmentId,jdbcType=INTEGER},
       </if>
+      <if test="responsible != null">
+        responsible = #{responsible,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleId != null">
+        responsible_id = #{responsibleId,jdbcType=INTEGER},
+      </if>
       <if test="expiryDate != null">
         expiry_date = #{expiryDate,jdbcType=VARCHAR},
       </if>
@@ -699,6 +729,8 @@
       auditor_time = #{auditorTime,jdbcType=TIMESTAMP},
       resp_department = #{respDepartment,jdbcType=VARCHAR},
       resp_department_id = #{respDepartmentId,jdbcType=INTEGER},
+      responsible = #{responsible,jdbcType=VARCHAR},
+      responsible_id = #{responsibleId,jdbcType=INTEGER},
       expiry_date = #{expiryDate,jdbcType=VARCHAR},
       request = #{request,jdbcType=VARCHAR},
       audit_remark = #{auditRemark,jdbcType=VARCHAR},

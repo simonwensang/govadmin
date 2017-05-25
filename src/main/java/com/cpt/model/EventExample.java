@@ -1545,6 +1545,136 @@ public class EventExample {
             return (Criteria) this;
         }
 
+        public Criteria andResponsibleIsNull() {
+            addCriterion("responsible is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIsNotNull() {
+            addCriterion("responsible is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleEqualTo(String value) {
+            addCriterion("responsible =", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleNotEqualTo(String value) {
+            addCriterion("responsible <>", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleGreaterThan(String value) {
+            addCriterion("responsible >", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleGreaterThanOrEqualTo(String value) {
+            addCriterion("responsible >=", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleLessThan(String value) {
+            addCriterion("responsible <", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleLessThanOrEqualTo(String value) {
+            addCriterion("responsible <=", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleLike(String value) {
+            addCriterion("responsible like", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleNotLike(String value) {
+            addCriterion("responsible not like", value, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIn(List<String> values) {
+            addCriterion("responsible in", values, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleNotIn(List<String> values) {
+            addCriterion("responsible not in", values, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleBetween(String value1, String value2) {
+            addCriterion("responsible between", value1, value2, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleNotBetween(String value1, String value2) {
+            addCriterion("responsible not between", value1, value2, "responsible");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdIsNull() {
+            addCriterion("responsible_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdIsNotNull() {
+            addCriterion("responsible_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdEqualTo(Integer value) {
+            addCriterion("responsible_id =", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdNotEqualTo(Integer value) {
+            addCriterion("responsible_id <>", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdGreaterThan(Integer value) {
+            addCriterion("responsible_id >", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("responsible_id >=", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdLessThan(Integer value) {
+            addCriterion("responsible_id <", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdLessThanOrEqualTo(Integer value) {
+            addCriterion("responsible_id <=", value, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdIn(List<Integer> values) {
+            addCriterion("responsible_id in", values, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdNotIn(List<Integer> values) {
+            addCriterion("responsible_id not in", values, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdBetween(Integer value1, Integer value2) {
+            addCriterion("responsible_id between", value1, value2, "responsibleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andResponsibleIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("responsible_id not between", value1, value2, "responsibleId");
+            return (Criteria) this;
+        }
+
         public Criteria andExpiryDateIsNull() {
             addCriterion("expiry_date is null");
             return (Criteria) this;

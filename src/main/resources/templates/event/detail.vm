@@ -146,9 +146,9 @@
                                     <h4>附件</h4>
                                 </div>
                                 <div class="widget-body">
-                                    <div class="widget-main">
-                                        <label>$!{event.attachment}</label>
-                                        <!--a style="cursor: pointer;margin-left: 10px">查看附件</a-->
+                                   <div class="widget-main">
+                                        <label>$!{event.attachmentFile}</label>
+                                        <a href="$!{event.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +223,8 @@
                                     <div class="widget-main">
                                         <div class="form-group" style="margin-bottom: 0;">
                                             <div class="well well-sm col-sm-2" style="margin-left: 12px">责任部门：$!{event.respDepartment}</div>
-                                            <div class="well well-sm col-sm-2" style="margin-left: 12px">处置完成时间：$!{event.expiryDate}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 12px">责任人：$!{event.responsible}</div>
+											<div class="well well-sm col-sm-2" style="margin-left: 12px">处置完成时间：$!{event.expiryDate}</div>
                                         </div>
                                         <div class="alert alert-block alert-success">
                                             <label>处理要求：</label>

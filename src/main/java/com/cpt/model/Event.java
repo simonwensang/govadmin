@@ -49,7 +49,11 @@ public class Event {
     private String respDepartment;
 
     private Integer respDepartmentId;
+    
+    private String responsible;
 
+    private Integer responsibleId;
+    
     private String expiryDate;
 
     private String request;
@@ -80,7 +84,23 @@ public class Event {
 
     private Byte isDeleted;
 
-    public Integer getId() {
+    public String getResponsible() {
+		return responsible;
+	}
+
+	public void setResponsible(String responsible) {
+		this.responsible = responsible;
+	}
+
+	public Integer getResponsibleId() {
+		return responsibleId;
+	}
+
+	public void setResponsibleId(Integer responsibleId) {
+		this.responsibleId = responsibleId;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -381,6 +401,17 @@ public class Event {
     
     private List<WorkFlow> workFlows;
     
+    private String attachmentFile ;
+    
+    
+	public String getAttachmentFile() {
+		return attachmentFile;
+	}
+
+	public void setAttachmentFile(String attachmentFile) {
+		this.attachmentFile = attachmentFile;
+	}
+
 	public List<EventHandleLog> getEventHandleLogList() {
 		return eventHandleLogList;
 	}

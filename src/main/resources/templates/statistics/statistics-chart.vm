@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>统计图标</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	#parse("tags.vm")
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+ #parse("header.vm")
+
+<div class="main-container" id="main-container">
+
+    <div class="main-container-inner">
+
+	#parse("menu.vm")
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="form-group" style="max-width: 1100px;">
+                    <label class="pull-left control-label pt-4 ml-20"> 上报开始时间 </label>
+                    <div class="pull-left ml-10">
+                        <div class="input-group">
+                            <input class="" id="start_date" type="text">
+                            <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                    <label class="pull-left control-label pt-4 ml-20"> 上报截止时间 </label>
+                    <div class="pull-left ml-10">
+                        <div class="input-group">
+                            <input class="" id="end_date" type="text">
+                            <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                        </div>
+                    </div>
+                    <div class="pull-left"></div>
+                    <button type="button" class="btn btn-sm btn-primary ml-20" style="width: 100px;margin-right: 10px;">
+                        查询
+                        <i class="icon-search bigger-110"></i>
+                    </button>
+                </div>
+                <div class="qsxz">
+                    <label class="pull-left ml-20">快速选择：</label>
+                    <div class="pull-left" id="quick_sel">
+                        <a data-time="1" class="ml-10">当日</a>
+                        <a data-time="2" class="ml-10">本周</a>
+                        <a data-time="3" class="ml-10">本月</a>
+                        <a data-time="4" class="ml-10">本季度</a>
+                        <a data-time="5" class="ml-10">本年</a>
+                    </div>
+                </div>
+                <div class="s-chart">
+                    <div id="zaff_chart" style="width: 600px;height:400px;"></div>
+                </div>
+                <div class="s-chart">
+                    <div id="jzgl_chart" style="width: 600px;height:400px;"></div>
+                </div>
+                <div class="s-chart">
+                    <div id="mdjf_chart" style="width: 600px;height:400px;"></div>
+                </div>
+                <div class="s-chart">
+                    <div id="jcdj_chart" style="width: 600px;height:400px;"></div>
+                </div>
+                <div class="s-chart">
+                    <div id="wmfw_chart" style="width: 600px;height:400px;"></div>
+                </div>
+                <div class="s-chart">
+                    <div id="qtfw_chart" style="width: 600px;height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+<script src="assets/js/laydate.js"></script>
+<script src="assets/js/echarts.common.min.js"></script>
+
+<script>
+    $(function () {
+        laydate({
+            elem: '#start_date',
+            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+            festival: true, //显示节日,
+            istime: false, //是否开启时间选择
+            choose: function (datas) { //选择日期完毕的回调
+//                alert('得到：' + datas);
+            }
+        });
+
+        laydate({
+            elem: '#end_date',
+            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+            festival: true, //显示节日,
+            istime: false, //是否开启时间选择
+            choose: function (datas) { //选择日期完毕的回调
+//                alert('得到：' + datas);
+            }
+        });
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var zaffChart = echarts.init(document.getElementById('zaff_chart'));
+        var jzglChart = echarts.init(document.getElementById('jzgl_chart'));
+        var mdjfChart = echarts.init(document.getElementById('mdjf_chart'));
+        var jcdjChart = echarts.init(document.getElementById('jcdj_chart'));
+        var wmfwChart = echarts.init(document.getElementById('wmfw_chart'));
+        var qtfwChart = echarts.init(document.getElementById('qtfw_chart'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '提报类型：治安防范',
+                subtext: '2017/4/12 ~ 2017/5/20',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '已办结'},
+                        {value: 310, name: '未办结'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        zaffChart.setOption(option);
+        jzglChart.setOption(option);
+        mdjfChart.setOption(option);
+        jcdjChart.setOption(option);
+        wmfwChart.setOption(option);
+        qtfwChart.setOption(option);
+
+        // 快速选择
+        $('#quick_sel').on('click', 'a', function () {
+            var sel = $(this).data('time');
+            var startDate = null;
+            var endDate = null;
+            switch (sel) {
+                case 1:
+                    // 本日
+                    startDate = formatDate(now);
+                    endDate = formatDate(now);
+                    break;
+                case 2:
+                    // 本周
+                    startDate = getWeekStartDate();
+                    endDate = getWeekEndDate();
+                    break;
+                case 3:
+                    // 本月
+                    startDate = getMonthStartDate();
+                    endDate = getMonthEndDate();
+                    break;
+                case 4:
+                    // 本季度
+                    startDate = getQuarterStartDate();
+                    endDate = getQuarterEndDate();
+                    break;
+                case 5:
+                    // 本年
+                    startDate = nowYear + '/01/01';
+                    endDate = nowYear + '/12/31';
+                    break;
+            }
+            alert(startDate + ' - ' + endDate);
+            //TODO 用时间阶段异步查询展示图表
+        });
+    });
+
+
+    var now = new Date(); //当前日期
+    var nowDayOfWeek = now.getDay(); //今天本周的第几天
+    var nowDay = now.getDate(); //当前日
+    var nowMonth = now.getMonth(); //当前月
+    var nowYear = now.getYear(); //当前年
+    nowYear += (nowYear < 2000) ? 1900 : 0;
+
+
+    //格局化日期：yyyy-MM-dd
+    function formatDate(date) {
+        var myyear = date.getFullYear();
+        var mymonth = date.getMonth() + 1;
+        var myweekday = date.getDate();
+
+        if (mymonth < 10) {
+            mymonth = "0" + mymonth;
+        }
+        if (myweekday < 10) {
+            myweekday = "0" + myweekday;
+        }
+        return (myyear + "-" + mymonth + "-" + myweekday);
+    }
+
+    //获得本季度的开端月份
+    function getQuarterStartMonth() {
+        var quarterStartMonth = 0;
+        if (nowMonth < 3) {
+            quarterStartMonth = 0;
+        }
+        if (2 < nowMonth && nowMonth < 6) {
+            quarterStartMonth = 3;
+        }
+        if (5 < nowMonth && nowMonth < 9) {
+            quarterStartMonth = 6;
+        }
+        if (nowMonth > 8) {
+            quarterStartMonth = 9;
+        }
+        return quarterStartMonth;
+    }
+
+    //获得本周的开端日期
+    function getWeekStartDate() {
+        var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1);
+        return formatDate(weekStartDate);
+    }
+
+    //获得某月的天数
+    function getMonthDays(myMonth){
+        var monthStartDate = new Date(nowYear, myMonth, 1);
+        var monthEndDate = new Date(nowYear, myMonth + 1, 1);
+        var days = (monthEndDate - monthStartDate)/(1000 * 60 * 60 * 24);
+        return days;
+    }
+
+    //获得本周的停止日期
+    function getWeekEndDate() {
+        var weekEndDate = new Date(nowYear, nowMonth, nowDay + (7 - nowDayOfWeek));
+        return formatDate(weekEndDate);
+    }
+
+    //获得本月的开端日期
+    function getMonthStartDate() {
+        var monthStartDate = new Date(nowYear, nowMonth, 1);
+        return formatDate(monthStartDate);
+    }
+
+    //获得本月的停止日期
+    function getMonthEndDate() {
+        var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth));
+        return formatDate(monthEndDate);
+    }
+
+    //获得本季度的开端日期
+    function getQuarterStartDate() {
+        var quarterStartDate = new Date(nowYear, getQuarterStartMonth(), 1);
+        return formatDate(quarterStartDate);
+    }
+
+    //或的本季度的停止日期
+    function getQuarterEndDate() {
+        var quarterEndMonth = getQuarterStartMonth() + 2;
+        var quarterStartDate = new Date(nowYear, quarterEndMonth, getMonthDays(quarterEndMonth));
+        return formatDate(quarterStartDate);
+    }
+
+    console.log(nowDay)
+</script>
+
+</body>
+</html>
