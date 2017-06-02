@@ -133,9 +133,14 @@
         var jcdjChart = echarts.init(document.getElementById('jcdj_chart'));
         var wmfwChart = echarts.init(document.getElementById('wmfw_chart'));
         var qtfwChart = echarts.init(document.getElementById('qtfw_chart'));
-
-        // 指定图表的配置项和数据
-        var option = {
+		
+		var arrayChart = new Array(zaffChart,jzglChart,mdjfChart,jcdjChart,wmfwChart,qtfwChart);
+		 
+		var jsonobj=eval('('+$!{statistics}+')');
+		
+		for(var i=0;i<jsonobj.length;i++){  
+            // 指定图表的配置项和数据
+        	var option = {
             title: {
                 text: '提报类型：治安防范',
                 subtext: '2017/4/12 ~ 2017/5/20',
@@ -156,21 +161,20 @@
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: [
-                        {value: 335, name: '已办结'},
-                        {value: 310, name: '未办结'}
-                    ],
+                    data: jsonobj[i]
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
                         }
-                    }
-                }
-            ]
-        };
-
+                    ]
+                };
+			arrayChart[i].setOption(option);
+        }  
+       
         // 使用刚指定的配置项和数据显示图表。
         zaffChart.setOption(option);
         jzglChart.setOption(option);

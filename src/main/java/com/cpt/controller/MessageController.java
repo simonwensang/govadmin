@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cpt.common.PageParam;
 import com.cpt.common.Result;
 import com.cpt.model.Message;
+import com.cpt.req.MessageReq;
 import com.cpt.service.MessageService;
  
 @Controller
@@ -19,28 +20,17 @@ public class MessageController {
 	@Autowired  
 	private MessageService messageService;
 	
-	 /**
-     * 分页数据
-     *
-     * @param UserQuery
-     * @param user
-     * @return
-     */
-    @RequestMapping(value = "/list")
-    public ModelAndView pageList(ModelAndView modelMap,PageParam pageParam ) {
-    	modelMap.addObject("messageList", messageService.pageList(pageParam));
-        modelMap.setViewName("message/message_list");
-		return modelMap;
-    }
+	 
     /**
-     * 发送消息
+     * 分页消息
      *
      * @param UserQuery
      * @param user
      * @return
      */
     @RequestMapping(value = "/view")
-    public ModelAndView view(ModelAndView modelMap,PageParam pageParam ) {
+    public ModelAndView view(ModelAndView modelMap,MessageReq messageReq ) {
+    	modelMap.addObject("result", messageService.pageList(messageReq));
         modelMap.setViewName("message/view-notification");
 		return modelMap;
     }
@@ -71,6 +61,18 @@ public class MessageController {
     }
  
 	/**
+     * 阅读
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/read", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> read(Long id) {
+    	return messageService.read(id);
+    }
+    /**
      * 删除
      *
      * @param mav

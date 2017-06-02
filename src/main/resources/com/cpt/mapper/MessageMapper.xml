@@ -10,6 +10,7 @@
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_read" jdbcType="TINYINT" property="isRead" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, subject, content, reply_id, user, user_id, create_time, is_deleted
+    id, title, subject, content, reply_id, user, user_id, create_time, is_read, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cpt.model.MessageExample" resultMap="BaseResultMap">
     select
@@ -107,12 +108,12 @@
   <insert id="insert" parameterType="com.cpt.model.Message">
     insert into t_message (id, title, subject, 
       content, reply_id, user, 
-      user_id, create_time, is_deleted
-      )
+      user_id, create_time, is_read, 
+      is_deleted)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{replyId,jdbcType=BIGINT}, #{user,jdbcType=VARCHAR}, 
-      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=TINYINT}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cpt.model.Message">
     insert into t_message
@@ -140,6 +141,9 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="isRead != null">
+        is_read,
       </if>
       <if test="isDeleted != null">
         is_deleted,
@@ -169,6 +173,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=TINYINT},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
@@ -208,6 +215,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isRead != null">
+        is_read = #{record.isRead,jdbcType=TINYINT},
+      </if>
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
@@ -226,6 +236,7 @@
       user = #{record.user,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_read = #{record.isRead,jdbcType=TINYINT},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -255,6 +266,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=TINYINT},
+      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
@@ -270,6 +284,7 @@
       user = #{user,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_read = #{isRead,jdbcType=TINYINT},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>

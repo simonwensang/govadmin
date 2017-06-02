@@ -1,7 +1,6 @@
 package com.cpt.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Message {
     private Long id;
@@ -20,8 +19,10 @@ public class Message {
 
     private Date createTime;
 
+    private Byte isRead;
+
     private Boolean isDeleted;
-    
+
     public Long getId() {
         return id;
     }
@@ -86,6 +87,14 @@ public class Message {
         this.createTime = createTime;
     }
 
+    public Byte getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Byte isRead) {
+        this.isRead = isRead;
+    }
+
     public Boolean getIsDeleted() {
         return isDeleted;
     }
@@ -93,15 +102,4 @@ public class Message {
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
-    
-    private List<Message> replyMessage;
-
-	public List<Message> getReplyMessage() {
-		return replyMessage;
-	}
-
-	public void setReplyMessage(List<Message> replyMessage) {
-		this.replyMessage = replyMessage;
-	}
-
 }

@@ -13,9 +13,11 @@ import com.cpt.common.PageResult;
 import com.cpt.common.Result;
 import com.cpt.common.ResultCode;
 import com.cpt.common.constant.MessageConstants;
+import com.cpt.common.constant.ReadType;
 import com.cpt.mapper.MessageMapper;
 import com.cpt.mapper.ext.MessageExtMapper;
 import com.cpt.model.Message;
+import com.cpt.req.MessageReq;
 import com.cpt.service.MessageService;
 import com.cpt.service.UserCommonService;
 import com.github.pagehelper.Page;
@@ -42,12 +44,12 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public PageResult<Message> pageList(PageParam pageParam) {
+	public PageResult<Message> pageList(MessageReq pageParam) {
 		//分页
-		pageParam.setRows(3);
         PageHelper.startPage(pageParam.getPage(), pageParam.getRows());
         //当前页列表
-        List<Message> messages = messageExtMapper.pageList();
+        pageParam.setReplyId(userCommonService.getUserId());
+        List<Message> messages = messageExtMapper.pageList(pageParam);
         //构造分页结果
         PageResult<Message> pageResult = PageResult.newPageResult(messages, ((Page<Message>)messages).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
@@ -61,13 +63,20 @@ public class MessageServiceImpl implements MessageService {
 		message.setUser(userCommonService.getUser().getName());
 		message.setUserId(userCommonService.getUserId());
 		if(message.getId()==null){
-			//判断登录名是否重复
 			return Result.newResult(this.insert(message));
 		}else{
 			return Result.newResult(this.update(message));
 		}
 	}
 
+	@Override
+	public Result<Integer> read(Long id) {
+		Message message = new Message();
+		message.setId(id);
+		message.setIsRead(ReadType.READ.getKey());
+		return Result.newResult(this.update(message));
+	}
+	
 	@Override
 	public Result<Integer> delete(Long id) {
 		return  Result.newResult(messageMapper.deleteByPrimaryKey(id));

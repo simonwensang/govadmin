@@ -10,43 +10,28 @@
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_read" jdbcType="TINYINT" property="isRead" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
-     <collection property="replyMessage" ofType="com.cpt.model.Message">
-          <id column="reply_id" jdbcType="BIGINT" property="id" />
-   		  <result column="reply_content" jdbcType="VARCHAR" property="content" />
-    	  <result column="reply_user" jdbcType="VARCHAR" property="user" />
-    	  <result column="reply_user_id" jdbcType="BIGINT" property="userId" />
-   		  <result column="reply_create_time" jdbcType="TIMESTAMP" property="createTime" />
-      </collection>
   </resultMap>
   
-  <resultMap id="PageResultMap" type="com.cpt.model.Message">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="subject" jdbcType="VARCHAR" property="subject" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="reply_id" jdbcType="BIGINT" property="replyId" />
-    <result column="user" jdbcType="VARCHAR" property="user" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
-     <collection property="replyMessage"   column="id"                       
-            select="selectByReplyId" />
-  </resultMap>
-   
   <sql id="Base_Column_List">
     id, title, subject, content, reply_id, user, user_id, create_time, is_deleted
   </sql>
   
-   <select id="pageList"   resultMap="PageResultMap">
+   <select id="pageList"   resultMap="BaseResultMap" parameterType="com.cpt.req.MessageReq">
     select 
      a.* 
     from t_message a  
-     where a.is_deleted=0 AND a.`reply_id` IS NULL
+     <where>
+    	 a.is_deleted=0 
+   	  	 <if test="replyId != null">
+             AND a.reply_id=#{replyId}
+         </if>
+     </where> 
      order by a.create_time desc
   </select> 
-  
-   <select id="selectByReplyId"   resultMap="PageResultMap">
+ 
+   <select id="selectByReplyId"   resultMap="BaseResultMap">
     select 
      a.* 
     from   t_message a

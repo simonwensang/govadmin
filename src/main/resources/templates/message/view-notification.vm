@@ -64,60 +64,20 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
+												#foreach($message in $result.rows)
                                                 <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
+                                                    <td>$dateTimeUtil.format($!{message.createTime},'yyyy-MM-dd HH:mm:ss')</td>
+                                                    <td>$!{message.user}</td>
+                                                    <td>$!{message.content}</td>
+                                                    <td>
+														#if ($!{message.isRead}==0)
+    													<a class="delete" href="javascript:void(0)" data-id="$!{message.id}">未读</a>
+														#else
+    														 已读
+    													#end
+													</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the sd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the asd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the asd</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2017/05/23 18:20</td>
-                                                    <td>大小王</td>
-                                                    <td>waht the 23</td>
-                                                    <td><a class="delete" href="javascript:void(0)" data-id="1">已读</a></td>
-                                                </tr>
+                                                #end
                                                 </tbody>
                                             </table>
                                         </div>
@@ -125,36 +85,23 @@
                                         <div style="text-align: center;">
                                             <ul class="pagination">
                                                 <li class="disabled">
-                                                    <a href="#">
+                                                      <a href="/message/view?page=$!{result.pre}">
                                                         <i class="icon-double-angle-left"></i>
-                                                    </a>
+													  </a>
                                                 </li>
 
-                                                <li class="active">
-                                                    <a href="#">1</a>
-                                                </li>
-
+                                                 #foreach($pag in [1..$result.total])
+                								 <li 
+                									#if($result.page==$!{pag})
+                									class="active" 
+                									#end
+                								 ><a href="/message/view?page=$!{pag}">$!{pag}</a></li>
+                								 #end
                                                 <li>
-                                                    <a href="#">2</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">3</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">4</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">5</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
+                                                    <a href="/message/view?page=$!{result.next}">
                                                         <i class="icon-double-angle-right"></i>
-                                                    </a>
-                                                </li>
+                                                   </a>
+                                                </li> 
                                             </ul>
                                         </div>
                                     </div>
@@ -187,30 +134,31 @@
 <script>
     $(function () {
 
-        laydate({
-            elem: '#start_date',
-            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
-            festival: true, //显示节日,
-            istime: false, //是否开启时间选择
-            choose: function (datas) { //选择日期完毕的回调
-//                alert('得到：' + datas);
-            }
-        });
-
-        laydate({
-            elem: '#end_date',
-            format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
-            festival: true, //显示节日,
-            istime: false, //是否开启时间选择
-            choose: function (datas) { //选择日期完毕的回调
-//                alert('得到：' + datas);
-            }
-        });
-
         $('#sample-table-1').on('click', '.delete', function () {
-            var id = $(this).data('id');
-            alert(id);
+		var id = $(this).data('id');
+			alert(id);
             // TODO ajax删除当前的行
+			 $.ajax({
+                type: "post",
+                url: '/message/read',
+                data: {
+                   id:id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
         });
     })
     ;
