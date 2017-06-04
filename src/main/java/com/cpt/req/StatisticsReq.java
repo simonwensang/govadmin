@@ -4,12 +4,14 @@ import java.util.Date;
 
 import lombok.Data;
 
-@Data
-public class StatisticsReq {
+import com.cpt.common.PageParam;
 
-	private Date startTime;
+@Data
+public class StatisticsReq extends PageParam{
+
+	private String startTime;
 	
-	private Date endTime;
+	private String endTime;
 	
 	private Integer style;//1day 2week 3month 4 season 5year
 	

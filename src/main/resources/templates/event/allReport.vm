@@ -67,11 +67,15 @@
                                 <div class="col-sm-2">
                                     <input type="text" class="col-sm-12">
                                 </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 网格员 </label>
+                                <label class="col-sm-1 control-label no-padding-right"> 审核人 </label>
                                 <div class="col-sm-2">
                                     <input type="text" class="col-sm-12">
                                 </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 网格员 </label>
+                                <label class="col-sm-1 control-label no-padding-right"> 提报人</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="col-sm-12">
+                                </div>
+                                <label class="col-sm-1 control-label no-padding-right"> 派遣人</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="col-sm-12">
                                 </div>

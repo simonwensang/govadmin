@@ -43,21 +43,22 @@
                         <!-- PAGE CONTENT BEGINS -->
 
                         <div class="row form-horizontal">
+                         <form  role="form" id="searchForm"  method="get" action="/user/list">
                             <div class="form-group" style="max-width: 1100px;">
                                 <label class="col-sm-1 control-label no-padding-right"> 用户名 </label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12">
+                                    <input type="text" class="col-sm-12" name="account">
                                 </div>
                                 <label class="col-sm-1 control-label no-padding-right"> 真实姓名 </label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12">
+                                    <input type="text" class="col-sm-12" name="name">
                                 </div>
                                 <label class="col-sm-1 control-label no-padding-right"> 手机号 </label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12">
+                                    <input type="text" class="col-sm-12" name="mobile">
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="button" class="btn btn-sm btn-primary" style="width: 100px;margin-right: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-primary" style="width: 100px;margin-right: 10px;">
                                         查询
                                         <i class="icon-search bigger-110"></i>
                                     </button>
@@ -66,23 +67,24 @@
                             <div class="form-group" style="max-width: 1100px;">
                                 <label class="col-sm-1 control-label no-padding-right"> </label>
                                 <div class="col-sm-2">
-                                    <select class="form-control">
-                                        <option value="AL">全部状态</option>
-                                        <option value="AL2">一般</option>
-                                        <option value="AK">严重</option>
-                                        <option value="AZ">重大</option>
+                                    <select class="form-control" name="isDeleted">
+                                    	<option value="">全部状态</option>
+                                        <option value="0">待审核</option>
+                                        <option value="1">正常</option>
+                                        <option value="2">禁用</option>
                                     </select>
                                 </div>
                                 <label class="col-sm-1 control-label no-padding-right"> </label>
                                 <div class="col-sm-2">
-                                    <select class="form-control">
-                                        <option value="AL">全部权限</option>
-                                        <option value="AL2">一般</option>
-                                        <option value="AK">严重</option>
-                                        <option value="AZ">重大</option>
+                                    <select class="form-control" name="roleId">
+                                    	<option value="">全部权限</option>
+                                    	#foreach($role in $roles)
+                                        <option value="$!{role.id}">$!{role.roleName}</option>
+                                        #end
                                     </select>
                                 </div>
                             </div>
+                            </form>
                         </div>
 
                         <div class="row">
@@ -102,149 +104,36 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        #foreach($user in $result.rows)
                                         <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
+                                            <td>$!{user.id}</td>
+                                            <td>$!{user.account}</td>
+                                            <td>$!{user.name}</td>
+                                            <td>$!{user.imobiled}</td>
+                                            <td>$!{user.department}</td>
+                                            <td>$!{user.roleName}</td>
                                             <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
+                                            	#if ($!{user.isDeleted}==0)
+													待审核 
+												#elseif	($!{user.isDeleted}==1)
+													正常
+												#elseif	($!{user.isDeleted}==2)
+													禁用
+												#end
+                                            </td>
+                                            <td>
+                                            	#if ($!{user.isDeleted}==0)
+													<a href="javascript:void(0)" onclick="pass($!{user.id})" >审核通过</a>
+													<a href="javascript:void(0)" onclick="refuse($!{user.id})">拒绝</a>
+												#elseif	($!{user.isDeleted}==1)
+													<a href="javascript:void(0)" onclick="disable($!{user.id})"  >禁用</a>
+													<a href="javascript:void(0)" class="ml-10" onclick="changePermission($!{user.id})">修改权限</a>
+												#elseif	($!{user.isDeleted}==2)
+													<a href="javascript:void(0)" onclick="recover($!{user.id})"  >启用</a>
+												#end
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">100001</a></td>
-                                            <td>zhangsdf</td>
-                                            <td>张希</td>
-                                            <td>18652458756</td>
-                                            <td>王村一队</td>
-                                            <td>镇级网格管理员</td>
-                                            <td>正常</td>
-                                            <td>
-                                                <a href="javascript:void(0)" >禁用</a>
-                                                <a href="javascript:void(0)" class="ml-10" onclick="changePermission()">修改权限</a>
-                                            </td>
-                                        </tr>
+                                          #end
                                         </tbody>
                                     </table>
                                 </div><!-- /.table-responsive -->
@@ -253,34 +142,22 @@
 
                         <div style="text-align: center;">
                             <ul class="pagination">
-                                <li class="disabled">
-                                    <a href="#">
+                                 <li  >
+                                    <a href="/user/list?page=$!{result.pre}">
                                         <i class="icon-double-angle-left"></i>
                                     </a>
                                 </li>
-
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-
+								
+								 #foreach($page in [1..$result.total])
+								 <li 
+									#if($result.page==$!{page})
+									class="active" 
+									#end
+								 ><a href="/user/list?page=$!{page}">$!{page}</a></li>
+								 #end
+ 
                                 <li>
-                                    <a href="#">2</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
+                                    <a href="/user/list?page=$!{result.next}">
                                         <i class="icon-double-angle-right"></i>
                                     </a>
                                 </li>
@@ -307,28 +184,26 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             <span class="white">×</span>
                         </button>
-                        <span class="user-reg-title">用户注册</span>
+                        <span class="user-reg-title">修改权限</span>
                     </div>
                 </div>
 
                 <div class="modal-body no-padding">
+                  <form  role="form" id="roleForm"  method="post" action="/user/role">
                     <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
-                        <div class="well well-sm" style="margin-left: 20px;margin-bottom: 10px;width: 245px">用户名：woca</div>
-                        <div class="well well-sm" style="margin-left: 20px;margin-bottom: 10px;width: 245px">真实姓名：尼玛</div>
-                        <div class="well well-sm" style="margin-left: 20px;margin-bottom: 10px;width: 245px">用户名：woca</div>
-                        <div class="well well-sm" style="margin-left: 20px;margin-bottom: 10px;width: 245px">当前权限：村级网络人员</div>
                         <div class="row">
                             <div class="ml-30" style="width: 245px;margin-bottom: 10px">
-                                <select class="form-control">
+                           		<input type="hidden" id="userId" class="col-sm-12" name="id">
+                                <select class="form-control" name="roleId">
                                     <option value="AL">请选择新的权限</option>
-                                    <option value="AL2">一般</option>
-                                    <option value="AK">严重</option>
-                                    <option value="AZ">重大</option>
+                                    #foreach($role in $roles)
+                                    <option value="$!{role.id}">$!{role.roleName}</option>
+                                    #end
                                 </select>
                             </div>
                         </div>
                         <div class="row" style="text-align: center">
-                                <a id="reg_submit" class="btn btn-sm btn-info " type="button" style="margin-right: 8px;">
+                                <a id="reg_submit" class="btn btn-sm btn-info " onclick="commit()" type="button" style="margin-right: 8px;">
                                     <i class="icon-ok bigger-110"></i>提交
                                 </a>
                                 <a class="btn btn-sm btn-danger" data-dismiss="modal" style="margin-right: 10px">
@@ -336,6 +211,7 @@
                                 </a>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -347,8 +223,66 @@
 <script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
 <script>
-    function changePermission() {
+
+	 function commit(){
+			 confirmShows("确认提交？", function () {
+			  	 $("#roleForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					 alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                });
+			   });
+		}
+	
+    function changePermission(id) {
         $('#change_permission').modal('show');
+       $('#userId').val(id);
+    }
+    
+    function pass(id) {
+     	confirmShows("确认通过？", function () {
+    		opt(id,1) ;
+    	});
+    }
+	function refuse(id) {
+		confirmShows("确认拒绝？", function () {
+    		opt(id,3) ;
+    	});
+    } 
+	function disable(id)  {
+		confirmShows("确认禁用？", function () {
+    		opt(id,2) ;
+    	});
+    }
+	function recover(id)  {
+		confirmShows("确认启用？", function () {
+    		opt(id,1) ;
+    	});
+    }
+    
+    function opt(id,isDeleted)  {
+     $.ajax({
+                type: "post",
+                url: '/user/opt',
+                data: {
+                   id:id,isDeleted:isDeleted
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
     }
 </script>
 </body>

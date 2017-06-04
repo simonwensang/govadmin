@@ -91,21 +91,22 @@
                         <div class="alert alert-warning">
                             提示：注册信息必须是真实信息，否则上报事件无法及时何时是否属实，可能导致处置延迟
                         </div>
+                        <form  role="form" id="createForm"  method="post" action="/regist">
                         <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="input-group">
 								        <span class="input-group-addon">用户名</span>
-                                        <input class="form-control" type="text" name="">
+                                        <input class="form-control" type="text" name="account">
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
 								        <span class="input-group-addon">责任部门</span>
-                                        <select class="form-control" id="">
-                                            <option value="AZ">A部门</option>
-                                            <option value="AR">B部门</option>
-                                            <option value="CA">C部门</option>
+                                        <select class="form-control" id="" name="departmentId">
+                                            <option value="1">镇政府</option>
+                                            <option value="2">乡政府</option>
+                                            <option value="3">村政府</option>
                                         </select>
                                     </div>
                                 </div>
@@ -114,13 +115,13 @@
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">密码</span>
-                                        <input class="form-control" type="text" name="">
+                                        <input class="form-control" type="text" name="password">
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">真实姓名</span>
-                                        <input class="form-control" type="text" name="">
+                                        <input class="form-control" type="text" name="name">
                                     </div>
                                 </div>
                             </div>
@@ -128,13 +129,13 @@
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">确认密码</span>
-                                        <input class="form-control" type="text" name="">
+                                        <input class="form-control" type="text" name="confirmPassword">
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">手机号</span>
-                                        <input class="form-control" type="text" name="">
+                                        <input class="form-control" type="text" name="mobile">
                                     </div>
                                 </div>
                             </div>
@@ -155,6 +156,7 @@
                                     </a>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -167,6 +169,9 @@
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/msgbox.js"></script>
 <script src="assets/js/alert.min.js"></script>
+    <script src="/js/common.js"></script>
+	<script src="/js/urms.common.js"></script>
+	<script src="/js/jquery.form.js"></script>
 <script>
     $('#register').on('click', function () {
         $('#modal_login').modal('show');
@@ -174,24 +179,32 @@
 
     $('#reg_submit').on('click',function () {
         //TODO 提交表单
-
-        /**
-         * 第一个参数：要提示的信息
-         * 第二个参数：图标类型:[1:提醒,4:成功,5:错误,6:加载中]
-         * 第三个参数：多少毫秒后关闭
-         */
-        // 表单错误搞这个
-        CHE.msgbox.show('用户名已注册', 5, 2000);
-
-
-        // 提交成功搞这个
-        CHE.alert({
-            title: "注册申请已提交",
-            text: '<p>注册申请已提交</p><p>请等待管理员的审核</p><p>审核通过后即可登录系统</p>',
-            html: true,
-            showConfirmButton: true,
-            type:'success'
-        });
+ 		confirmShows("确认提交？", function () {
+			  	 $("#createForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					 alertShow(data.msg, function () {
+					 	 if(data.code==200){
+					 	   // 提交成功搞这个
+					        CHE.alert({
+					            title: "注册申请已提交",
+					            text: '<p>注册申请已提交</p><p>请等待管理员的审核</p><p>审核通过后即可登录系统</p>',
+					            html: true,
+					            showConfirmButton: true,
+					            type:'success'
+					        });
+					 	 }else{
+					 	   /**
+					         * 第一个参数：要提示的信息
+					         * 第二个参数：图标类型:[1:提醒,4:成功,5:错误,6:加载中]
+					         * 第三个参数：多少毫秒后关闭
+					         */
+					        // 表单错误搞这个
+					        CHE.msgbox.show(data.msg, 5, 2000);
+					 	 
+					 	 }
+                    });
+                });
+			   });
 
     });
 

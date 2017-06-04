@@ -27,13 +27,15 @@ public class UserController {
 	private  OrganizationService organizationService;
 	
 	@RequestMapping("/list")
-	public ModelAndView list (ModelAndView modelMap){
-		//modelMap.addObject("zNode",organizationService.getTreeNode());
+	public ModelAndView list (ModelAndView modelMap,UserQuery userQuery){
+		modelMap.addObject("roles",userService.getRoleList());
+		modelMap.addObject("result",userService.query(userQuery));
 		modelMap.setViewName("user/user-management");
 		return modelMap;
 	}
 	@RequestMapping("/account")
-	public ModelAndView account (ModelAndView modelMap,Long id){
+	public ModelAndView account (ModelAndView modelMap){
+		modelMap.addObject("user",userService.getUser());
 		modelMap.setViewName("user/account");
 		return modelMap;
 	}
@@ -46,8 +48,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/pageList", method = RequestMethod.GET)
-    public PageResult<User> pageList(PageParam pageParam, UserQuery userQuery) {
-        return userService.pageList(pageParam, userQuery);
+    public PageResult<User> pageList(UserQuery userQuery) {
+        return userService.pageList(userQuery);
     }
     
     /**
@@ -65,8 +67,8 @@ public class UserController {
     
     @RequestMapping("/query")
 	@ResponseBody
-	public PageResult<User> query(PageParam pageParam,UserQuery userQuery){
-		return userService.query(pageParam, userQuery);
+	public PageResult<User> query(UserQuery userQuery){
+		return userService.query( userQuery);
 	}
     /**
      * 增加或者修改
@@ -81,6 +83,19 @@ public class UserController {
     	return userService.addOrEdit(user);
     }
 	
+    /**
+     *  修改权限
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/role", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> role(UserQuery userQuery) {
+    	return userService.role(userQuery);
+    }
+    
 	@RequestMapping("/detail")
 	public ModelAndView detail (ModelAndView modelMap,Long id){
 		if(id!=null){

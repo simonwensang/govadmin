@@ -1,5 +1,7 @@
 package com.cpt.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,14 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cpt.common.PageParam;
-import com.cpt.common.constant.ProjectStatus;
+import com.cpt.common.Result;
+import com.cpt.common.constant.Constants;
 import com.cpt.config.shiro.ShiroAuthorizationHelper;
+import com.cpt.model.Organization;
 import com.cpt.model.User;
-import com.cpt.req.ProjectReq;
 import com.cpt.service.MessageService;
-import com.cpt.service.ProjectService;
+import com.cpt.service.OrganizationService;
 import com.cpt.service.UserCommonService;
 import com.cpt.service.UserService;
 
@@ -37,6 +40,21 @@ public class LoginController {
 	private MessageService messageService;
 	@Resource
 	private ShiroAuthorizationHelper shiroAuthorizationHelper;
+	
+	@Autowired 
+	private  OrganizationService organizationService;
+	
+	@RequestMapping("/queryOrganization")
+	@ResponseBody
+	public List<Organization> queryOrganization(){
+		return organizationService.select();
+	}
+	
+	@RequestMapping({"/regist"})
+	@ResponseBody
+	public Result<Integer>  regist(ModelMap map ,User user){
+    	return userService.addOrEdit(user);
+	}
 	
 	@RequestMapping({"/login"})
 	public String login(ModelMap map){

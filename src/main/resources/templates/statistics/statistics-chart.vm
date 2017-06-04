@@ -40,27 +40,31 @@
             </div>
 
             <div class="page-content">
+           
                 <div class="form-group" style="max-width: 1100px;">
+                 <form  role="form" id="searchForm"  method="get" action="/statistics/chart">
                     <label class="pull-left control-label pt-4 ml-20"> 上报开始时间 </label>
                     <div class="pull-left ml-10">
                         <div class="input-group">
-                            <input class="" id="start_date" type="text">
+                            <input class="" id="start_date" type="text" name="startTime" >
                             <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                         </div>
                     </div>
                     <label class="pull-left control-label pt-4 ml-20"> 上报截止时间 </label>
                     <div class="pull-left ml-10">
                         <div class="input-group">
-                            <input class="" id="end_date" type="text">
+                            <input class="" id="end_date" type="text" name="endTime" >
                             <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                         </div>
                     </div>
                     <div class="pull-left"></div>
-                    <button type="button" class="btn btn-sm btn-primary ml-20" style="width: 100px;margin-right: 10px;">
+                    <button type="submit" class="btn btn-sm btn-primary ml-20" style="width: 100px;margin-right: 10px;">
                         查询
                         <i class="icon-search bigger-110"></i>
                     </button>
+                     </form>
                 </div>
+               
                 <div class="qsxz">
                     <label class="pull-left ml-20">快速选择：</label>
                     <div class="pull-left" id="quick_sel">
@@ -97,12 +101,6 @@
 
 </div>
 
-<script src="assets/js/jquery-1.10.2.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/ace.min.js"></script>
-<script src="assets/js/laydate.js"></script>
-<script src="assets/js/echarts.common.min.js"></script>
-
 <script>
     $(function () {
         laydate({
@@ -133,17 +131,12 @@
         var jcdjChart = echarts.init(document.getElementById('jcdj_chart'));
         var wmfwChart = echarts.init(document.getElementById('wmfw_chart'));
         var qtfwChart = echarts.init(document.getElementById('qtfw_chart'));
-		
-		var arrayChart = new Array(zaffChart,jzglChart,mdjfChart,jcdjChart,wmfwChart,qtfwChart);
-		 
-		var jsonobj=eval('('+$!{statistics}+')');
-		
-		for(var i=0;i<jsonobj.length;i++){  
+	 
             // 指定图表的配置项和数据
-        	var option = {
+        	var zaffoption = {
             title: {
                 text: '提报类型：治安防范',
-                subtext: '2017/4/12 ~ 2017/5/20',
+                subtext: ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
                 x: 'center'
             },
             tooltip: {
@@ -161,7 +154,7 @@
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: jsonobj[i]
+                    data: $!{statistics.publicSecurity.value}, 
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -172,16 +165,173 @@
                         }
                     ]
                 };
-			arrayChart[i].setOption(option);
-        }  
-       
+		 var jzgloption = {
+            title: {
+                text: '提报类型：集镇管理',
+                subtext: ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: $!{statistics.townManagement.value}, 
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+       var mdjfoption = {
+            title: {
+                text: '提报类型：矛盾纠纷',
+                subtext: ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: $!{statistics.dispute.value} ,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+         var jcdjoption = {
+            title: {
+                text: '提报类型：基层党建',
+                subtext:  ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: $!{statistics.partyBasicOrganization.value}, 
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+          var wmfwoption = {
+            title: {
+                text: '提报类型：民生服务',
+                subtext:  ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: $!{statistics.livelihoodServices.value} ,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+          var  qtfwoption = {
+            title: {
+                text: '提报类型：其他服务',
+                subtext: ' $!{statistics.publicSecurity.startTime} ~  $!{statistics.publicSecurity.endTime}',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已办结', '未办结']
+            },
+            series: [
+                {
+                    name: '办结情况',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: $!{statistics.otherServices.value} ,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };      
         // 使用刚指定的配置项和数据显示图表。
-        zaffChart.setOption(option);
-        jzglChart.setOption(option);
-        mdjfChart.setOption(option);
-        jcdjChart.setOption(option);
-        wmfwChart.setOption(option);
-        qtfwChart.setOption(option);
+        zaffChart.setOption(zaffoption);
+        jzglChart.setOption(jzgloption);
+        mdjfChart.setOption(mdjfoption);
+        jcdjChart.setOption(jcdjoption);
+        wmfwChart.setOption(wmfwoption);
+        qtfwChart.setOption(qtfwoption);
 
         // 快速选择
         $('#quick_sel').on('click', 'a', function () {
@@ -211,12 +361,14 @@
                     break;
                 case 5:
                     // 本年
-                    startDate = nowYear + '/01/01';
-                    endDate = nowYear + '/12/31';
+                    startDate = nowYear + '-01-01';
+                    endDate = nowYear + '-12-31';
                     break;
             }
-            alert(startDate + ' - ' + endDate);
             //TODO 用时间阶段异步查询展示图表
+             $('#start_date').val(startDate);
+             $('#end_date').val(endDate);
+             $("#searchForm").submit();
         });
     });
 
@@ -308,6 +460,7 @@
     }
 
     console.log(nowDay)
+    
 </script>
 
 </body>

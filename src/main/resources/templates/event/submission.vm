@@ -85,8 +85,8 @@
                                             <div class="col-sm-2">
                                                 <select class="width-90 chosen-select" name="communityId">
                                                     <option value="">&nbsp;</option>
-													   #foreach($organization in $organizationList)
-														<option value="$!{organization.id}">$!{organization.name}</option>
+													   #foreach($address in $addressList)
+														<option value="$!{address.id}">$!{address.name}</option>
 														#end
                                                 </select>
                                             </div>
@@ -341,7 +341,6 @@
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 
-					alert(data.msg);
 					 alertShow(data.msg, function () {
 					 	location.reload();
                     });

@@ -95,16 +95,24 @@
   </insert>
   
   <select id="query" parameterType="com.cpt.req.UserQuery"  resultMap="BaseResultMap">
-    select 
-     id,name,department,department_id
-    from t_user
+     SELECT a.* ,c.`role_name`,c.`role_code`
+    FROM t_user a JOIN t_user_role b ON a.id = b.user_id 
+	JOIN t_role c ON c.id = b.role_id 
     <where> 
-     	is_deleted=0
-	    <if test="orgId != null" >
-	      	AND   department_id = #{orgId,jdbcType=BIGINT}
-	    </if>
+	    <if test="account != null and account != ''">
+              AND  a.account LIKE concat('%',#{account},'%')
+        </if>
 	    <if test="name != null and name != ''">
-            AND  name LIKE concat('%',#{name},'%')
+            AND  a.name LIKE concat('%',#{name},'%')
+        </if>
+         <if test="mobile != null and mobile != ''">
+            AND  a.mobile LIKE concat('%',#{mobile},'%')
+        </if>
+        <if test="isDeleted != null" >
+            AND  a.is_deleted  =#{isDeleted}
+        </if>
+        <if test="roleId != null" >
+            AND  a.role_id  =#{roleId}
         </if>
     </where>
   </select>

@@ -84,7 +84,7 @@
 
                                         <div style="text-align: center;">
                                             <ul class="pagination">
-                                                <li class="disabled">
+                                                <li>
                                                       <a href="/message/view?page=$!{result.pre}">
                                                         <i class="icon-double-angle-left"></i>
 													  </a>
@@ -136,7 +136,6 @@
 
         $('#sample-table-1').on('click', '.delete', function () {
 		var id = $(this).data('id');
-			alert(id);
             // TODO ajax删除当前的行
 			 $.ajax({
                 type: "post",

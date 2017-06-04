@@ -21,12 +21,12 @@ import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
 import com.cpt.mapper.ext.RoleExtMapper;
-import com.cpt.model.Organization;
+import com.cpt.model.Address;
 import com.cpt.model.Role;
 import com.cpt.req.EventReq;
+import com.cpt.service.AddressService;
 import com.cpt.service.CustomerService;
 import com.cpt.service.EventService;
-import com.cpt.service.OrganizationService;
 import com.cpt.service.UserCommonService;
 import com.cpt.vo.EnumBean;
 import com.cpt.vo.EventVo;
@@ -44,7 +44,7 @@ public class EventController {
 	private CustomerService customerService;
 	
 	@Autowired 
-	private  OrganizationService organizationService;
+	private  AddressService addressService;
 	
 	@Autowired 
 	private UserCommonService userCommonService ;
@@ -176,10 +176,10 @@ public class EventController {
      */
     @RequestMapping(value = "/submission", method = RequestMethod.GET)
     public ModelAndView submission(ModelAndView mav, Byte eventType) {
-    	List<Organization> organizationList = organizationService.selectByLevel(Constants.LEVEL_2);
+    	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	eventType = null==eventType?1:eventType;
     	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(eventType)));
-    	mav.addObject("organizationList", organizationList);
+    	mav.addObject("addressList", addressList);
         mav.setViewName("event/submission");
         mav.addObject("user",userCommonService.getUser() );
         return mav;

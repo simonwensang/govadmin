@@ -48,11 +48,11 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="form-group" style="margin-bottom: 0;">
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px">用户名：woca</div>
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">真实姓名：代笔</div>
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">所在责能部门：王村一队</div>
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">手机号：18854658987</div>
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">用户权限：村级网格人员</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px">用户名：$!{user.account}</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">真实姓名：$!{user.name}</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">所在责能部门：$!{user.department}</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">手机号：$!{user.mobile}</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">用户权限：$!{user.roleName}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -66,24 +66,27 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main">
+                                    <form  role="form" id="mobileForm"  method="post" action="/user/addOrEdit">
+                                   		<input type="hidden" id="userId" class="col-sm-12" name="id" value="$!{user.id}">
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label no-padding-right"> 新手机号 </label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="col-sm-12">
+                                                <input type="text" class="col-sm-12" name="mobile">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label no-padding-right"> 再次输入 </label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="col-sm-12">
+                                                <input type="text" class="col-sm-12" name="confirmMobile">
                                             </div>
                                             <div class="col-sm-2">
-                                                <button class="btn btn-sm btn-primary">
+                                                <a class="btn btn-sm btn-primary"  onclick="commit()">
                                                     <i class="icon-ok"></i>
                                                     确认
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -97,24 +100,27 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main">
+                                    <form  role="form" id="passwordForm"  method="post" action="/user/addOrEdit">
+                                    	<input type="hidden" id="userId" class="col-sm-12" name="id" value="$!{user.id}">
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label no-padding-right"> 修改密码 </label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="col-sm-12">
+                                                <input type="text" class="col-sm-12" name="password">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label no-padding-right"> 确认密码 </label>
                                             <div class="col-sm-2">
-                                                <input type="text" class="col-sm-12">
+                                                <input type="text" class="col-sm-12" name="confirmPassword">
                                             </div>
                                             <div class="col-sm-2">
-                                                <button class="btn btn-sm btn-primary">
+                                                <a class="btn btn-sm btn-primary" onclick="commitPassword()">
                                                     <i class="icon-ok"></i>
                                                     确认
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -131,5 +137,31 @@
 <script src="assets/js/jquery-1.10.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
+<script>
+
+	 function commit(){
+			 confirmShows("确认提交？", function () {
+			  	 $("#mobileForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					 alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                });
+			   });
+		}
+		
+		
+		 function commitPassword(){
+			 confirmShows("确认提交？", function () {
+			  	 $("#passwordForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					 alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                });
+			   });
+		}
+</script>
+		
 </body>
 </html>

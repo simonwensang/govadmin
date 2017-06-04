@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cpt.common.PageParam;
 import com.cpt.common.PageResult;
 import com.cpt.common.Result;
 import com.cpt.common.ResultCode;
@@ -19,14 +18,19 @@ import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.UserIdentity;
 import com.cpt.convertor.UserConvertor;
 import com.cpt.mapper.OrganizationMapper;
+import com.cpt.mapper.RoleMapper;
 import com.cpt.mapper.UserMapper;
 import com.cpt.mapper.UserRoleMapper;
 import com.cpt.mapper.ext.ModuleExtMapper;
+import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.mapper.ext.UserExtMapper;
 import com.cpt.model.Organization;
+import com.cpt.model.Role;
+import com.cpt.model.RoleExample;
 import com.cpt.model.User;
 import com.cpt.model.UserExample;
 import com.cpt.model.UserRole;
+import com.cpt.model.UserRoleExample;
 import com.cpt.req.UserQuery;
 import com.cpt.service.UserCommonService;
 import com.cpt.service.UserService;
@@ -49,12 +53,26 @@ public class UserServiceImpl implements UserService {
 	private ModuleExtMapper moduleExtMapper;
 	@Autowired
 	private UserRoleMapper userRoleMapper;
-	
+	@Autowired
+	private RoleMapper roleMapper;
+	@Autowired
+	private RoleExtMapper roleExtMapper;
 	@Override
 	public User getUser() {
-		User user = userCommonService.getUser();
+		User user = get(userCommonService.getUserId());
 		user.setModules(moduleExtMapper.selectMenuByUserId(user.getId()));
+		List<Role> roles= roleExtMapper.selectByUserId(user.getId());
+		if(!roles.isEmpty()){
+			user.setRoleName(roles.get(0).getRoleName());
+		}
 		return user;
+	}
+
+	@Override
+	public List<Role> getRoleList() {
+		RoleExample example = new RoleExample();
+		List<Role> roles =  roleMapper.selectByExample(example);
+		return roles;
 	}
 
 	@Override
@@ -76,11 +94,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageResult<User> query(PageParam pageParam,UserQuery userQuery) {
+	public PageResult<User> query(UserQuery pageParam) {
 		 //分页
         PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
         //当前页列表
-        List<User> users = userExtMapper.query(userQuery);
+        List<User> users = userExtMapper.query(pageParam);
         //构造分页结果
         PageResult<User> pageResult = PageResult.newPageResult(users, ((Page<User>)users).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
@@ -97,11 +115,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageResult<User> pageList(PageParam pageParam, UserQuery userQuery) {
+	public PageResult<User> pageList(UserQuery pageParam) {
 		 //分页
         PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
         //当前页列表
-        List<User> users = userExtMapper.pageList(userQuery);
+        List<User> users = userExtMapper.pageList(pageParam);
         //构造分页结果
         PageResult<User> pageResult = PageResult.newPageResult(users, ((Page<User>)users).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
@@ -126,6 +144,9 @@ public class UserServiceImpl implements UserService {
 		if(userReq.getId()==null||userReq.getIsDeleted()==null){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
+		if(userReq.getIsDeleted()==3){
+			return new Result<Integer>(this.delete(userReq.getId()));
+		}
 		User user = new User();
 		user.setId(userReq.getId());
 		user.setIsDeleted(userReq.getIsDeleted());
@@ -136,17 +157,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> addOrEdit(User user) {
-		if(StringUtils.isBlank(user.getAccount())
-				||StringUtils.isBlank(user.getPassword())
-				||user.getDepartmentId()==null){
-			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
-		}
-		
-		//查询部门名字
-		Organization organization = organizationMapper.selectByPrimaryKey(user.getDepartmentId());
-		user.setDepartment(organization.getName());
-		
 		if(user.getId()==null){
+			if(StringUtils.isBlank(user.getAccount())
+					||StringUtils.isBlank(user.getPassword())
+					||StringUtils.isBlank(user.getConfirmPassword())
+					||user.getDepartmentId()==null){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+			}
+			if(!user.getPassword().equals(user.getConfirmPassword())){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_PASSWORD_ERROR);
+			}
+			//查询部门名字
+			Organization organization = organizationMapper.selectByPrimaryKey(user.getDepartmentId());
+			user.setDepartment(organization.getName());
 			//判断登录名是否重复
 			UserExample example = new UserExample();
 			UserExample.Criteria criteria = example.createCriteria();
@@ -157,11 +180,34 @@ public class UserServiceImpl implements UserService {
 			}
 			return Result.newResult(this.insert(user));
 		}else{
-			//TODO...
-			return Result.newResult(this.update(user));
+			if( StringUtils.isNotBlank(user.getPassword())&&StringUtils.isNotBlank(user.getConfirmPassword()) ){
+				if(!user.getPassword().equals(user.getConfirmPassword())){
+					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_PASSWORD_ERROR);
+				}
+				return Result.newResult(this.update(user));
+			}else if( StringUtils.isNotBlank(user.getConfirmMobile())&&StringUtils.isNotBlank(user.getMobile()) ){
+				if(!user.getMobile().equals(user.getConfirmMobile())){
+					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_MOBILE_ERROR);
+				}
+				return Result.newResult(this.update(user));
+			}else{
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+			}
 		}
 	
 	}
+	
+	@Override
+	public Result<Integer> role(UserQuery userQuery) {
+		UserRole userRole = new UserRole();
+		userRole.setRoleId(userQuery.getRoleId().longValue());
+		UserRoleExample example = new UserRoleExample();
+		UserRoleExample.Criteria  criteria  = example.createCriteria();
+		criteria.andUserIdEqualTo(userQuery.getId());
+		return  Result.newResult(userRoleMapper.updateByExampleSelective(userRole, example));
+		 
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer insert(User user){
 		//默认角色
@@ -175,5 +221,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer update(User user){
 		return userMapper.updateByPrimaryKeySelective(user);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Integer delete(Long id){
+		return userMapper.deleteByPrimaryKey(id);
 	}
 }

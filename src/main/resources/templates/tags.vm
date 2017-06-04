@@ -15,13 +15,12 @@
 <script src="#springUrl('/assets/js/ace-elements.min.js')"></script>
 <script src="#springUrl('/assets/js/ace.min.js')"></script>	
 <script src="#springUrl('/assets/js/ace-extra.min.js')"></script>
+<script src="#springUrl('/assets/js/echarts.common.min.js')"></script>
 
 <link rel="stylesheet" href="#springUrl('/zTree/css/demo.css')" type="text/css"/>
 <link rel="stylesheet" href="#springUrl('/zTree/css/zTreeStyle/zTreeStyle.css')" type="text/css"/>
 <script type="text/javascript" src="#springUrl('/zTree/js/jquery.ztree.core.js')"></script>
 
-
- 
 <script src="#springUrl('/js/common.js')"></script>
 <script src="#springUrl('/js/calendar.js')"></script>
 <script src="#springUrl('/js/urms.common.js')"></script>
@@ -29,7 +28,6 @@
 <script src="#springUrl('/js/jquery.validate.js')"></script>
 <script src="#springUrl('/js/additional-methods.js')"></script>
 <script src="#springUrl('/js/messages_zh.js')"></script>
-<script src="#springUrl('/js/echarts.common.min.js')"></script>
 <!--select2-->
 <script src="#springUrl('/ace/js/select2.min.js')"></script>
 <!--jquery.form.js-->

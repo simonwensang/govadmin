@@ -7,8 +7,15 @@ import com.cpt.common.PageParam;
 @Data
 public class UserQuery extends PageParam {
 
-	private Long orgId;
+	private Long id;
+	
+	private String account;
 	
 	private String name;
 	
+	private String mobile;
+	
+	private Integer roleId;
+	
+	private Byte isDeleted;
 }

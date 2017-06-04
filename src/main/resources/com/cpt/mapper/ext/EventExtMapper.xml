@@ -88,7 +88,7 @@
           <if test="eventType != null ">
               AND a.event_type = #{eventType} 
           </if>
-          <if test="eventStatus != null ">
+          <if test="eventStatusList != null ">
               AND a.event_status in 
               <foreach collection="eventStatusList" item="item" separator=","  index="index"
 					 open="(" close=")" >

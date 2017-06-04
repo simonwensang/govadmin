@@ -19,6 +19,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	private OrganizationMapper organizationMapper;
 	
 	@Override
+	public List<Organization> select() {
+		OrganizationExample example = new OrganizationExample();
+		return organizationMapper.selectByExample(example);
+	}
+
+	@Override
 	public List<Organization> selectByLevel(Byte level) {
 		OrganizationExample example = new OrganizationExample();
 		OrganizationExample.Criteria criteria =example.createCriteria();

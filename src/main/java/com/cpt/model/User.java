@@ -158,5 +158,25 @@ public class User implements Serializable {
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
 	}
+    
+    private String confirmPassword;
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 	
+	private String confirmMobile;
+
+	public String getConfirmMobile() {
+		return confirmMobile;
+	}
+
+	public void setConfirmMobile(String confirmMobile) {
+		this.confirmMobile = confirmMobile;
+	}
+	  
 }
