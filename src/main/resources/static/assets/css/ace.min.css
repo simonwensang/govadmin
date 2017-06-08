@@ -2056,7 +2056,7 @@ blockquote, blockquote.pull-right {
     position: relative;
     border: 1px solid #ccc;
     border-width: 0 1px 0 0;
-    background-color: #f2f2f2
+    background-color: #438eb9;
 }
 
 .sidebar:before {
@@ -2067,7 +2067,7 @@ blockquote, blockquote.pull-right {
     bottom: 0;
     top: 0;
     z-index: -1;
-    background-color: #f2f2f2;
+    background-color: #438eb9;
     border: 1px solid #ccc;
     border-width: 0 1px 0 0
 }
@@ -2107,13 +2107,13 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     padding: 0;
     margin: 0;
     border: 0;
-    border-top: 1px solid #fcfcfc;
-    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #91b5b3;
+    /*border-bottom: 1px solid #93b8c3;*/
     position: relative
 }
 
 .nav-list > li:first-child {
-    border-top: 0
+    /*border-top: 0*/
 }
 
 .nav-list li > a:focus {
@@ -2125,11 +2125,12 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     height: 38px;
     line-height: 36px;
     padding: 0 16px 0 7px;
-    background-color: #f9f9f9;
+    background-color: #438eb9;
     color: #585858;
     text-shadow: none !important;
-    font-size: 13px;
-    text-decoration: none
+    font-size: 15px;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 .nav-list > li > a > span {
@@ -2180,7 +2181,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     right: 11px;
     top: 11px;
     padding: 0;
-    color: #666
+    color: #ffffff;
 }
 
 .nav-list > li a:hover > .arrow, .nav-list > li.active > a > .arrow, .nav-list > li.open > a > .arrow {
@@ -2261,7 +2262,8 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     color: #616161;
     padding: 7px 0 9px 37px;
     margin: 0;
-    border-top: 1px dotted #e4e4e4
+    border-top: 1px dotted #e4e4e4;
+    font-size: 15px;
 }
 
 .nav-list > li .submenu > li > a:focus {
@@ -16434,4 +16436,12 @@ body.stop-scrolling {
 
 .sweet-alert .sa-icon.sa-success .sa-line.sa-long {
     -ms-transform: rotate(-45deg) \9;
+}
+
+.home-logo{
+    background: url("../../img/index/logo4.png") no-repeat center;
+    width: 75px;
+    height: 75px;
+    display: inline-block;
+    vertical-align: middle;
 }

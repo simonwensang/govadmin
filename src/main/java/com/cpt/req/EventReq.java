@@ -91,4 +91,8 @@ public class EventReq extends PageParam{
 	    private Integer userId;
 	    
 	    private List<Byte> eventStatusList;
+	    
+	    private String reportTimeStart;
+	    
+	    private String reportTimeEnd;
 }

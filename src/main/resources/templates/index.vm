@@ -10,7 +10,7 @@
 <body> 
 <div class="head">
     <div class="container">
-        <div class="p1">“平安汊涧”大联动网格管理系统</div>
+        <div class="p1"></div>
         <div class="p2">
             <a href="javascript:void(0)" class="active">首页</a>
             <a href="/event/submission?eventType=1">治安防范</a>
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="beian">Copyright © 2017 www.lvmama.com. 上海景域文化传播股份有限公司版权所有　沪ICP备13011172号-3　增值电信业务经营许可证编号：沪B2-20100030</div>
+        <div class="beian">Copyright © 2017 www.njxinnuomedia.com. 南京心诺文化传媒有限公司所有　苏ICP备16002202号-1</div>
     </div>
   <div class="pops">
         <div id="modal_login" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
@@ -104,9 +104,10 @@
                                     <div class="input-group">
 								        <span class="input-group-addon">责任部门</span>
                                         <select class="form-control" id="" name="departmentId">
-                                            <option value="1">镇政府</option>
-                                            <option value="2">乡政府</option>
-                                            <option value="3">村政府</option>
+											<option value=""></option>
+                                             #foreach($organization in $organizationList)
+    											<option value="$!{organization.id}">$!{organization.name}</option>
+    										 #end
                                         </select>
                                     </div>
                                 </div>

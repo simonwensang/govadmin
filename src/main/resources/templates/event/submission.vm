@@ -114,7 +114,7 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="form-group">
-                                            <label class="col-sm-1 control-label no-padding-right"> 述求人 </label>
+                                            <label class="col-sm-1 control-label no-padding-right"> 诉求人 </label>
                                             <div class="col-sm-2">
                                                 <input type="text" class="col-sm-12" name="appellant">
                                             </div>

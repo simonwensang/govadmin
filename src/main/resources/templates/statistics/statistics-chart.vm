@@ -161,10 +161,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
 		 var jzgloption = {
             title: {
                 text: '提报类型：集镇管理',
@@ -193,10 +194,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
        var mdjfoption = {
             title: {
                 text: '提报类型：矛盾纠纷',
@@ -225,10 +227,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
          var jcdjoption = {
             title: {
                 text: '提报类型：基层党建',
@@ -257,10 +260,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
           var wmfwoption = {
             title: {
                 text: '提报类型：民生服务',
@@ -289,10 +293,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
           var  qtfwoption = {
             title: {
                 text: '提报类型：其他服务',
@@ -321,10 +326,11 @@
                             shadowOffsetX: 0,
                             shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
-                            }
-                        }
-                    ]
-                };      
+                            },
+					color:['#238E23','#ff5954']
+                }
+            ]
+        };
         // 使用刚指定的配置项和数据显示图表。
         zaffChart.setOption(zaffoption);
         jzglChart.setOption(jzgloption);

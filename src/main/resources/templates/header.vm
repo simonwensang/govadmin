@@ -1,19 +1,19 @@
 <div class="navbar navbar-default" id="navbar">
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left">
-            <a href="#" class="navbar-brand">
+          <a href="/index" class="navbar-brand">
                 <small>
-                    <i class="icon-leaf"></i>
-                    平安汊涧
+                    <i class="home-logo"></i>
+                    "平安汊涧"大联动网格管理系统
                 </small>
             </a>
         </div>
 
-        <div class="navbar-header pull-right" role="navigation">
+        <div class="navbar-header pull-right" role="navigation" style="padding-top: 25px">
             <ul class="nav ace-nav">
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <span class="user-info"><small>欢迎</small>$!{user.name}</span>
+                        <span class="user-info"><small>欢迎</small>$!{user.account}</span>
                         <i class="icon-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">

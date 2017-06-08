@@ -7,14 +7,14 @@
                     </a>
                 </li>
 
-                <li>
+                <li class="active open">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-desktop"></i>
                         <span class="menu-text"> 分类列表 </span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
                     <ul class="submenu">
-                        <li>
+                        <li class="active">
 							 <a href="/event/allReport?eventType=1">
                                 <i class="icon-double-angle-right"></i>
                                 治安防范
@@ -121,8 +121,8 @@
 
             </ul>
 
-            <div class="sidebar-collapse" id="sidebar-collapse">
+            <!--div class="sidebar-collapse" id="sidebar-collapse">
                 <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
-            </div>
+            </div-->
 
         </div>

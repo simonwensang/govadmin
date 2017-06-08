@@ -56,10 +56,13 @@ public class EventController {
      * @param mav
      * @return
      */
-    @RequestMapping(value = "/allReport", method = RequestMethod.GET)
+    @RequestMapping(value = "/allReport")
     public ModelAndView allReport(ModelAndView mav,EventReq eventReq) {
     	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
+    	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
+    	mav.addObject("eventType", eventReq.getEventType());
     	mav.addObject("user",userCommonService.getUser() );
         mav.setViewName("event/allReport");
         return mav;
@@ -74,9 +77,11 @@ public class EventController {
     public ModelAndView untreated(ModelAndView mav,EventReq eventReq) {
     	eventReq.setEventStatusList(Arrays.asList(EventStatus.INIT.getKey(),EventStatus.AUDIT.getKey(),EventStatus.HANDLE.getKey()));
     	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
+    	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
     	mav.addObject("user",userCommonService.getUser() );
-        mav.setViewName("event/allReport");
+        mav.setViewName("event/untreated");
         return mav;
     }
     
@@ -90,9 +95,11 @@ public class EventController {
     public ModelAndView treated(ModelAndView mav,EventReq eventReq) {
     	eventReq.setEventStatusList(Arrays.asList(EventStatus.CLOSE.getKey()));
     	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
+    	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
     	mav.addObject("user",userCommonService.getUser() );
-        mav.setViewName("event/allReport");
+        mav.setViewName("event/treated");
         return mav;
     }
     /**

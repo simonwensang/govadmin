@@ -92,6 +92,10 @@ public class EventServiceImpl implements EventService {
         PageHelper.startPage(eventReq.getPage(), eventReq.getLimit());
         //当前页列表
         eventReq.setUserId(userCommonService.getUserId().intValue());
+        if(StringUtils.isNotBlank(eventReq.getReportTime())){
+        	eventReq.setReportTimeStart(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 00:00:00");
+        	eventReq.setReportTimeEnd(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 23:59:59");
+        }
         List<Event> events = eventExtMapper.selectAllReqport(eventReq);
         List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
         this.packageProjectButton(eventVos);
@@ -100,7 +104,7 @@ public class EventServiceImpl implements EventService {
         return pageResult;
 	
 	}
-
+ 
 	@Override
 	public PageResult<EventVo> pageList(PageParam pageParam, EventReq eventReq) {
 		//分页

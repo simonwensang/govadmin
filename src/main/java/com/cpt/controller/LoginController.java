@@ -68,6 +68,7 @@ public class LoginController {
 	@RequestMapping({"/index"})
 	public String index(ModelMap map){
 		map.addAttribute("user",userCommonService.getUser() );
+		map.addAttribute("organizationList",organizationService.select() );
 		return "index";
 	}
 	

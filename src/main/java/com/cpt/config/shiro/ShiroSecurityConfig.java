@@ -69,14 +69,9 @@ public class ShiroSecurityConfig {
 	       // definitionsMap.put("/**", "authc");//authc
 	        definitionsMap.put("/main", "authc");
 			definitionsMap.put("/event/**", "authc");
-			definitionsMap.put("/customer/**", "authc");
-			definitionsMap.put("/expenses/**", "authc");
+			definitionsMap.put("/statistics/**", "authc");
 			definitionsMap.put("/message/**", "authc");
-			definitionsMap.put("/productType/**", "authc");
-			definitionsMap.put("/projectDescribe/**", "authc");
-			definitionsMap.put("/projectPrice/**", "authc");
 			definitionsMap.put("/user/**", "authc");
-			definitionsMap.put("/userLog/**", "authc");
 	        shiroFilter.setFilterChainDefinitionMap(definitionsMap);
 	        return shiroFilter;
 	    }
@@ -124,7 +119,7 @@ public class ShiroSecurityConfig {
     	rcm.setRedisManager(redisManager());
     	return rcm;
     }
-	/* @Bean
+	@Bean
 	  public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("r-bp11b90f462293a4.redis.rds.aliyuncs.com");
@@ -133,8 +128,8 @@ public class ShiroSecurityConfig {
     	redisManager.setExpire(7200);
     	redisManager.setTimeout(3000);
     	return redisManager;
-    }*/
-     @Bean
+    }
+	/*   @Bean
     public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("127.0.0.1");
@@ -142,7 +137,7 @@ public class ShiroSecurityConfig {
     	redisManager.setExpire(7200);
     	redisManager.setTimeout(3000);
     	return redisManager;
-    }
+    }*/
      @Bean
     //@DependsOn(value={"lifecycleBeanPostProcessor", "shrioRedisCacheManager"})
     public CustomSecurityRealm customSecurityRealm(){

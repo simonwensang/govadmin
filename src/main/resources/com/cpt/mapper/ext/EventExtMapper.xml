@@ -70,17 +70,29 @@
 	      <if test="userId != null">
               AND b.user_id=#{userId}
           </if>
+          <if test="reportTime != null and reportTime != ''">
+              AND a.report_time between #{reportTimeStart} and #{reportTimeEnd} 
+          </if>
           <if test="window != null and window != ''">
-              AND a.window LIKE concat('%',#{window},'%')
+              AND a.window LIKE concat(#{window},'%')
+          </if>
+          <if test="auditor != null and auditor != ''">
+              AND a.auditor LIKE concat(#{auditor},'%')
+          </if>
+          <if test="commitUser != null and commitUser != ''">
+              AND a.commit_user LIKE concat(#{commitUser},'%')
+          </if>
+          <if test="handler != null and handler != ''">
+              AND a.handler LIKE concat(#{handler},'%')
           </if>
           <if test="appellant != null and appellant != ''">
-              AND a.appellant LIKE concat('%',#{appellant},'%')
+              AND a.appellant LIKE concat(#{appellant},'%')
           </if>
           <if test="eventNo != null and eventNo != ''">
-              AND a.event_no LIKE concat('%',#{eventNo},'%')
+              AND a.event_no LIKE concat(#{eventNo},'%')
           </if>
           <if test="community != null and community != ''">
-              AND a.community LIKE concat('%',#{community},'%')
+              AND a.community LIKE concat(#{community},'%')
           </if>
           <if test="grade != null ">
               AND a.grade = #{grade} 
