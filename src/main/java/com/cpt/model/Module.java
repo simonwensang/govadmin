@@ -1,6 +1,7 @@
 package com.cpt.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Module {
     private Long id;
@@ -17,6 +18,8 @@ public class Module {
 
     private Date createTime;
 
+    private List<Module> subMenu;
+    
     public Long getId() {
         return id;
     }
@@ -72,4 +75,14 @@ public class Module {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public List<Module> getSubMenu() {
+		return subMenu;
+	}
+
+	public void setSubMenu(List<Module> subMenu) {
+		this.subMenu = subMenu;
+	}
+    
+    
 }

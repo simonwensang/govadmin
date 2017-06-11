@@ -28,15 +28,20 @@ public class UserController {
 	
 	@RequestMapping("/list")
 	public ModelAndView list (ModelAndView modelMap,UserQuery userQuery){
+		modelMap.addObject("user",userService.getUser());
 		modelMap.addObject("roles",userService.getRoleList());
 		modelMap.addObject("result",userService.query(userQuery));
 		modelMap.setViewName("user/user-management");
+		modelMap.addObject("cur_module","account");
+	    modelMap.addObject("cur_menu","user_list");
 		return modelMap;
 	}
 	@RequestMapping("/account")
 	public ModelAndView account (ModelAndView modelMap){
 		modelMap.addObject("user",userService.getUser());
 		modelMap.setViewName("user/account");
+		modelMap.addObject("cur_module","account");
+	    modelMap.addObject("cur_menu","user_list");
 		return modelMap;
 	}
 	 /**

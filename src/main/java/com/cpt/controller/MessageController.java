@@ -12,15 +12,16 @@ import com.cpt.common.Result;
 import com.cpt.model.Message;
 import com.cpt.req.MessageReq;
 import com.cpt.service.MessageService;
+import com.cpt.service.UserService;
  
 @Controller
 @RequestMapping("/message")
 public class MessageController {
-
+	@Autowired 
+	private UserService userService;
 	@Autowired  
 	private MessageService messageService;
-	
-	 
+ 
     /**
      * 分页消息
      *
@@ -32,6 +33,9 @@ public class MessageController {
     public ModelAndView view(ModelAndView modelMap,MessageReq messageReq ) {
     	modelMap.addObject("result", messageService.pageList(messageReq));
         modelMap.setViewName("message/view-notification");
+        modelMap.addObject("user",userService.getUser());
+        modelMap.addObject("cur_module","account");
+        modelMap.addObject("cur_menu","view_message");
 		return modelMap;
     }
     
@@ -44,7 +48,10 @@ public class MessageController {
      */
     @RequestMapping(value = "/send")
     public ModelAndView send(ModelAndView modelMap,PageParam pageParam ) {
+    	modelMap.addObject("user",userService.getUser());
         modelMap.setViewName("message/send-notification");
+        modelMap.addObject("cur_module","account");
+        modelMap.addObject("cur_menu","send_message");
 		return modelMap;
     }
     /**

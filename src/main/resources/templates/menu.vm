@@ -6,121 +6,35 @@
                         <span class="menu-text"> 首页 </span>
                     </a>
                 </li>
-
-                <li class="active open">
+					 #foreach($module in $!{user.modules})
+                    <li 
+                     #if($cur_module==$!{module.moduleCode})
+							  class="active open"
+						#end
+                    >
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-desktop"></i>
-                        <span class="menu-text"> 分类列表 </span>
+                        <span class="menu-text"> $!{module.moduleName} </span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
-                    <ul class="submenu">
-                        <li class="active">
-							 <a href="/event/allReport?eventType=1">
-                                <i class="icon-double-angle-right"></i>
-                                治安防范
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/event/allReport?eventType=2">
-                                <i class="icon-double-angle-right"></i>
-                                集镇管理
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/event/allReport?eventType=3">
-                                <i class="icon-double-angle-right"></i>
-                                矛盾纠纷
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/event/allReport?eventType=4">
-                                <i class="icon-double-angle-right"></i>
-                                基层党建
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/event/allReport?eventType=5">
-                                <i class="icon-double-angle-right"></i>
-                                为民服务
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/event/allReport?eventType=6">
-                                <i class="icon-double-angle-right"></i>
-                                其他服务
-                            </a>
-                        </li>
+	                <ul class="submenu">
+	                 #foreach($menu in $!{module.subMenu})
+	                    <li 
+	                    #if($cur_menu==$!{menu.moduleCode})
+							class="active" 
+						#end
+	                    >
+							 <a href=" $!{menu.modulePath}">
+	                            <i class="icon-double-angle-right"></i>
+	                          		  $!{menu.moduleName}
+	                        </a>
+	                    </li>
+	                     #end
                     </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-list"></i>
-                        <span class="menu-text"> 数据统计 </span>
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li>
-                            <a href="/statistics/chart">
-                                <i class="icon-double-angle-right"></i>
-                                统计
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/statistics/view">
-                                <i class="icon-double-angle-right"></i>
-                                统计分析
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-edit"></i>
-                        <span class="menu-text"> 我的 </span>
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li>
-                            <a href="/event/untreated">
-                                <i class="icon-double-angle-right"></i>
-                                未处理事件
-                            </a>
-                        </li>
-						<li>
-                            <a href="/event/treated">
-                                <i class="icon-double-angle-right"></i>
-                                已处理事件
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/message/send">
-                                <i class="icon-double-angle-right"></i>
-                                发送通知
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/message/view">
-                                <i class="icon-double-angle-right"></i>
-                                查看通知
-                            </a>
-                        </li>
-						<li>
-                            <a href="/user/list">
-                                <i class="icon-double-angle-right"></i>
-                                用户管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-            </ul>
-
+                	</li>
+                    #end
+               
+			</ul>
             <!--div class="sidebar-collapse" id="sidebar-collapse">
                 <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
             </div-->

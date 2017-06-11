@@ -27,7 +27,7 @@ import com.cpt.req.EventReq;
 import com.cpt.service.AddressService;
 import com.cpt.service.CustomerService;
 import com.cpt.service.EventService;
-import com.cpt.service.UserCommonService;
+import com.cpt.service.UserService;
 import com.cpt.vo.EnumBean;
 import com.cpt.vo.EventVo;
 
@@ -47,7 +47,7 @@ public class EventController {
 	private  AddressService addressService;
 	
 	@Autowired 
-	private UserCommonService userCommonService ;
+	private UserService userService ;
 	@Autowired 
 	private RoleExtMapper roleExtMapper;
 	 /**
@@ -58,13 +58,25 @@ public class EventController {
      */
     @RequestMapping(value = "/allReport")
     public ModelAndView allReport(ModelAndView mav,EventReq eventReq) {
+    	eventReq.setEventType(null==eventReq.getEventType()?1:eventReq.getEventType()) ;
     	PageResult<EventVo> result = eventService.allReport(eventReq);
     	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
     	mav.addObject("eventType", eventReq.getEventType());
-    	mav.addObject("user",userCommonService.getUser() );
+    	mav.addObject("user",userService.getUser());
         mav.setViewName("event/allReport");
+        mav.addObject("cur_module","event_List");
+        switch(eventReq.getEventType()){
+        	case (byte)1:mav.addObject("cur_menu","zaff_List") ;break;
+        	case (byte)2:mav.addObject("cur_menu","jzgl_list") ;break;
+        	case (byte)3:mav.addObject("cur_menu","mdjf_list") ;break;
+        	case (byte)4:mav.addObject("cur_menu","jcdj_list") ;break;
+        	case (byte)5:mav.addObject("cur_menu","wmfw_list") ;break;
+        	case (byte)6:mav.addObject("cur_menu","qtfw_list") ;break;
+        	default : break;
+        }
+        
         return mav;
     }
     /**
@@ -80,8 +92,10 @@ public class EventController {
     	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
-    	mav.addObject("user",userCommonService.getUser() );
+    	mav.addObject("user",userService.getUser());
         mav.setViewName("event/untreated");
+        mav.addObject("cur_module","account");
+        mav.addObject("cur_menu","event_untreated") ;
         return mav;
     }
     
@@ -98,8 +112,10 @@ public class EventController {
     	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
-    	mav.addObject("user",userCommonService.getUser() );
+    	mav.addObject("user",userService.getUser());
         mav.setViewName("event/treated");
+        mav.addObject("cur_module","account");
+        mav.addObject("cur_menu","event_treated") ;
         return mav;
     }
     /**
@@ -111,7 +127,7 @@ public class EventController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list(ModelAndView mav) {
         mav.setViewName("event/event_list");
-        mav.addObject("user",userCommonService.getUser() );
+        mav.addObject("user",userService.getUser());
         return mav;
     }
     
@@ -139,7 +155,7 @@ public class EventController {
     public ModelAndView detail(ModelAndView mav, Integer id) {
         mav.addObject("event", eventService.detail(id));
         mav.setViewName("event/detail");
-        mav.addObject("user",userCommonService.getUser() );
+        mav.addObject("user",userService.getUser());
         return mav;
     }
     /**
@@ -153,11 +169,7 @@ public class EventController {
     public ModelAndView approval(ModelAndView mav, Integer id) {
     	mav.addObject("event", eventService.detail(id));
 	    mav.setViewName("event/approval");
-	    mav.addObject("user",userCommonService.getUser() );
-	    List<Role> roles = roleExtMapper.selectByUserId(userCommonService.getUserId());
-	    if(roles!=null&&roles.size()>0){
-	    	mav.addObject("role",roles.get(0) );
-	    }
+	    mav.addObject("user",userService.getUser());
         return mav;
     }
     /**
@@ -170,7 +182,7 @@ public class EventController {
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public ModelAndView manage(ModelAndView mav, Integer id) {
     	mav.addObject("event", eventService.detail(id));
-    	 mav.addObject("user",userCommonService.getUser() );
+    	mav.addObject("user",userService.getUser());
 	    mav.setViewName("event/manage");
         return mav;
     }
@@ -188,7 +200,7 @@ public class EventController {
     	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(eventType)));
     	mav.addObject("addressList", addressList);
         mav.setViewName("event/submission");
-        mav.addObject("user",userCommonService.getUser() );
+        mav.addObject("user",userService.getUser());
         return mav;
     }
     /**
@@ -201,7 +213,7 @@ public class EventController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView create(ModelAndView mav) {
         mav.setViewName("event/event_detail");
-        mav.addObject("user",userCommonService.getUser() );
+        mav.addObject("user",userService.getUser());
         return mav;
     }
   

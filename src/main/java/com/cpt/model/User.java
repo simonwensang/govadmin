@@ -118,17 +118,9 @@ public class User implements Serializable {
         this.isDeleted = isDeleted;
     }
     
-    List<Role> roles ;
+    private Role role ;
     
-	List<Module> modules ;
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+    private List<Module> modules ;
 
 	public List<Module> getModules() {
 		return modules;
@@ -137,29 +129,18 @@ public class User implements Serializable {
 	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
+	
 	//-----------------------------------------------
-	
-	private String roleName;
-	
-	private String roleCode;
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public String getRoleCode() {
-		return roleCode;
-	}
-
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
-	}
     
-    private String confirmPassword;
+    public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	private String confirmPassword;
 
 	public String getConfirmPassword() {
 		return confirmPassword;

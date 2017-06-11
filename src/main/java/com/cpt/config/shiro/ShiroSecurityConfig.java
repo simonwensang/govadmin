@@ -119,7 +119,7 @@ public class ShiroSecurityConfig {
     	rcm.setRedisManager(redisManager());
     	return rcm;
     }
-	@Bean
+	/*@Bean
 	  public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("r-bp11b90f462293a4.redis.rds.aliyuncs.com");
@@ -128,8 +128,8 @@ public class ShiroSecurityConfig {
     	redisManager.setExpire(7200);
     	redisManager.setTimeout(3000);
     	return redisManager;
-    }
-	/*   @Bean
+    }*/
+	@Bean
     public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("127.0.0.1");
@@ -137,7 +137,7 @@ public class ShiroSecurityConfig {
     	redisManager.setExpire(7200);
     	redisManager.setTimeout(3000);
     	return redisManager;
-    }*/
+    }
      @Bean
     //@DependsOn(value={"lifecycleBeanPostProcessor", "shrioRedisCacheManager"})
     public CustomSecurityRealm customSecurityRealm(){

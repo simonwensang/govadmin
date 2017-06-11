@@ -24,6 +24,7 @@ import com.cpt.mapper.UserRoleMapper;
 import com.cpt.mapper.ext.ModuleExtMapper;
 import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.mapper.ext.UserExtMapper;
+import com.cpt.model.Module;
 import com.cpt.model.Organization;
 import com.cpt.model.Role;
 import com.cpt.model.RoleExample;
@@ -37,6 +38,7 @@ import com.cpt.service.UserService;
 import com.cpt.vo.UserVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,14 +62,31 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUser() {
 		User user = get(userCommonService.getUserId());
-		user.setModules(moduleExtMapper.selectMenuByUserId(user.getId()));
-		List<Role> roles= roleExtMapper.selectByUserId(user.getId());
-		if(!roles.isEmpty()){
-			user.setRoleName(roles.get(0).getRoleName());
-		}
+		user.setModules(fixModule(moduleExtMapper.selectMenuByUserId(user.getId())));
+		user.setRole(roleExtMapper.selectByUserId(user.getId()));
 		return user;
 	}
 
+	private List<Module> fixModule(List<Module> modules){
+		List<Module> moduleList = Lists.newArrayList();
+		for(Module  module : modules){
+			 if(module.getModuleType()==1){
+				 moduleList.add(module);
+			 }
+		}
+		for(Module  newmodule : moduleList){
+			List<Module> subMenu = Lists.newArrayList();
+			for(Module  module : modules){
+				 if(module.getModuleType()==2&&module.getModuleKey().equals(newmodule.getId().toString())){
+					 subMenu.add(module);
+				 }
+			}
+			 newmodule.setSubMenu(subMenu);
+		}
+		
+		return moduleList;
+	}
+	
 	@Override
 	public List<Role> getRoleList() {
 		RoleExample example = new RoleExample();
