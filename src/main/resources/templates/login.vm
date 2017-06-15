@@ -66,8 +66,8 @@
                                              <label class="block clearfix">
 											    <span class="block">
                                                     <label class="yzm-l">验证码</label>
-												    <input type="text" class="form-control yzm-i" placeholder="验证码"/>
-                                                    <img style="margin-left: 10px;margin-top: 2px;" src="https://login.lvmama.com/captcha/account/checkcode/login_web.htm?secureLevel=primary">
+												    <input type="text" class="form-control yzm-i" placeholder="验证码" name="captcha"/>
+                                                    <img style="margin-left: 10px;margin-top: 2px;" src="/captcha">
 											    </span>
                                             </label>
                                             <div class="clearfix">

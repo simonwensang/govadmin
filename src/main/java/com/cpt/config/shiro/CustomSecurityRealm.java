@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -20,11 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cpt.common.constant.Constants;
+import com.cpt.common.constant.UserStatus;
+import com.cpt.controller.LoginController;
 import com.cpt.mapper.UserMapper;
 import com.cpt.mapper.ext.ModuleExtMapper;
 import com.cpt.mapper.ext.RoleExtMapper;
-import com.cpt.model.Module;
-import com.cpt.model.Role;
 import com.cpt.model.User;
 import com.cpt.model.UserExample;
 
@@ -70,14 +70,24 @@ public class CustomSecurityRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		
 		//UsernamePasswordToken对象用来存放提交的登录信息  
-        UsernamePasswordToken token=(UsernamePasswordToken) authcToken;
-        UserExample example= new UserExample();
+		UsernamePasswordCaptchaToken token=(UsernamePasswordCaptchaToken) authcToken;
+       
+		// 判断验证码逻辑
+		String captcha = token.getCaptcha();
+		String exitCode = (String) SecurityUtils.getSubject().getSession()
+				.getAttribute(LoginController.KEY_CAPTCHA);
+		if (null == captcha || !captcha.equalsIgnoreCase(exitCode)) {
+			throw new UnknownAccountException();
+		}
+		
+		UserExample example= new UserExample();
         UserExample.Criteria  criteria= example.createCriteria();
         criteria.andAccountEqualTo(token.getUsername());
         List<User>  userEntityList = userMapper.selectByExample(example);
         if ( userEntityList.size()>0) {
         	User user = userEntityList.get(0);
-        	if(Constants.ISDELETED==user.getIsDeleted().byteValue()){
+        	if(UserStatus.AUDIT.getKey()==user.getIsDeleted().byteValue()
+        			||UserStatus.FORBIDDEN.getKey()==user.getIsDeleted().byteValue()){
     			throw new LockedAccountException();
     		}
         	//user.setRoles(roleExtMapper.selectByUserId(user.getId()));

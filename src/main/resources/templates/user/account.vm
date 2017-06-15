@@ -52,7 +52,7 @@
                                             <div class="well well-sm" style="margin-left: 20px;width: 300px;">真实姓名：$!{user.name}</div>
                                             <div class="well well-sm" style="margin-left: 20px;width: 300px;">所在责能部门：$!{user.department}</div>
                                             <div class="well well-sm" style="margin-left: 20px;width: 300px;">手机号：$!{user.mobile}</div>
-                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">用户权限：$!{user.roleName}</div>
+                                            <div class="well well-sm" style="margin-left: 20px;width: 300px;">用户权限：$!{user.role.roleName}</div>
                                         </div>
                                     </div>
                                 </div>

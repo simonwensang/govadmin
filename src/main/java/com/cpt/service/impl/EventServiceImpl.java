@@ -88,10 +88,13 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public PageResult<EventVo> allReport(EventReq eventReq) {
+		 //当前页列表
+        User user = userService.getUser();
+        if(!"admin".equals(user.getRole().getRoleCode())&&!"superuser".equals(user.getRole().getRoleCode())){
+        	 eventReq.setUserId(user.getId().intValue());
+        }
 		//分页
         PageHelper.startPage(eventReq.getPage(), eventReq.getLimit());
-        //当前页列表
-        eventReq.setUserId(userCommonService.getUserId().intValue());
         if(StringUtils.isNotBlank(eventReq.getReportTime())){
         	eventReq.setReportTimeStart(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 00:00:00");
         	eventReq.setReportTimeEnd(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 23:59:59");

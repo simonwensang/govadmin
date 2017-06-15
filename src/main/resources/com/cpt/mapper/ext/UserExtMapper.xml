@@ -13,8 +13,12 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="identity" jdbcType="TINYINT" property="identity" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
-    <result column="role_name" jdbcType="VARCHAR" property="roleName" /> 
-    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <association property="role" javaType="com.cpt.model.Role">
+         <id column="role_id" property="id"/>
+         <result column="role_name" jdbcType="VARCHAR" property="roleName" /> 
+    	 <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+     </association>
+   
   </resultMap>
   
   <insert id="insertSelective" parameterType="com.cpt.model.User">
@@ -95,9 +99,9 @@
   </insert>
   
   <select id="query" parameterType="com.cpt.req.UserQuery"  resultMap="BaseResultMap">
-     SELECT a.* ,c.`role_name`,c.`role_code`
-    FROM t_user a JOIN t_user_role b ON a.id = b.user_id 
-	JOIN t_role c ON c.id = b.role_id 
+     SELECT a.* ,c.id role_id,c.`role_name`,c.`role_code`
+    FROM t_user a left JOIN t_user_role b ON a.id = b.user_id 
+	left JOIN t_role c ON c.id = b.role_id 
     <where> 
 	    <if test="account != null and account != ''">
               AND  a.account LIKE concat('%',#{account},'%')

@@ -4,6 +4,8 @@ package com.cpt.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -16,6 +18,7 @@ import com.cpt.common.ResultCode;
 import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.UserIdentity;
+import com.cpt.controller.LoginController;
 import com.cpt.convertor.UserConvertor;
 import com.cpt.mapper.OrganizationMapper;
 import com.cpt.mapper.RoleMapper;
@@ -64,6 +67,7 @@ public class UserServiceImpl implements UserService {
 		User user = get(userCommonService.getUserId());
 		user.setModules(fixModule(moduleExtMapper.selectMenuByUserId(user.getId())));
 		user.setRole(roleExtMapper.selectByUserId(user.getId()));
+		user.setPassword("");
 		return user;
 	}
 
@@ -186,6 +190,13 @@ public class UserServiceImpl implements UserService {
 			if(!user.getPassword().equals(user.getConfirmPassword())){
 				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_PASSWORD_ERROR);
 			}
+			
+			String exitCode = (String) SecurityUtils.getSubject().getSession()
+					.getAttribute(LoginController.KEY_CAPTCHA);
+			if (null == user.getCaptcha() || !user.getCaptcha().equalsIgnoreCase(exitCode)) {
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_CAPTCHA_ERROR);
+			}
+			
 			//查询部门名字
 			Organization organization = organizationMapper.selectByPrimaryKey(user.getDepartmentId());
 			user.setDepartment(organization.getName());

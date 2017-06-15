@@ -111,7 +111,7 @@
                                             <td>$!{user.name}</td>
                                             <td>$!{user.imobiled}</td>
                                             <td>$!{user.department}</td>
-                                            <td>$!{user.roleName}</td>
+                                            <td>$!{user.role.roleName}</td>
                                             <td>
                                             	#if ($!{user.isDeleted}==0)
 													待审核 

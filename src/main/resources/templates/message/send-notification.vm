@@ -143,7 +143,7 @@
 	                    var option = "<tr>"+
                             "<td>"+user[j].id+"</td>"+
                             "<td>"+user[j].name+"</td>"+
-                            "<td>"+user[j].roleName+"</td>"+
+                            "<td>"+user[j].role.roleName+"</td>"+
                             "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
                         	"</tr>";  
 	                   
