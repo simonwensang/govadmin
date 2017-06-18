@@ -1,3 +1,4 @@
+<meta name="renderer" content="webkit" />
 <link rel="stylesheet" href="#springUrl('/assets/css/bootstrap.min.css')" />
 <link rel="stylesheet" href="#springUrl('/assets/css/font-awesome.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/chosen.css')"/>
@@ -5,9 +6,8 @@
 <link rel="stylesheet" href="#springUrl('/assets/css/ace.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/ace-rtl.min.css')"/>
 <link rel="stylesheet" href="#springUrl('/assets/css/ace-skins.min.css')"/>
-
 <link rel="stylesheet" href="#springUrl('/assets/css/laydate/laydate.css')"/>
-<link rel="stylesheet" href="#springUrl('/assets/css/laydate/skins/default/laydate.css"')/>
+<link rel="stylesheet" href="#springUrl('/assets/css/laydate/skins/default/laydate.css')"/>
 <script src="#springUrl('/assets/js/jquery-1.10.2.min.js')"></script>
 <script src="#springUrl('/assets/js/bootstrap.min.js')"></script>
 <script src="#springUrl('/assets/js/chosen.jquery.min.js')"></script>

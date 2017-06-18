@@ -1,4 +1,7 @@
- <div class="sidebar" id="sidebar">
+<a class="menu-toggler" id="menu-toggler" href="#">
+    <span class="menu-text"></span>
+</a>
+<div class="sidebar" id="sidebar">
             <ul class="nav nav-list">
                 <li>
                     <a href="/index">

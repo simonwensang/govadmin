@@ -1650,7 +1650,7 @@ blockquote, blockquote.pull-right {
     .ace-nav {
         display: block;
         float: none !important;
-        text-align: center;
+        text-align: right;
         background-color: #404040;
         border: 1px solid #DDD;
         border-width: 1px 0;
@@ -2841,7 +2841,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
         font-size: 13px;
         font-weight: bold;
         text-transform: uppercase;
-        background-color: #444;
+        background-color: #438eb9;
         color: #f3f3f3;
         -webkit-box-sizing: content-box;
         -moz-box-sizing: content-box;
@@ -2906,13 +2906,14 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
         left: 0;
         border: 1px solid transparent;
         border-width: 9px 42px;
-        border-top-color: #444
+        border-top-color: #438eb9
     }
 
     .menu-toggler > .menu-text:after {
         display: block;
         color: #FFF;
-        content: "MENU";
+        content: "菜单";
+        width: 30px;
         position: absolute;
         left: -8px;
         top: -41px
