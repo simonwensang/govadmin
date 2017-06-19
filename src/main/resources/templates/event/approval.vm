@@ -5,8 +5,8 @@
     <title>审批</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	#parse("tags.vm")
-      <style>
+    #parse("tags.vm")
+    <style>
         .laydate_box, .laydate_box *, .laydate_box *:before, .laydate_box *:after {
             -webkit-box-sizing: content-box;
             -moz-box-sizing: content-box;
@@ -37,13 +37,13 @@
     </style>
 </head>
 <body>
-#parse("header.vm")
+    #parse("header.vm")
 
 <div class="main-container" id="main-container">
 
     <div class="main-container-inner">
 
-       #parse("menu.vm")
+        #parse("menu.vm")
 
         <div class="main-content">
             <div class="breadcrumbs" id="breadcrumbs">
@@ -76,7 +76,7 @@
                                             <label class="col-sm-1 control-label no-padding-right"> 村/社区： </label>
                                             <label class="col-sm-1 control-label no-padding-right text-left">$!{event.community} </label>
                                             <label class="col-sm-1 control-label no-padding-right"> 网格： </label>
-                                            <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.window}  </label>
+                                            <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.window} </label>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-1 control-label no-padding-right"> 详细位置： </label>
@@ -106,7 +106,7 @@
 
                             <div class="space-10"></div>
 
-                           <div class="widget-box">
+                            <div class="widget-box">
                                 <div class="widget-header">
                                     <h4>问题详情</h4>
                                 </div>
@@ -114,20 +114,20 @@
                                     <div class="widget-main">
                                         <div class="alert alert-info" style="text-align: center;font-size: 16px;">
                                             <strong>上报类型：#if ($!{event.eventType}==1)
-														治安防范 
-													#elseif	($!{event.eventType}==2)
-														集镇管理
-													#elseif	($!{event.eventType}==3)
-														矛盾纠纷
-													#elseif	($!{event.eventType}==4)
-														基层党建
-													#elseif	($!{event.eventType}==5)
-														民生服务
-													#elseif	($!{event.eventType}==6)
-														其他服务
-													#else
-														--
-													#end</strong>
+                                                治安防范
+                                            #elseif    ($!{event.eventType}==2)
+                                                集镇管理
+                                            #elseif    ($!{event.eventType}==3)
+                                                矛盾纠纷
+                                            #elseif    ($!{event.eventType}==4)
+                                                基层党建
+                                            #elseif    ($!{event.eventType}==5)
+                                                民生服务
+                                            #elseif    ($!{event.eventType}==6)
+                                                其他服务
+                                            #else
+                                                --
+                                            #end</strong>
                                         </div>
                                         <div class="form-group" style="margin-left: 0">
                                             <span class="col-sm-3 label label-xlg label-primary arrowed">事件编号：$!{event.eventNo}</span>
@@ -135,14 +135,14 @@
                                             <label class="col-sm-2 control-label no-padding-right text-left">$!{event.reportTime} </label>
                                             <label class="col-sm-1 control-label no-padding-right"> 事件级别： </label>
                                             <label class="col-sm-1 control-label no-padding-right text-left"> #if ($!{event.grade}==1)
-														<span class="label">一般</span>
-													#elseif	($!{event.grade}==2)
-														<span class="label label-danger">重大</span>
-													#elseif	($!{event.grade}==2)
-														<span class="label label-warning">严重</span>
-													#else
-														<span class="label">--</span>
-													#end </label>
+                                                <span class="label">一般</span>
+                                            #elseif    ($!{event.grade}==2)
+                                                <span class="label label-danger">重大</span>
+                                            #elseif    ($!{event.grade}==2)
+                                                <span class="label label-warning">严重</span>
+                                            #else
+                                                <span class="label">--</span>
+                                            #end </label>
                                         </div>
 
                                         <div class="alert alert-block alert-success">
@@ -162,7 +162,8 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <label>$!{event.attachmentFile}</label>
-                                        <a href="$!{event.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+                                        <a href="$!{event.attachment}" target="_blank"
+                                           style="cursor: pointer;margin-left: 10px">查看附件</a>
                                     </div>
                                 </div>
                             </div>
@@ -176,10 +177,14 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="form-group" style="margin-bottom: 0;">
-                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">提报人：$!{event.commitUser}</div>
-                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">审核人：$!{event.auditor}</div>
-                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">抄送人：$!{event.ccUser}</div>
-                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">派遣人：$!{event.handler}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">
+                                                提报人：$!{event.commitUser}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">
+                                                审核人：$!{event.auditor}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">
+                                                抄送人：$!{event.ccUser}</div>
+                                            <div class="well well-sm col-sm-2" style="margin-left: 20px">
+                                                派遣人：$!{event.handler}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +192,7 @@
 
                             <div class="space-10"></div>
 
-                             <div class="widget-box">
+                            <div class="widget-box">
                                 <div class="widget-header">
                                     <h4>处理记录</h4>
                                 </div>
@@ -202,23 +207,24 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-												 #foreach($eventHandleLog in $event.eventHandleLogList)
-													<tr>
-                                                        <td>
-														#if ($!{eventHandleLog.handleType}==1)
-															提报
-														#elseif	($!{eventHandleLog.handleType}==2)
-															审核
-														#elseif	($!{eventHandleLog.handleType}==3)
-															派遣
-														#else
-															 --
-														#end 
-														</td>
-                                                        <td>$!{eventHandleLog.handler}</td>
-                                                        <td>$dateTimeUtil.format($!{eventHandleLog.handleTime},'yyyy-MM-dd HH:mm:ss') </td>
-                                                    </tr>
-												 #end
+                                                #foreach($eventHandleLog in $event.eventHandleLogList)
+                                                <tr>
+                                                    <td>
+                                                        #if ($!{eventHandleLog.handleType}==1)
+                                                            提报
+                                                        #elseif    ($!{eventHandleLog.handleType}==2)
+                                                            审核
+                                                        #elseif    ($!{eventHandleLog.handleType}==3)
+                                                            派遣
+                                                        #else
+                                                            --
+                                                        #end
+                                                    </td>
+                                                    <td>$!{eventHandleLog.handler}</td>
+                                                    <td>$dateTimeUtil.format($!{eventHandleLog.handleTime},
+                                                        'yyyy-MM-dd HH:mm:ss')</td>
+                                                </tr>
+                                                #end
                                             </tbody>
                                         </table>
 
@@ -232,16 +238,19 @@
                             <div style="text-align: center">
                                 <button class="btn btn-lg btn-primary" id="dispatch_task">任务派遣</button>
                                 #if  ($!{user.role.roleCode}!="superuser" && $!{user.role.roleCode}!="admin" )
-                                <button  data-title="派遣人" class="btn btn-lg btn-success select-p">继续上报</button>
+                                    <button data-title="派遣人" class="btn btn-lg btn-success select-p">继续上报</button>
                                 #end
                                 #if  ( $!{user.role.roleCode}=="superuser" || $!{user.role.roleCode}=="admin")
-                                <button  data-title="指派人" class="btn btn-lg btn-pink select-p" style="float: right;">指派人员</button>
-                                 #end
+                                    <button data-title="指派人" class="btn btn-lg btn-pink select-p" style="float: right;">
+                                        指派人员
+                                    </button>
+                                #end
                             </div>
                         </div>
 
-                        <!--任务派遣弹窗-->
-                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
+                        <!--任务派遣弹窗222-->
+                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true"
+                             style="display: none;">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header no-padding">
@@ -252,158 +261,73 @@
                                             <span id="model_1_title">任务派遣</span>
                                         </div>
                                     </div>
-					<form  role="form" id="createForm" 	 method="post" action="/event/sendHandler">
-                                   <input type="hidden" id="eventId" value="$!{event.id}" name="id">
-                                    <div class="modal-body no-padding">
-                                        <div class="form-group clearfix" style="margin-top: 10px;margin-bottom: 10px">
-                                            <label class="col-sm-2 control-label no-padding-right" style="width: auto;"> 责任部门 </label>
-                                            <div class="btn-group col-sm-3">
-                                                <select class="form-control" id="form-field-select-1" name="respDepartmentId">
-                                                    <option value="1">王村一队</option>
-                                                    <option value="2">王村二队</option>
-                                                    <option value="3">王村三队</option>
-                                                    <option value="4">王村四队</option>
-                                                    <option value="5">王村五队</option>
-                                                </select>
-                                            </div>
-                                            <label class="col-sm-2 control-label no-padding-right text-right"> 处理截止时间 </label>
-                                            <div class="col-sm-4">
-                                                <div class="input-group">
-                                                    <input class="" id="report-time-picker" type="text" name="expiryDate">
-                                                    <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+                                    <form role="form" id="createForm" method="post" action="/event/sendHandler">
+                                        <input type="hidden" id="eventId" value="$!{event.id}" name="id">
+                                        <div class="modal-body no-padding">
+                                            <div class="form-group clearfix"
+                                                 style="margin-top: 10px;margin-bottom: 10px">
+                                                <label class="col-sm-2 control-label no-padding-right"
+                                                       style="width: auto;"> 责任部门 </label>
+                                                <div class="btn-group col-sm-3">
+                                                    <select class="form-control" id="form-field-select-1"
+                                                            name="respDepartmentId">
+                                                        <option value="1">王村一队</option>
+                                                        <option value="2">王村二队</option>
+                                                        <option value="3">王村三队</option>
+                                                        <option value="4">王村四队</option>
+                                                        <option value="5">王村五队</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label no-padding-right text-right">
+                                                    处理截止时间 </label>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <input class="" id="report-time-picker" type="text"
+                                                               name="expiryDate">
+                                                        <span class="input-group-addon"><i
+                                                                class="icon-calendar bigger-110"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-										<div class="form-group clearfix" style="padding: 0 10px;">
-                                            <label class="control-label no-padding-right text-right pull-left" style="line-height: 40px"> 责任人 </label>
-                                            <div class="tags pull-left" id="add_shr" style="width: 200px;position: relative;">
-												<input type="hidden"  id="responsibleId" name="responsibleId">
-                                                <i class="icon-plus-sign get-people" data-title="责任人"></i>
+                                            <div class="form-group clearfix" style="padding: 0 10px;">
+                                                <label class="control-label no-padding-right text-right pull-left"
+                                                       style="line-height: 40px"> 责任人 </label>
+                                                <div class="tags pull-left" id="add_shr"
+                                                     style="width: 200px;position: relative;">
+                                                    <input type="hidden" id="responsibleId" name="responsibleId">
+                                                    <i class="icon-plus-sign get-people" data-title="责任人"></i>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="padding: 0 10px">
+                                                <label for="form-field-8">处理要求：</label>
+                                                <textarea class="form-control" id="form-field-1" name="request"
+                                                          placeholder="点击填写" style="height: 100px"></textarea>
+                                            </div>
+                                            <div class="form-group" style="padding: 0 10px">
+                                                <label for="form-field-8">备注</label>
+                                                <textarea class="form-control" id="form-field-8" name="auditRemark"
+                                                          placeholder="点击填写" style="height: 100px"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group" style="padding: 0 10px">
-                                            <label for="form-field-8">处理要求：</label>
-                                            <textarea class="form-control" id="form-field-1" name="request" placeholder="点击填写" style="height: 100px"></textarea>
-                                        </div>
-                                        <div class="form-group" style="padding: 0 10px">
-                                            <label for="form-field-8">备注</label>
-                                            <textarea class="form-control" id="form-field-8" name="auditRemark" placeholder="点击填写" style="height: 100px"></textarea>
-                                        </div>
-                                    </div>
 
-									
-                        <!--审批人选择弹窗-->
-                        	#parse("common/choice_user.vm")
 
-									
-                                    <div class="modal-footer no-margin-top text-center">
-                                        <button class="btn btn-sm" data-dismiss="modal">
-                                            <i class="icon-remove"></i>
-                                            取消
-                                        </button>
-                                        <button class="btn btn-sm btn-primary">
-                                            <i class="icon-ok"></i>
-                                            提交
-                                        </button>
-                                    </div>
+                                        <div class="modal-footer no-margin-top text-center">
+                                            <button class="btn btn-sm" data-dismiss="modal">
+                                                <i class="icon-remove"></i>
+                                                取消
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="icon-ok"></i>
+                                                提交
+                                            </button>
+                                        </div>
                                 </div>
                                 </form>
                             </div>
                         </div>
 
-
                         <!--审批人选择弹窗-->
-                        <div id="modal-table" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header no-padding">
-                                        <div class="table-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                <span class="white">×</span>
-                                            </button>
-                                            <span id="model_title">选择审批人</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-body no-padding">
-                                        <div class="form-group" style="margin-top: 10px;margin-bottom: 10px">
-                                            <input type="tel" placeholder="姓名" style="margin-left: 20px;vertical-align: middle;">
-                                            <button class="btn btn-sm btn-primary" style="height: 30px">筛选</button>
-                                        </div>
-                                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
-                                            <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>姓名</th>
-                                                <th>级别</th>
-                                                <th>操作</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>王宝强</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="1" data-name="王宝强">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>淞泽</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="2" data-name="淞泽">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>武艺</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="3" data-name="武艺">选择</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>林碧</td>
-                                                <td>镇级网格管理员</td>
-                                                <td><a class="select-p" href="javascript:void(0)" data-id="4" data-name="林碧">选择</a></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
-                                            <i class="icon-remove"></i>
-                                            取消
-                                        </button>
-
-                                        <ul class="pagination pull-right no-margin">
-                                            <li class="prev disabled">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-left"></i>
-                                                </a>
-                                            </li>
-
-                                            <li class="active">
-                                                <a href="#">1</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-
-                                            <li class="next">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        #parse("common/choice_user.vm")
 
                         <!-- PAGE CONTENT ENDS -->
                     </div>
@@ -416,10 +340,10 @@
 
 </div>
 
-<script src="assets/js/jquery-1.10.2.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/ace.min.js"></script>
-<script src="assets/js/laydate.js"></script>
+##<script src="assets/js/jquery-1.10.2.min.js"></script>
+##<script src="assets/js/bootstrap.min.js"></script>
+##<script src="assets/js/ace.min.js"></script>
+##<script src="assets/js/laydate.js"></script>
 <script>
     laydate({
         elem: '#report-time-picker',
@@ -431,125 +355,129 @@
         }
     });
 
-    $('.select-p').on('click',function () {
-		$('#model_title').text('选择' + $(this).data('title'));
+    $('.select-p').on('click', function () {
+        $('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
-         getUser(1);
+        getUser(1);
     });
 
-    $('#dispatch_task').on('click',function () {
+    $('#dispatch_task').on('click', function () {
         $('#modal-table-1').modal('show');
     });
-     $('.select-p-wrap').on('click', '.select-p', function () {
-            if ($('#model_title').text().indexOf('责任人') > 0) {
-                //弹出的窗口是给负责人的
-				$('#responsibleId').val($(this).data('id'));
-                $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
-            } 
-            $('#modal-table').modal('hide');
-           
-        });
-    
+    $('.select-p-wrap').on('click', '.select-p', function () {
+        if ($('#model_title').text().indexOf('责任人') > 0) {
+            //弹出的窗口是给负责人的
+            $('#responsibleId').val($(this).data('id'));
+            $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
+        }
+        $('#modal-table').modal('hide');
+
+    });
+
     $('.get-people').on('click', function () {
         $('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
-		  getRespUser(1);
+        getRespUser(1);
     });
-        
-    function getUser(page){
-  	    var name =  $('#sname').val();
-  	    var eventId =  $('#eventId').val();
-		 $.ajax({
-                type: "get",
-                url: '/user/rolePageList',
-                data: {
-                   page:page,name:name
-                },
-                dataType: 'json',
-                success: function (data) {
-                     //提示审核通过成功信息并刷新页面
-	                 $("#tbody").empty(); 
-	                 var user = data.rows; 
-	                //循环添加  
-	                 for(var j=0;j<user.length;j++){  
-	                    var option = "<tr>"+
-                            "<td>"+user[j].id+"</td>"+
-                            "<td>"+user[j].name+"</td>"+
-                            "<td>"+user[j].role.roleName+"</td>"+
-                            "<td>"+"<a class='select-p' href='/event/higherUp?auditorId="+user[j].id+"&id="+eventId+"' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
-                        	"</tr>";  
-	                   
-	                   $("#tbody").append(option);  
-	                }  
-	                
-	                $("#pager").empty(); 
-	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
-	               //循环添加  
-	                 for(var j=1;j<=data.total;j++){  
-	                    var option = "<li ";
-	                    if(data.page==j){option = option+	"class='active' "; }
-                        option = option+ "><a onclick='getUser("+j+")'>"+j+"</a></li>";
-	                   $("#pager").append(option);  
-	                }  
-                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
-                },
-                error: function (data) {
-                    if(data.msg){
-                        alertShow(data.msg);
-                    }
-                    if(data.readyState == 4){
-                        alertShow("Request Not Found");
-                    }
+
+    function getUser(page) {
+        var name = $('#sname').val();
+        var eventId = $('#eventId').val();
+        $.ajax({
+            type: "get",
+            url: '/user/rolePageList',
+            data: {
+                page: page, name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                //提示审核通过成功信息并刷新页面
+                $("#tbody").empty();
+                var user = data.rows;
+                //循环添加
+                for (var j = 0; j < user.length; j++) {
+                    var option = "<tr>" +
+                            "<td>" + user[j].id + "</td>" +
+                            "<td>" + user[j].name + "</td>" +
+                            "<td>" + user[j].role.roleName + "</td>" +
+                            "<td>" + "<a class='select-p' href='/event/higherUp?auditorId=" + user[j].id + "&id=" + eventId + "' data-id='" + user[j].id + "' data-name='" + user[j].name + "'>选择</a></td>" +
+                            "</tr>";
+
+                    $("#tbody").append(option);
                 }
-            });
-	 }
-	 
-	   function getRespUser(page){
-  	    var name =  $('#sname').val();
-		 $.ajax({
-                type: "get",
-                url: '/user/rolePageList',
-                data: {
-                   page:page,name:name
-                },
-                dataType: 'json',
-                success: function (data) {
-                     //提示审核通过成功信息并刷新页面
-	                 $("#tbody").empty(); 
-	                 var user = data.rows; 
-	                //循环添加  
-	                 for(var j=0;j<user.length;j++){  
-	                    var option = "<tr>"+
-                            "<td>"+user[j].id+"</td>"+
-                            "<td>"+user[j].name+"</td>"+
-                            "<td>"+user[j].role.roleName+"</td>"+
-                            "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
-                        	"</tr>";  
-	                   
-	                   $("#tbody").append(option);  
-	                }  
-	                
-	                $("#pager").empty(); 
-	                $("#pager").append("<li class='prev'><a onclick='getRespUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
-	               //循环添加  
-	                 for(var j=1;j<=data.total;j++){  
-	                    var option = "<li ";
-	                    if(data.page==j){option = option+	"class='active' "; }
-                        option = option+ "><a onclick='getRespUser("+j+")'>"+j+"</a></li>";
-	                   $("#pager").append(option);  
-	                }  
-                    $("#pager").append("<li class='next'><a onclick='getRespUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
-                },
-                error: function (data) {
-                    if(data.msg){
-                        alertShow(data.msg);
+
+                $("#pager").empty();
+                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + ")'><i class='icon-double-angle-left'></i></a></li>");
+                //循环添加
+                for (var j = 1; j <= data.total; j++) {
+                    var option = "<li ";
+                    if (data.page == j) {
+                        option = option + "class='active' ";
                     }
-                    if(data.readyState == 4){
-                        alertShow("Request Not Found");
-                    }
+                    option = option + "><a onclick='getUser(" + j + ")'>" + j + "</a></li>";
+                    $("#pager").append(option);
                 }
-            });
-	 }
+                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + ")'><i class='icon-double-angle-right'></i></a></li>");
+            },
+            error: function (data) {
+                if (data.msg) {
+                    alertShow(data.msg);
+                }
+                if (data.readyState == 4) {
+                    alertShow("Request Not Found");
+                }
+            }
+        });
+    }
+
+    function getRespUser(page) {
+        var name = $('#sname').val();
+        $.ajax({
+            type: "get",
+            url: '/user/rolePageList',
+            data: {
+                page: page, name: name
+            },
+            dataType: 'json',
+            success: function (data) {
+                //提示审核通过成功信息并刷新页面
+                $("#tbody").empty();
+                var user = data.rows;
+                //循环添加
+                for (var j = 0; j < user.length; j++) {
+                    var option = "<tr>" +
+                            "<td>" + user[j].id + "</td>" +
+                            "<td>" + user[j].name + "</td>" +
+                            "<td>" + user[j].role.roleName + "</td>" +
+                            "<td>" + "<a class='select-p' href='javascript:void(0)' data-id='" + user[j].id + "' data-name='" + user[j].name + "'>选择</a></td>" +
+                            "</tr>";
+
+                    $("#tbody").append(option);
+                }
+
+                $("#pager").empty();
+                $("#pager").append("<li class='prev'><a onclick='getRespUser(" + data.pre + ")'><i class='icon-double-angle-left'></i></a></li>");
+                //循环添加
+                for (var j = 1; j <= data.total; j++) {
+                    var option = "<li ";
+                    if (data.page == j) {
+                        option = option + "class='active' ";
+                    }
+                    option = option + "><a onclick='getRespUser(" + j + ")'>" + j + "</a></li>";
+                    $("#pager").append(option);
+                }
+                $("#pager").append("<li class='next'><a onclick='getRespUser(" + data.next + ")'><i class='icon-double-angle-right'></i></a></li>");
+            },
+            error: function (data) {
+                if (data.msg) {
+                    alertShow(data.msg);
+                }
+                if (data.readyState == 4) {
+                    alertShow("Request Not Found");
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>
