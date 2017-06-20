@@ -20,13 +20,17 @@ import com.cpt.common.ResultCode;
 import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
+import com.cpt.common.constant.MessageConstants;
+import com.cpt.common.constant.RoleCode;
 import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.model.Address;
-import com.cpt.model.Role;
+import com.cpt.model.Event;
+import com.cpt.model.User;
 import com.cpt.req.EventReq;
 import com.cpt.service.AddressService;
 import com.cpt.service.CustomerService;
 import com.cpt.service.EventService;
+import com.cpt.service.OrganizationService;
 import com.cpt.service.UserService;
 import com.cpt.vo.EnumBean;
 import com.cpt.vo.EventVo;
@@ -50,6 +54,8 @@ public class EventController {
 	private UserService userService ;
 	@Autowired 
 	private RoleExtMapper roleExtMapper;
+	@Autowired 
+	private  OrganizationService organizationService;
 	 /**
      * 事件分页查询
      *
@@ -153,9 +159,22 @@ public class EventController {
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public ModelAndView detail(ModelAndView mav, Integer id) {
-        mav.addObject("event", eventService.detail(id));
+    	User user = userService.getUser();
+    	EventVo event = eventService.detail(id);
+    	if(user.getId().intValue()!=event.getAuditorId()
+    		&&user.getId().intValue()!=event.getCcUserId()
+    		&&user.getId().intValue()!=event.getCommitUserId()
+    		&&user.getId().intValue()!=event.getHandlerId()
+    		&&user.getId().intValue()!=event.getResponsibleId()
+    		&&!RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+    		&&!RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())){
+	   		 mav.addObject("result", new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc()));
+	   		 mav.setViewName("error");
+	   		 return mav;
+    	}
+        mav.addObject("event", event);
         mav.setViewName("event/detail");
-        mav.addObject("user",userService.getUser());
+        mav.addObject("user",user);
         return mav;
     }
     /**
@@ -169,6 +188,7 @@ public class EventController {
     public ModelAndView approval(ModelAndView mav, Integer id) {
     	mav.addObject("event", eventService.detail(id));
 	    mav.setViewName("event/approval");
+	    mav.addObject("organizationList",organizationService.select() );
 	    mav.addObject("user",userService.getUser());
         return mav;
     }
@@ -195,12 +215,19 @@ public class EventController {
      */
     @RequestMapping(value = "/submission", method = RequestMethod.GET)
     public ModelAndView submission(ModelAndView mav, Byte eventType) {
+    	User user = userService.getUser();
+    	//只有 网格人员可以提报
+    	if(!RoleCode.VILLAGE.getKey().equals(user.getRole().getRoleCode())){
+    		 mav.addObject("result", new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc()));
+    		 mav.setViewName("error");
+    		 return mav;
+    	}
     	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	eventType = null==eventType?1:eventType;
     	mav.addObject("eventType", new EnumBean(eventType,EventType.getValueByKey(eventType)));
     	mav.addObject("addressList", addressList);
         mav.setViewName("event/submission");
-        mav.addObject("user",userService.getUser());
+        mav.addObject("user",user);
         return mav;
     }
     /**
@@ -210,12 +237,12 @@ public class EventController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView create(ModelAndView mav) {
         mav.setViewName("event/event_detail");
         mav.addObject("user",userService.getUser());
         return mav;
-    }
+    }*/
   
     /**
      * 增加或者修改
@@ -228,12 +255,11 @@ public class EventController {
     public String addOrEdit(ModelMap map , EventReq eventReq) {
     	 Result<Integer> result = eventService.addOrEdit(eventReq);
     	 if(ResultCode.C200.getCode().equals(result.getCode())){
-    		 return "redirect:allReport";
+    		 return "redirect:allReport?eventType="+eventReq.getEventType();
     	 }else{
     		 map.addAttribute("result", result);
     		 return "error";
     	 }
-    	 
     }
   
     /**
@@ -244,15 +270,9 @@ public class EventController {
      * @return
      */
     @RequestMapping(value = "/sendHandler", method = RequestMethod.POST)
-    public String sendHandler(ModelMap map ,EventReq eventReq) {
-    	 Result<Integer> result = eventService.sendHandler(eventReq);
-    	 
-    	 if(ResultCode.C200.getCode().equals(result.getCode())){
-    		 return "redirect:allReport";
-    	 }else{
-    		 map.addAttribute("result", result);
-    		 return "error";
-    	 }
+    @ResponseBody
+    public Result<Integer> sendHandler(ModelMap map ,EventReq eventReq) {
+    	return eventService.sendHandler(eventReq);
     }
     
     /**
@@ -263,16 +283,9 @@ public class EventController {
      * @return
      */
     @RequestMapping(value = "/higherUp", method = RequestMethod.GET)
-    public String higherUp(ModelMap map ,EventReq eventReq) {
-     
-    	Result<Integer> result = eventService.higherUp(eventReq);
-   	 
-	   	 if(ResultCode.C200.getCode().equals(result.getCode())){
-	   		 return "redirect:allReport";
-	   	 }else{
-	   		 map.addAttribute("result", result);
-	   		 return "error";
-	   	 }
+    @ResponseBody
+    public Result<Integer> higherUp(ModelMap map ,EventReq eventReq) {
+    	return eventService.higherUp(eventReq);
     }
     /**
      * 处理
@@ -282,15 +295,9 @@ public class EventController {
      * @return
      */
     @RequestMapping(value = "/handle", method = RequestMethod.POST)
-    public String handle(ModelMap map ,EventReq eventReq) {
+    @ResponseBody
+    public Result<Integer> handle(ModelMap map ,EventReq eventReq) {
     	
-    	 Result<Integer> result = eventService.handle(eventReq);
-    	 
-    	 if(ResultCode.C200.getCode().equals(result.getCode())){
-    		 return "redirect:allReport";
-    	 }else{
-    		 map.addAttribute("result", result);
-    		 return "error";
-    	 }
+    	return eventService.handle(eventReq);
     }
 }

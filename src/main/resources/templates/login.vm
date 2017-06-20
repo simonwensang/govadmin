@@ -47,7 +47,7 @@
 
                                     <div class="space-6"></div>
 
-                                    <form action="/toLogin" method="post">
+                                    <form id="loginForm" action="/toLogin" method="post">
                                         <fieldset>
                                             <label class="block clearfix">
 												<span class="block input-icon input-icon-right">
@@ -71,11 +71,11 @@
 											    </span>
                                             </label>
                                             <div class="clearfix">
-                                                <label style="margin-top: 6px;color: red;">用户名或密码错误，请重试</label>
-                                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                <label  id="error" style="margin-top: 6px;color: red; " ></label>
+                                                <a  id="login_submit"  class="width-35 pull-right btn btn-sm btn-primary">
                                                     <i class="icon-key"></i>
                                                     登录
-                                                </button>
+                                                </a>
                                             </div>
 
                                             <div class="space-4"></div>
@@ -90,5 +90,30 @@
         </div>
     </div>
 </div>
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/msgbox.js"></script>
+<script src="assets/js/alert.min.js"></script>
+    <script src="/js/common.js"></script>
+	<script src="/js/urms.common.js"></script>
+	<script src="/js/jquery.form.js"></script>
+<script>
+    $('#login_submit').on('click',function () {
+        //TODO 提交表单
+	  	 $("#loginForm").ajaxSubmit(function(data) { 
+            // 提交成功后处理，message为提交页面的返回内容 
+		 	 if(data.code==200){
+    			 if(data.value=="village"){
+    			 	window.location.href="/index";
+				 }else{
+				 	window.location.href="/event/allReport?eventType=1";
+				 }
+		 	 }else{
+		 	    $('#error').text(data.msg);
+		 	 }
+	   });
+    });
+
+</script>
 </body>
 </html>

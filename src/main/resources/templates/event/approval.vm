@@ -271,11 +271,10 @@
                                                 <div class="btn-group col-sm-3">
                                                     <select class="form-control" id="form-field-select-1"
                                                             name="respDepartmentId">
-                                                        <option value="1">王村一队</option>
-                                                        <option value="2">王村二队</option>
-                                                        <option value="3">王村三队</option>
-                                                        <option value="4">王村四队</option>
-                                                        <option value="5">王村五队</option>
+                                                         <option value=""></option>
+                                                     #foreach($organization in $organizationList)
+            											<option value="$!{organization.id}">$!{organization.name}</option>
+            										 #end
                                                     </select>
                                                 </div>
                                                 <label class="col-sm-2 control-label no-padding-right text-right">
@@ -385,7 +384,7 @@
         var eventId = $('#eventId').val();
         $.ajax({
             type: "get",
-            url: '/user/rolePageList',
+            url: '/user/submissionRoleList',
             data: {
                 page: page, name: name
             },
@@ -400,7 +399,7 @@
                             "<td>" + user[j].id + "</td>" +
                             "<td>" + user[j].name + "</td>" +
                             "<td>" + user[j].role.roleName + "</td>" +
-                            "<td>" + "<a class='select-p' href='/event/higherUp?auditorId=" + user[j].id + "&id=" + eventId + "' data-id='" + user[j].id + "' data-name='" + user[j].name + "'>选择</a></td>" +
+                            "<td>" + "<a class='select-p' onclick='higherUp(" + user[j].id + "," + eventId + ")' data-id='" + user[j].id + "' data-name='" + user[j].name + "'>选择</a></td>" +
                             "</tr>";
 
                     $("#tbody").append(option);
@@ -430,7 +429,16 @@
         });
     }
 
-    function getRespUser(page) {
+	function higherUp(userId,id){
+	 	confirmShows("确认上报？", function () {
+        	var url = '/event/higherUp';
+        	var type= "get";
+        	var data={ auditorId: userId, id: id };
+        	ajaxUtilReload(url,data,type);
+	 	});
+	}
+	
+	function getRespUser(page) {
         var name = $('#sname').val();
         $.ajax({
             type: "get",

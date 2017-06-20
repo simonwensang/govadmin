@@ -3,6 +3,7 @@ package com.cpt.common;
  
 public enum ResultCode {
     C200("200", "Success"),
+    C402("402", "抱歉，您没有权限访问此页面"),
     C403("403", "Forbidden"),
     C404("404", "参数错误"),
     C500("500", "Internal Server Error"),

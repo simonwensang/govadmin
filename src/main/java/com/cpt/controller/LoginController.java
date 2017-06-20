@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +24,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cpt.common.Result;
+import com.cpt.common.ResultCode;
+import com.cpt.common.constant.Constants;
 import com.cpt.common.util.CaptchaUtil;
 import com.cpt.config.shiro.ShiroAuthorizationHelper;
 import com.cpt.config.shiro.UsernamePasswordCaptchaToken;
+import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.model.Organization;
+import com.cpt.model.Role;
 import com.cpt.model.User;
 import com.cpt.service.MessageService;
 import com.cpt.service.OrganizationService;
@@ -48,7 +54,8 @@ public class LoginController {
 	private MessageService messageService;
 	@Resource
 	private ShiroAuthorizationHelper shiroAuthorizationHelper;
-	
+	@Autowired
+	private RoleExtMapper roleExtMapper;
 	@Autowired 
 	private  OrganizationService organizationService;
 	
@@ -66,7 +73,7 @@ public class LoginController {
 	
 	@RequestMapping({"/captcha"})
 	@ResponseBody
-	public Result<Integer>  regist(ModelMap map ,User user, HttpServletRequest req, HttpServletResponse resp){
+	public Result<Integer>  captcha(ModelMap map ,User user, HttpServletRequest req, HttpServletResponse resp){
 		// 设置相应类型,告诉浏览器输出的内容为图片
 		resp.setContentType("image/jpeg");
 		// 不缓存此内容
@@ -117,7 +124,8 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/toLogin", method = RequestMethod.POST)
-    public String toLogin(User user) {
+    @ResponseBody
+    public Result<String> toLogin(User user) {
     	
     	//logger.debug("Processing trade with id: {} and symbol : {} ", id, symbol);
     	log.info("toLogin");
@@ -125,11 +133,18 @@ public class LoginController {
         token.setRememberMe(false);
         try {
         	SecurityUtils.getSubject().login(token);
-        	return "redirect:/event/allReport";
-        }catch (Exception e) {
-        	log.error("登录失败错误信息:"+e);
+        	
+        	//return "redirect:/event/allReport";
+        	Role role = roleExtMapper.selectByUserId(userCommonService.getUserId());
+        	return Result.newResult(role.getRoleCode());
+        }catch(IncorrectCredentialsException e){
+        	log.error("登录失败错误信息:"+Constants.NAME_PWD_ERROR);
         	token.clear();
-        	return "redirect:/login";
+        	return new Result<String>(ResultCode.C500.getCode(),Constants.NAME_PWD_ERROR);
+        }catch (AuthenticationException e) {
+        	log.error("登录失败错误信息:"+e.getMessage());
+        	token.clear();
+        	return new Result<String>(ResultCode.C500.getCode(),e.getMessage());
         }
     }
     

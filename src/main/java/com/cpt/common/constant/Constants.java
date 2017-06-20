@@ -13,4 +13,8 @@ public class Constants {
 	public final static byte LEVEL_2 = 2;
 	public final static byte LEVEL_3 = 3;
 	public final static byte LEVEL_4 = 4;
+	
+	public final static String CAPTHA_ERROR = "验证码错误";
+	public final static String NAME_PWD_ERROR = "用户名或密码错误，请重试";
+	public final static String LOCK_ERROR = "账户被锁定";
 }

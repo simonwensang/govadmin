@@ -28,6 +28,7 @@ public class UserController {
 	
 	@RequestMapping("/list")
 	public ModelAndView list (ModelAndView modelMap,UserQuery userQuery){
+		modelMap.addObject("userQuery",userQuery);
 		modelMap.addObject("user",userService.getUser());
 		modelMap.addObject("roles",userService.getRoleList());
 		modelMap.addObject("result",userService.query(userQuery));
@@ -67,6 +68,20 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/rolePageList", method = RequestMethod.GET)
     public PageResult<User> rolePageList( UserQuery userQuery) {
+        return userService.rolePageList(userQuery);
+    }
+    
+    /**
+     * 分页数据
+     *
+     * @param UserQuery
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/submissionRoleList", method = RequestMethod.GET)
+    public PageResult<User> submissionRoleList( UserQuery userQuery) {
+    	userQuery.setRoleId(userService.getUser().getRole().getId().intValue());
         return userService.rolePageList(userQuery);
     }
     

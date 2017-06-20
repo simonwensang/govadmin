@@ -69,9 +69,21 @@
                                 <div class="col-sm-2">
                                     <select class="form-control" name="isDeleted">
                                     	<option value="">全部状态</option>
-                                        <option value="0">待审核</option>
-                                        <option value="1">正常</option>
-                                        <option value="2">禁用</option>
+                                        <option value="0"
+											#if($!{userQuery.isDeleted} ==0) 
+        										selected="selected"
+        									  #end
+											>待审核</option>
+                                        <option value="1"
+											#if($!{userQuery.isDeleted} ==1) 
+        										selected="selected"
+        									  #end
+											>正常</option>
+                                        <option value="2"
+											#if($!{userQuery.isDeleted} ==2) 
+        										selected="selected"
+        									  #end
+											>禁用</option>
                                     </select>
                                 </div>
                                 <label class="col-sm-1 control-label no-padding-right"> </label>
@@ -79,7 +91,11 @@
                                     <select class="form-control" name="roleId">
                                     	<option value="">全部权限</option>
                                     	#foreach($role in $roles)
-                                        <option value="$!{role.id}">$!{role.roleName}</option>
+                                        <option value="$!{role.id}"
+											#if($!{userQuery.roleId} ==$!{role.id}) 
+        										selected="selected"
+        									  #end
+											>$!{role.roleName}</option>
                                         #end
                                     </select>
                                 </div>

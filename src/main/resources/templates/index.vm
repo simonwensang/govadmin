@@ -13,12 +13,12 @@
         <div class="p1"></div>
         <div class="p2">
             <a href="javascript:void(0)" class="active">首页</a>
-            <a href="/event/submission?eventType=1">治安防范</a>
-            <a href="/event/submission?eventType=2">集镇管理</a>
-            <a href="/event/submission?eventType=3">矛盾纠纷</a>
-            <a href="/event/submission?eventType=4">基层党建</a>
-            <a href="/event/submission?eventType=5">民生服务</a>
-            <a href="/event/submission?eventType=6">其他服务</a>
+            <a href="/event/allReport?eventType=1">治安防范</a>
+            <a href="/event/allReport?eventType=2">集镇管理</a>
+            <a href="/event/allReport?eventType=3">矛盾纠纷</a>
+            <a href="/event/allReport?eventType=4">基层党建</a>
+            <a href="/event/allReport?eventType=5">民生服务</a>
+            <a href="/event/allReport?eventType=6">其他服务</a>
         </div>
         <div class="p3">
 			#if(!$user.name)
@@ -63,12 +63,12 @@
     <div class="container">
         <div class="f-links">
             <a href="javascript:void(0)">首页</a>
-            <a href="/event/submission?eventType=1">治安防范</a>
-            <a href="/event/submission?eventType=2">集镇管理</a>
-            <a href="/event/submission?eventType=3">矛盾纠纷</a>
-            <a href="/event/submission?eventType=4">基层党建</a>
-            <a href="/event/submission?eventType=5">民生服务</a>
-            <a href="/event/submission?eventType=6">其他服务</a>
+            <a href="/event/allReport?eventType=1">治安防范</a>
+            <a href="/event/allReport?eventType=2">集镇管理</a>
+            <a href="/event/allReport?eventType=3">矛盾纠纷</a>
+            <a href="/event/allReport?eventType=4">基层党建</a>
+            <a href="/event/allReport?eventType=5">民生服务</a>
+            <a href="/event/allReport?eventType=6">其他服务</a>
         </div>
     </div>
     <div class="container">

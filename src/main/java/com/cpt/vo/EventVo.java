@@ -51,7 +51,11 @@ public class EventVo {
     private String respDepartment;
 
     private Integer respDepartmentId;
+    
+    private String responsible;
 
+    private Integer responsibleId;
+    
     private String expiryDate;
 
     private String request;

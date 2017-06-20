@@ -24,6 +24,7 @@ import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.RespDepartment;
+import com.cpt.common.constant.RoleCode;
 import com.cpt.common.util.CodeFactory;
 import com.cpt.common.util.ImageOSSUtil;
 import com.cpt.convertor.EventConvertor;
@@ -189,8 +190,15 @@ public class EventServiceImpl implements EventService {
 		if(null!=eventReq.getCcUserId() && eventReq.getCcUserId().equals(eventReq.getAuditorId())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_USER_REPEAT);
 		}
+		
+		
 		Event event = EventConvertor.reqToEvent(eventReq);
-		User user = userCommonService.getUser();
+		User user = userService.getUser();
+		//只有 网格人员可以提报
+    	if(!RoleCode.VILLAGE.getKey().equals(user.getRole().getRoleCode())){
+    		return new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc());
+    	}
+		
 		User auditor = userService.get(eventReq.getAuditorId().longValue());
 		event.setAuditor(auditor.getName());
 		if(null!=eventReq.getCcUserId()){

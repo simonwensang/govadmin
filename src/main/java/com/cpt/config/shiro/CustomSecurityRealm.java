@@ -77,7 +77,7 @@ public class CustomSecurityRealm extends AuthorizingRealm {
 		String exitCode = (String) SecurityUtils.getSubject().getSession()
 				.getAttribute(LoginController.KEY_CAPTCHA);
 		if (null == captcha || !captcha.equalsIgnoreCase(exitCode)) {
-			throw new UnknownAccountException();
+			throw new AuthenticationException(Constants.CAPTHA_ERROR);
 		}
 		
 		UserExample example= new UserExample();
@@ -88,14 +88,14 @@ public class CustomSecurityRealm extends AuthorizingRealm {
         	User user = userEntityList.get(0);
         	if(UserStatus.AUDIT.getKey()==user.getIsDeleted().byteValue()
         			||UserStatus.FORBIDDEN.getKey()==user.getIsDeleted().byteValue()){
-    			throw new LockedAccountException();
+        		throw new AuthenticationException(Constants.LOCK_ERROR);
     		}
         	//user.setRoles(roleExtMapper.selectByUserId(user.getId()));
         	//user.setModules(moduleExtMapper.selectByUserId(user.getId()));
         	//SecurityUtils.getSubject().getSession().setAttribute("user", userEntity);
         	return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         } else {
-        	throw new UnknownAccountException();
+        	throw new AuthenticationException(Constants.NAME_PWD_ERROR);
         }
 	}
  

@@ -267,7 +267,13 @@
         $('.get-people').on('click', function () {
             $('#model_title').text('选择' + $(this).data('title'));
             $('#modal-table').modal('show');
-              getUser(1);
+			if ($('#model_title').text().indexOf('审核人') > 0) {
+                //弹出的窗口是给审核人的
+				getUser(1,$!{user.role.id});
+            } else {
+                //弹出的窗口是给抄送人的
+				getUser(1,3);
+            }
         });
 
         $('.tags').on('click', '.close', function () {
@@ -289,13 +295,14 @@
         });
     })
     ;
-   function getUser(page){
+	 
+   function getUser(page,roleId){
   	    var name =  $('#sname').val();
 		 $.ajax({
                 type: "get",
                 url: '/user/rolePageList',
                 data: {
-                   page:page,name:name
+                   page:page,name:name,roleId:roleId
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -315,15 +322,15 @@
 	                }  
 	                
 	                $("#pager").empty(); 
-	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
+	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+","+roleId+")'><i class='icon-double-angle-left'></i></a></li>");  
 	               //循环添加  
 	                 for(var j=1;j<=data.total;j++){  
 	                    var option = "<li ";
 	                    if(data.page==j){option = option+	"class='active' "; }
-                        option = option+ "><a onclick='getUser("+j+")'>"+j+"</a></li>";
+                        option = option+ "><a onclick='getUser("+j+","+roleId+")'>"+j+"</a></li>";
 	                   $("#pager").append(option);  
 	                }  
-                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
+                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+","+roleId+")'><i class='icon-double-angle-right'></i></a></li>");
                 },
                 error: function (data) {
                     if(data.msg){
