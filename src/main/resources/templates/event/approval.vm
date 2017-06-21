@@ -434,7 +434,7 @@
         	var url = '/event/higherUp';
         	var type= "get";
         	var data={ auditorId: userId, id: id };
-        	ajaxUtilReload(url,data,type);
+        	ajaxUtilReload(url,data,type,"/event/allReport?eventType="+$!{event.eventType});
 	 	});
 	}
 	

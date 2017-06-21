@@ -161,7 +161,7 @@ public class EventController {
     public ModelAndView detail(ModelAndView mav, Integer id) {
     	User user = userService.getUser();
     	EventVo event = eventService.detail(id);
-    	if(user.getId().intValue()!=event.getAuditorId()
+    	/*if(user.getId().intValue()!=event.getAuditorId()
     		&&user.getId().intValue()!=event.getCcUserId()
     		&&user.getId().intValue()!=event.getCommitUserId()
     		&&user.getId().intValue()!=event.getHandlerId()
@@ -171,7 +171,7 @@ public class EventController {
 	   		 mav.addObject("result", new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc()));
 	   		 mav.setViewName("error");
 	   		 return mav;
-    	}
+    	}*/
         mav.addObject("event", event);
         mav.setViewName("event/detail");
         mav.addObject("user",user);
@@ -186,7 +186,14 @@ public class EventController {
      */
     @RequestMapping(value = "/approval", method = RequestMethod.GET)
     public ModelAndView approval(ModelAndView mav, Integer id) {
-    	mav.addObject("event", eventService.detail(id));
+    	User user = userService.getUser();
+    	EventVo event = eventService.detail(id);
+    	if(user.getId().intValue()!=event.getAuditorId()){
+	   		 mav.addObject("result", new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc()));
+	   		 mav.setViewName("error");
+	   		 return mav;
+    	}
+        mav.addObject("event", event);
 	    mav.setViewName("event/approval");
 	    mav.addObject("organizationList",organizationService.select() );
 	    mav.addObject("user",userService.getUser());
