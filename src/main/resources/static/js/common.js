@@ -1,4 +1,4 @@
-function ajaxUtilReload(url,param,type){
+function ajaxUtilReload(url,param,type,loadUrl){
 		 $.ajax({
                 type: type,
                 url: url,
@@ -7,7 +7,12 @@ function ajaxUtilReload(url,param,type){
                 success: function (data) {
                     //提示审核通过成功信息并刷新页面
                 	alertShow(data.msg, function () {
-					 	location.reload();
+                		if(null==loadUrl){
+                			location.reload();
+                		}else{
+                			window.location.href=loadUrl;
+                		}
+					 	
                     });
                 },
                 error: function (data) {
