@@ -8,7 +8,7 @@
                 </small>
             </a>
         </div>
-		#if(  $!{user.role.roleCode}!="village")
+		#if(  $!{user.role.roleCode}!="null")
 			<div id="alert" class="alert alert-warning pull-left" style="margin-top: 20px;margin-left: 20px;display:none">
                
             </div>	
