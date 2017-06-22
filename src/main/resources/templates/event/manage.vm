@@ -86,7 +86,11 @@
                                             <label class="col-sm-1 control-label no-padding-right text-left">$!{event.appellant} </label>
                                             <label class="col-sm-1 control-label no-padding-right"> 联系方式： </label>
                                             <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.appellantTel} </label>
-                                        </div>
+											<div class="alert alert-block alert-success">
+                                                <label>备注：</label>
+                                                <div>$!{event.appellantRemark}</div>
+											</div>
+										</div>
                                     </div>
                                 </div>
                             </div>

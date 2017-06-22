@@ -6,6 +6,7 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
     <result column="reply_id" jdbcType="BIGINT" property="replyId" />
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
@@ -72,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, subject, content, reply_id, user, user_id, create_time, is_read, is_deleted
+    id, title, subject, content, attachment, reply_id, user, user_id, create_time, is_read, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cpt.model.MessageExample" resultMap="BaseResultMap">
     select
@@ -107,13 +109,13 @@
   </delete>
   <insert id="insert" parameterType="com.cpt.model.Message">
     insert into t_message (id, title, subject, 
-      content, reply_id, user, 
-      user_id, create_time, is_read, 
-      is_deleted)
+      content, attachment, reply_id, 
+      user, user_id, create_time, 
+      is_read, is_deleted)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{replyId,jdbcType=BIGINT}, #{user,jdbcType=VARCHAR}, 
-      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=TINYINT}, 
-      #{isDeleted,jdbcType=BIT})
+      #{content,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{replyId,jdbcType=BIGINT}, 
+      #{user,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isRead,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.cpt.model.Message">
     insert into t_message
@@ -129,6 +131,9 @@
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="attachment != null">
+        attachment,
       </if>
       <if test="replyId != null">
         reply_id,
@@ -161,6 +166,9 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
       </if>
       <if test="replyId != null">
         #{replyId,jdbcType=BIGINT},
@@ -203,6 +211,9 @@
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
+      <if test="record.attachment != null">
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
       <if test="record.replyId != null">
         reply_id = #{record.replyId,jdbcType=BIGINT},
       </if>
@@ -232,6 +243,7 @@
       title = #{record.title,jdbcType=VARCHAR},
       subject = #{record.subject,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
       reply_id = #{record.replyId,jdbcType=BIGINT},
       user = #{record.user,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
@@ -253,6 +265,9 @@
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
       </if>
       <if test="replyId != null">
         reply_id = #{replyId,jdbcType=BIGINT},
@@ -280,6 +295,7 @@
     set title = #{title,jdbcType=VARCHAR},
       subject = #{subject,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
       reply_id = #{replyId,jdbcType=BIGINT},
       user = #{user,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},

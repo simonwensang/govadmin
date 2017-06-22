@@ -3,8 +3,6 @@ package com.cpt.model;
 import java.util.Date;
 import java.util.List;
 
-import com.cpt.vo.EventHandleLogVo;
-
 public class Event {
     private Integer id;
 
@@ -21,6 +19,8 @@ public class Event {
     private String appellant;
 
     private String appellantTel;
+
+    private String appellantRemark;
 
     private String eventNo;
 
@@ -49,11 +49,11 @@ public class Event {
     private String respDepartment;
 
     private Integer respDepartmentId;
-    
+
     private String responsible;
 
     private Integer responsibleId;
-    
+
     private String expiryDate;
 
     private String request;
@@ -84,23 +84,7 @@ public class Event {
 
     private Byte isDeleted;
 
-    public String getResponsible() {
-		return responsible;
-	}
-
-	public void setResponsible(String responsible) {
-		this.responsible = responsible;
-	}
-
-	public Integer getResponsibleId() {
-		return responsibleId;
-	}
-
-	public void setResponsibleId(Integer responsibleId) {
-		this.responsibleId = responsibleId;
-	}
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -162,6 +146,14 @@ public class Event {
 
     public void setAppellantTel(String appellantTel) {
         this.appellantTel = appellantTel == null ? null : appellantTel.trim();
+    }
+
+    public String getAppellantRemark() {
+        return appellantRemark;
+    }
+
+    public void setAppellantRemark(String appellantRemark) {
+        this.appellantRemark = appellantRemark == null ? null : appellantRemark.trim();
     }
 
     public String getEventNo() {
@@ -274,6 +266,22 @@ public class Event {
 
     public void setRespDepartmentId(Integer respDepartmentId) {
         this.respDepartmentId = respDepartmentId;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible == null ? null : responsible.trim();
+    }
+
+    public Integer getResponsibleId() {
+        return responsibleId;
+    }
+
+    public void setResponsibleId(Integer responsibleId) {
+        this.responsibleId = responsibleId;
     }
 
     public String getExpiryDate() {

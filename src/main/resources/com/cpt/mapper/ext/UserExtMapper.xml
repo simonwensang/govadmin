@@ -146,6 +146,13 @@
         <if test="roleId != null" >
             AND  b.role_id  &lt; #{roleId}
         </if>
+        <if test="lessRoleId != null" >
+            AND  b.role_id  &gt; #{lessRoleId}
+        </if>
+         <if test="sefId != null">
+              AND   a.id != #{sefId} 
+        </if>
+        
     </where>
     order by c.id
   </select>

@@ -11,6 +11,8 @@ public class Message {
 
     private String content;
 
+    private String attachment;
+    
     private Long replyId;
 
     private String user;
@@ -53,6 +55,14 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment == null ? null : attachment.trim();
     }
 
     public Long getReplyId() {
@@ -102,4 +112,16 @@ public class Message {
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+    /*---------------*/
+    
+    private String  attachmentFile;
+
+	public String getAttachmentFile() {
+		return attachmentFile;
+	}
+
+	public void setAttachmentFile(String attachmentFile) {
+		this.attachmentFile = attachmentFile;
+	}
+
 }

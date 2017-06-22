@@ -635,6 +635,76 @@ public class EventExample {
             return (Criteria) this;
         }
 
+        public Criteria andAppellantRemarkIsNull() {
+            addCriterion("appellant_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkIsNotNull() {
+            addCriterion("appellant_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkEqualTo(String value) {
+            addCriterion("appellant_remark =", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkNotEqualTo(String value) {
+            addCriterion("appellant_remark <>", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkGreaterThan(String value) {
+            addCriterion("appellant_remark >", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("appellant_remark >=", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkLessThan(String value) {
+            addCriterion("appellant_remark <", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkLessThanOrEqualTo(String value) {
+            addCriterion("appellant_remark <=", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkLike(String value) {
+            addCriterion("appellant_remark like", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkNotLike(String value) {
+            addCriterion("appellant_remark not like", value, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkIn(List<String> values) {
+            addCriterion("appellant_remark in", values, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkNotIn(List<String> values) {
+            addCriterion("appellant_remark not in", values, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkBetween(String value1, String value2) {
+            addCriterion("appellant_remark between", value1, value2, "appellantRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppellantRemarkNotBetween(String value1, String value2) {
+            addCriterion("appellant_remark not between", value1, value2, "appellantRemark");
+            return (Criteria) this;
+        }
+
         public Criteria andEventNoIsNull() {
             addCriterion("event_no is null");
             return (Criteria) this;

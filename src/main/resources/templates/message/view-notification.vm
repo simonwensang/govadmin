@@ -60,6 +60,7 @@
                                                     <th>通知时间</th>
                                                     <th>发送人</th>
                                                     <th>通知内容</th>
+													<th>附件</th>
                                                     <th>操作</th>
                                                 </tr>
                                                 </thead>
@@ -69,6 +70,10 @@
                                                     <td>$dateTimeUtil.format($!{message.createTime},'yyyy-MM-dd HH:mm:ss')</td>
                                                     <td>$!{message.user}</td>
                                                     <td>$!{message.content}</td>
+													<td>
+														<label>$!{message.attachmentFile}</label>
+														<a href="$!{message.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+													</td>
                                                     <td>
 														#if ($!{message.isRead}==0)
     													<a class="delete" href="javascript:void(0)" data-id="$!{message.id}">未读</a>

@@ -7,6 +7,7 @@ public class MessageConstants {
 	public static final String PRARM_PASSWORD_ERROR = "两次输入密码不一致";
 	public static final String PRARM_MOBILE_ERROR = "两次输入手机号不一致";
 	public static final String PRARM_EMPTY = "参数不能为空";
+	public static final String FILE_SIZE_LARAGE = "文件不能超过10M";
 	public static final String PRARM_USER_REPEAT = "参数审核人和抄送人重复";
 	public static final String FILE_SAVE_ERROR = "文件保存失败";
 	public static final String PROJECT_EMPTY = "工程不存在";

@@ -8,13 +8,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MultipartConfig {
-
-	@Bean
+	 @Bean
 	public MultipartConfigElement multipartConfigElement(){
 		MultipartConfigFactory factory   = new MultipartConfigFactory();
 		factory.setMaxFileSize(10*1024L*1024L);
 		factory.setMaxRequestSize(100*1024L*1024L);
 		return factory.createMultipartConfig();
-	}
-	
+	} 
+	/*@Bean
+	public MultipartResolver multipartResolver(){
+		 
+		return new CommonsMultipartResolver();
+	}*/
 }

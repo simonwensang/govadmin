@@ -25,6 +25,8 @@ public class EventReq extends PageParam{
 	    private String appellant;
 
 	    private String appellantTel;
+	    
+	    private String appellantRemark;
 
 	    private String eventNo;
 

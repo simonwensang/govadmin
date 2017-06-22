@@ -9,6 +9,7 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="event_type" jdbcType="TINYINT" property="eventType" />
   </resultMap>
    
   <sql id="Base_Column_List">
@@ -20,6 +21,18 @@
     <include refid="Base_Column_List" />
     from t_work_flow
     where ref_id = #{id,jdbcType=BIGINT}
+  </select>
+   
+   <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+     SELECT 
+	  a.* ,b.`event_type`
+	FROM
+	  `t_work_flow` a 
+	  JOIN `t_event` b 
+	    ON a.`ref_id`=b.`id` 
+	WHERE a.`authority` = 2 
+	  AND a.`is_read` = 0 
+	  and user_id = #{userId,jdbcType=BIGINT}
   </select>
    
 </mapper>

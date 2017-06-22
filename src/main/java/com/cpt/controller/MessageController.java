@@ -1,6 +1,7 @@
  package com.cpt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,7 @@ public class MessageController {
 	private UserService userService;
 	@Autowired  
 	private MessageService messageService;
- 
+	
     /**
      * 分页消息
      *
@@ -98,10 +99,10 @@ public class MessageController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/get", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/get", method = RequestMethod.POST)
     @ResponseBody
     public Result<Message> get(Long id) {
     	return messageService.get(id);
-    }
+    }*/
 	
 }

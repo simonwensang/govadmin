@@ -34,6 +34,7 @@ import com.cpt.service.OrganizationService;
 import com.cpt.service.UserService;
 import com.cpt.vo.EnumBean;
 import com.cpt.vo.EventVo;
+import com.cpt.vo.WorkFlowVo;
 
 @Controller
 @RequestMapping("/event")
@@ -259,14 +260,9 @@ public class EventController {
      * @return
      */
     @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    public String addOrEdit(ModelMap map , EventReq eventReq) {
-    	 Result<Integer> result = eventService.addOrEdit(eventReq);
-    	 if(ResultCode.C200.getCode().equals(result.getCode())){
-    		 return "redirect:allReport?eventType="+eventReq.getEventType();
-    	 }else{
-    		 map.addAttribute("result", result);
-    		 return "error";
-    	 }
+    @ResponseBody
+    public Result<Integer> addOrEdit(ModelMap map , EventReq eventReq) {
+    	 return eventService.addOrEdit(eventReq);
     }
   
     /**
@@ -306,5 +302,18 @@ public class EventController {
     public Result<Integer> handle(ModelMap map ,EventReq eventReq) {
     	
     	return eventService.handle(eventReq);
+    }
+    
+    /**
+     * 得到最新审核记录
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/workFlow", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<WorkFlowVo> getWorkFlow() {
+    	return eventService.getWorkFlow();
     }
 }

@@ -10,6 +10,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="appellant" jdbcType="VARCHAR" property="appellant" />
     <result column="appellant_tel" jdbcType="VARCHAR" property="appellantTel" />
+    <result column="appellant_remark" jdbcType="VARCHAR" property="appellantRemark" />
     <result column="event_no" jdbcType="VARCHAR" property="eventNo" />
     <result column="event_type" jdbcType="TINYINT" property="eventType" />
     <result column="report_time" jdbcType="VARCHAR" property="reportTime" />
@@ -102,11 +103,11 @@
   </sql>
   <sql id="Base_Column_List">
     id, community, community_id, window, window_id, address, appellant, appellant_tel, 
-    event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
-    commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
-    responsible, responsible_id, expiry_date, request, audit_remark, handler, handler_id, 
-    handle_time, handle_result, handle_remark, update_user, update_user_id, update_time, 
-    event_status, cc_user, cc_user_id, is_deleted
+    appellant_remark, event_no, event_type, report_time, grade, description, attachment, 
+    commit_user, commit_user_id, commit_time, auditor, auditor_id, auditor_time, resp_department, 
+    resp_department_id, responsible, responsible_id, expiry_date, request, audit_remark, 
+    handler, handler_id, handle_time, handle_result, handle_remark, update_user, update_user_id, 
+    update_time, event_status, cc_user, cc_user_id, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cpt.model.EventExample" resultMap="BaseResultMap">
     select
@@ -142,32 +143,32 @@
   <insert id="insert" parameterType="com.cpt.model.Event">
     insert into t_event (id, community, community_id, 
       window, window_id, address, 
-      appellant, appellant_tel, event_no, 
-      event_type, report_time, grade, 
-      description, attachment, commit_user, 
-      commit_user_id, commit_time, auditor, 
-      auditor_id, auditor_time, resp_department, 
-      resp_department_id, responsible, responsible_id, 
-      expiry_date, request, audit_remark, 
-      handler, handler_id, handle_time, 
-      handle_result, handle_remark, update_user, 
-      update_user_id, update_time, event_status, 
-      cc_user, cc_user_id, is_deleted
-      )
+      appellant, appellant_tel, appellant_remark, 
+      event_no, event_type, report_time, 
+      grade, description, attachment, 
+      commit_user, commit_user_id, commit_time, 
+      auditor, auditor_id, auditor_time, 
+      resp_department, resp_department_id, responsible, 
+      responsible_id, expiry_date, request, 
+      audit_remark, handler, handler_id, 
+      handle_time, handle_result, handle_remark, 
+      update_user, update_user_id, update_time, 
+      event_status, cc_user, cc_user_id, 
+      is_deleted)
     values (#{id,jdbcType=INTEGER}, #{community,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}, 
       #{window,jdbcType=VARCHAR}, #{windowId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{appellant,jdbcType=VARCHAR}, #{appellantTel,jdbcType=VARCHAR}, #{eventNo,jdbcType=VARCHAR}, 
-      #{eventType,jdbcType=TINYINT}, #{reportTime,jdbcType=VARCHAR}, #{grade,jdbcType=TINYINT}, 
-      #{description,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{commitUser,jdbcType=VARCHAR}, 
-      #{commitUserId,jdbcType=INTEGER}, #{commitTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=VARCHAR}, 
-      #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, #{respDepartment,jdbcType=VARCHAR}, 
-      #{respDepartmentId,jdbcType=INTEGER}, #{responsible,jdbcType=VARCHAR}, #{responsibleId,jdbcType=INTEGER}, 
-      #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, #{auditRemark,jdbcType=VARCHAR}, 
-      #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, #{handleTime,jdbcType=VARCHAR}, 
-      #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{eventStatus,jdbcType=TINYINT}, 
-      #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT}
-      )
+      #{appellant,jdbcType=VARCHAR}, #{appellantTel,jdbcType=VARCHAR}, #{appellantRemark,jdbcType=VARCHAR}, 
+      #{eventNo,jdbcType=VARCHAR}, #{eventType,jdbcType=TINYINT}, #{reportTime,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
+      #{commitUser,jdbcType=VARCHAR}, #{commitUserId,jdbcType=INTEGER}, #{commitTime,jdbcType=TIMESTAMP}, 
+      #{auditor,jdbcType=VARCHAR}, #{auditorId,jdbcType=INTEGER}, #{auditorTime,jdbcType=TIMESTAMP}, 
+      #{respDepartment,jdbcType=VARCHAR}, #{respDepartmentId,jdbcType=INTEGER}, #{responsible,jdbcType=VARCHAR}, 
+      #{responsibleId,jdbcType=INTEGER}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
+      #{auditRemark,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, 
+      #{handleTime,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{eventStatus,jdbcType=TINYINT}, #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.cpt.model.Event">
     insert into t_event
@@ -195,6 +196,9 @@
       </if>
       <if test="appellantTel != null">
         appellant_tel,
+      </if>
+      <if test="appellantRemark != null">
+        appellant_remark,
       </if>
       <if test="eventNo != null">
         event_no,
@@ -314,6 +318,9 @@
       </if>
       <if test="appellantTel != null">
         #{appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantRemark != null">
+        #{appellantRemark,jdbcType=VARCHAR},
       </if>
       <if test="eventNo != null">
         #{eventNo,jdbcType=VARCHAR},
@@ -443,6 +450,9 @@
       <if test="record.appellantTel != null">
         appellant_tel = #{record.appellantTel,jdbcType=VARCHAR},
       </if>
+      <if test="record.appellantRemark != null">
+        appellant_remark = #{record.appellantRemark,jdbcType=VARCHAR},
+      </if>
       <if test="record.eventNo != null">
         event_no = #{record.eventNo,jdbcType=VARCHAR},
       </if>
@@ -551,6 +561,7 @@
       address = #{record.address,jdbcType=VARCHAR},
       appellant = #{record.appellant,jdbcType=VARCHAR},
       appellant_tel = #{record.appellantTel,jdbcType=VARCHAR},
+      appellant_remark = #{record.appellantRemark,jdbcType=VARCHAR},
       event_no = #{record.eventNo,jdbcType=VARCHAR},
       event_type = #{record.eventType,jdbcType=TINYINT},
       report_time = #{record.reportTime,jdbcType=VARCHAR},
@@ -609,6 +620,9 @@
       </if>
       <if test="appellantTel != null">
         appellant_tel = #{appellantTel,jdbcType=VARCHAR},
+      </if>
+      <if test="appellantRemark != null">
+        appellant_remark = #{appellantRemark,jdbcType=VARCHAR},
       </if>
       <if test="eventNo != null">
         event_no = #{eventNo,jdbcType=VARCHAR},
@@ -715,6 +729,7 @@
       address = #{address,jdbcType=VARCHAR},
       appellant = #{appellant,jdbcType=VARCHAR},
       appellant_tel = #{appellantTel,jdbcType=VARCHAR},
+      appellant_remark = #{appellantRemark,jdbcType=VARCHAR},
       event_no = #{eventNo,jdbcType=VARCHAR},
       event_type = #{eventType,jdbcType=TINYINT},
       report_time = #{reportTime,jdbcType=VARCHAR},

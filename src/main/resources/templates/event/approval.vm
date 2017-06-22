@@ -99,7 +99,11 @@
                                             <label class="col-sm-1 control-label no-padding-right text-left">$!{event.appellant} </label>
                                             <label class="col-sm-1 control-label no-padding-right"> 联系方式： </label>
                                             <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.appellantTel} </label>
-                                        </div>
+											<div class="alert alert-block alert-success">
+                                                <label>备注：</label>
+                                                <div>$!{event.appellantRemark}</div>
+											</div>
+										</div>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +247,7 @@
                                 #if  ( $!{user.role.roleCode}=="superuser" || $!{user.role.roleCode}=="admin")
                                     <button data-title="指派人" class="btn btn-lg btn-pink select-p" style="float: right;">
                                         指派人员
-                                    </button>
+                                    </button> 
                                 #end
                             </div>
                         </div>
@@ -357,7 +361,13 @@
     $('.select-p').on('click', function () {
         $('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
-        getUser(1);
+		
+		if ($('#model_title').text().indexOf('指派人') > 0){
+		 	getUser(1,5);
+		}else{
+			getUser(1,$!{user.role.id});
+		}
+        
     });
 
     $('#dispatch_task').on('click', function () {
@@ -379,14 +389,14 @@
         getRespUser(1);
     });
 
-    function getUser(page) {
+    function getUser(page,roleId) {
         var name = $('#sname').val();
         var eventId = $('#eventId').val();
         $.ajax({
             type: "get",
-            url: '/user/submissionRoleList',
+            url: '/user/rolePageList',
             data: {
-                page: page, name: name
+                page: page, name: name,roleId:roleId
             },
             dataType: 'json',
             success: function (data) {
@@ -406,17 +416,17 @@
                 }
 
                 $("#pager").empty();
-                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + ")'><i class='icon-double-angle-left'></i></a></li>");
+                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + ","+roleId+")'><i class='icon-double-angle-left'></i></a></li>");
                 //循环添加
                 for (var j = 1; j <= data.total; j++) {
                     var option = "<li ";
                     if (data.page == j) {
                         option = option + "class='active' ";
                     }
-                    option = option + "><a onclick='getUser(" + j + ")'>" + j + "</a></li>";
+                    option = option + "><a onclick='getUser(" + j + ","+roleId+")'>" + j + "</a></li>";
                     $("#pager").append(option);
                 }
-                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + ")'><i class='icon-double-angle-right'></i></a></li>");
+                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + ","+roleId+")'><i class='icon-double-angle-right'></i></a></li>");
             },
             error: function (data) {
                 if (data.msg) {
@@ -430,7 +440,7 @@
     }
 
 	function higherUp(userId,id){
-	 	confirmShows("确认上报？", function () {
+	 	confirmShows("确认指派？", function () {
         	var url = '/event/higherUp';
         	var type= "get";
         	var data={ auditorId: userId, id: id };
@@ -438,13 +448,14 @@
 	 	});
 	}
 	
-	function getRespUser(page) {
+	function getRespUser(page,departmentId) {
+	
         var name = $('#sname').val();
         $.ajax({
             type: "get",
             url: '/user/rolePageList',
             data: {
-                page: page, name: name
+                page: page, name: name,roleId:5
             },
             dataType: 'json',
             success: function (data) {

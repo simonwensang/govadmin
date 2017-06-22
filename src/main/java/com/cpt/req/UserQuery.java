@@ -17,5 +17,9 @@ public class UserQuery extends PageParam {
 	
 	private Integer roleId;
 	
+	private Integer lessRoleId;
+	
 	private Byte isDeleted;
+	
+	private Long sefId;
 }

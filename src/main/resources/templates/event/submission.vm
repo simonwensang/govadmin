@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>提报</title>
 	#parse("tags.vm")
-    <link rel="stylesheet" href="#springUrl('/js/uploadify/uploadify.css')">
-    <script src="#springUrl('/js/uploadify/jquery.uploadify.min.js')"></script>
+	<link rel="stylesheet" href="#springUrl('/js/uploadify/uploadify.css')">
+<script src="#springUrl('/js/uploadify/jquery.uploadify.min.js')"></script>
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
     <![endif]-->
@@ -127,6 +127,10 @@
                                             <div class="col-sm-2">
                                                 <input type="text" class="col-sm-12" name="appellantTel">
                                             </div>
+											<div>
+												<label for="form-field-8">备注：</label> 
+												<textarea class="form-control" id="form-field-8" placeholder="点击填写" name="appellantRemark"></textarea>
+											</div>
                                         </div>
                                     </div>
                                 </div>
@@ -181,11 +185,11 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main">
-                                        <input type="file" id="id-input-file-2" name="id-input-file-2"/>
+                                        <input type="file" id="id-input-file-2" name="attachment"/>
                                         <div id="file-up-1" class="ace-file-input" style="width: 400px;display: none"><label class="file-label selected" data-title=""><span class="file-name"><i class="icon-file"></i><span id="up-file-name"></span></span></label><a class="remove" style="cursor: pointer" id="up-file-remove"><i class="icon-remove"></i></a></div>
                                         <div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
                                     </div>
-                                    <input id="input-file-2" hidden name="input-file-2">
+                                    <input id="input-file-2" hidden name="attachment">
                                 </div>
                             </div>
 
@@ -223,10 +227,10 @@
                             <div class="space-10"></div>
 
                             <div style="text-align: center">
-                                <button class="btn btn-lg btn-success"  >
+                                <a onclick="commit()" class="btn btn-lg btn-success"  >
                                     <i class="icon-ok"></i>
                                     提交
-                                </button>
+                                </a>
                             </div>
                         </div>
 
@@ -254,11 +258,20 @@
             buttonClass : 'up-class',
             swf           : '/js/uploadify/uploadify.swf',
             uploader      : '/file/upload',
+			//服务器段访问的名称  
+            fileObjName :'attachment', 
+			method: 'post',
+            progressData : 'percentage',
             width         : 120,
+			multi : true,
             onUploadSuccess : function(file, data, response) {
-                $('#file-up-1').show();
-                $('#up-file-name').text(file.name);
-                $('#input-file-2').val(JSON.parse(data).value);
+				if(JSON.parse(data).code==200){
+                    $('#file-up-1').show();
+                    $('#up-file-name').text(file.name);
+                    $('#input-file-2').val(JSON.parse(data).value);
+				}else{
+					alertShow(JSON.parse(data).msg);
+				}
             }
         });
 
@@ -375,9 +388,13 @@
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 
-					 alertShow(data.msg, function () {
-					 	location.reload();
-                    });
+					if(data.code==200){
+    					 alertShow(data.msg, function () {
+    					 	location.reload();
+                       	  });
+					}else{
+						 alertShow(data.msg);
+					}  
                 });
 			   });
 		}

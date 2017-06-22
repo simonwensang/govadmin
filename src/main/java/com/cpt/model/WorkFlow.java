@@ -11,6 +11,8 @@ public class WorkFlow {
 
     private Byte status;
 
+    private Byte isRead;
+
     private Long userId;
 
     private Date createTime;
@@ -49,6 +51,14 @@ public class WorkFlow {
         this.status = status;
     }
 
+    public Byte getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Byte isRead) {
+        this.isRead = isRead;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -72,4 +82,15 @@ public class WorkFlow {
     public void setCreator(Long creator) {
         this.creator = creator;
     }
+    /*----------------*/
+    private Byte eventType;
+
+	public Byte getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(Byte eventType) {
+		this.eventType = eventType;
+	}
+    
 }

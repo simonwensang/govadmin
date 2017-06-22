@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cpt.mapper.ext.EventExtMapper">
  <resultMap id="BaseResultMap" type="com.cpt.model.Event">
-    <id column="id" jdbcType="INTEGER" property="id" />
+     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="community" jdbcType="VARCHAR" property="community" />
     <result column="community_id" jdbcType="INTEGER" property="communityId" />
     <result column="window" jdbcType="VARCHAR" property="window" />
@@ -10,6 +10,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="appellant" jdbcType="VARCHAR" property="appellant" />
     <result column="appellant_tel" jdbcType="VARCHAR" property="appellantTel" />
+    <result column="appellant_remark" jdbcType="VARCHAR" property="appellantRemark" />
     <result column="event_no" jdbcType="VARCHAR" property="eventNo" />
     <result column="event_type" jdbcType="TINYINT" property="eventType" />
     <result column="report_time" jdbcType="VARCHAR" property="reportTime" />
@@ -41,18 +42,18 @@
     <result column="cc_user" jdbcType="VARCHAR" property="ccUser" />
     <result column="cc_user_id" jdbcType="INTEGER" property="ccUserId" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
- 	 <collection property="authority" ofType="java.lang.Byte">
+     <collection property="authority" ofType="java.lang.Byte">
 	    <result column="f_authority" jdbcType="TINYINT"/>
     </collection>
   </resultMap>
   
-     <sql id="Base_Column_List">
-        id, community, community_id, window, window_id, address, appellant, appellant_tel, 
-    event_no, event_type, report_time, grade, description, attachment, commit_user, commit_user_id, 
-    commit_time, auditor, auditor_id, auditor_time, resp_department, resp_department_id, 
-    responsible, responsible_id, expiry_date, request, audit_remark, handler, handler_id, 
-    handle_time, handle_result, handle_remark, update_user, update_user_id, update_time, 
-    event_status, cc_user, cc_user_id, is_deleted
+   <sql id="Base_Column_List">
+    id, community, community_id, window, window_id, address, appellant, appellant_tel, 
+    appellant_remark, event_no, event_type, report_time, grade, description, attachment, 
+    commit_user, commit_user_id, commit_time, auditor, auditor_id, auditor_time, resp_department, 
+    resp_department_id, responsible, responsible_id, expiry_date, request, audit_remark, 
+    handler, handler_id, handle_time, handle_result, handle_remark, update_user, update_user_id, 
+    update_time, event_status, cc_user, cc_user_id, is_deleted
   </sql>
     
     <sql id="Page_Column_List">
@@ -167,6 +168,9 @@
       <if test="appellantTel != null">
         appellant_tel,
       </if>
+      <if test="appellantRemark != null">
+        appellant_remark,
+      </if>
       <if test="eventNo != null">
         event_no,
       </if>
@@ -208,6 +212,12 @@
       </if>
       <if test="respDepartmentId != null">
         resp_department_id,
+      </if>
+      <if test="responsible != null">
+        responsible,
+      </if>
+      <if test="responsibleId != null">
+        responsible_id,
       </if>
       <if test="expiryDate != null">
         expiry_date,
@@ -280,6 +290,9 @@
       <if test="appellantTel != null">
         #{appellantTel,jdbcType=VARCHAR},
       </if>
+      <if test="appellantRemark != null">
+        #{appellantRemark,jdbcType=VARCHAR},
+      </if>
       <if test="eventNo != null">
         #{eventNo,jdbcType=VARCHAR},
       </if>
@@ -321,6 +334,12 @@
       </if>
       <if test="respDepartmentId != null">
         #{respDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="responsible != null">
+        #{responsible,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleId != null">
+        #{responsibleId,jdbcType=INTEGER},
       </if>
       <if test="expiryDate != null">
         #{expiryDate,jdbcType=VARCHAR},

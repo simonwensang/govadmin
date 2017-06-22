@@ -25,6 +25,8 @@ public class EventVo {
     private String appellant;
 
     private String appellantTel;
+    
+    private String appellantRemark;
 
     private String eventNo;
 

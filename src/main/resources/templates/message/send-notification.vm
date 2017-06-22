@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>发送通知</title>
     #parse("tags.vm")
-
+    <link rel="stylesheet" href="#springUrl('/js/uploadify/uploadify.css')">
+    <script src="#springUrl('/js/uploadify/jquery.uploadify.min.js')"></script>
 
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
@@ -58,6 +59,7 @@
                                                 <div class="tags pull-left" id="add_shr" style="min-width: 200px;position: relative;padding-right: 48px">
                                                     <i class="icon-plus-sign get-people" data-title="审核人" style="top: 6px"></i>
                                                 </div>
+												<input id="replyId" hidden name="replyId">
                                             </div>
                                         </div>
                                         <div>
@@ -70,9 +72,11 @@
                                             </div>
                                             <div class="widget-body">
                                                 <div class="widget-main">
-                                                    <input type="file" id="id-input-file-2" name="file"/>
-                                                    <div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
+                                                    <input type="file" id="id-input-file-2" name="attachment"/>
+													<div id="file-up-1" class="ace-file-input" style="width: 400px;display: none"><label class="file-label selected" data-title=""><span class="file-name"><i class="icon-file"></i><span id="up-file-name"></span></span></label><a class="remove" style="cursor: pointer" id="up-file-remove"><i class="icon-remove"></i></a></div>
+													<div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
                                                 </div>
+												 <input id="input-file-2" hidden name="attachment">
                                             </div>
                                         </div>
                                         <div style="text-align: center;margin-top: 10px">
@@ -113,8 +117,8 @@
             $('#modal-table').modal('show');
               getUser(1);
         });
-
-        $('.tags').on('click', '.close', function () {
+		
+		$('.tags').on('click', '.close', function () {
             $(this).parent().remove();
         });
 
@@ -124,6 +128,36 @@
             $('#modal-table').modal('hide');
            
         });
+		
+ 		$("#id-input-file-2").uploadify({
+            height        : 30,
+            buttonText:'上传文件',
+            buttonClass : 'up-class',
+            swf           : '/js/uploadify/uploadify.swf',
+            uploader      : '/file/upload',
+			//服务器段访问的名称  
+            fileObjName :'attachment', 
+			method: 'post',
+            progressData : 'percentage',
+            width         : 120,
+			multi : true,
+            onUploadSuccess : function(file, data, response) {
+				if(JSON.parse(data).code==200){
+                    $('#file-up-1').show();
+                    $('#up-file-name').text(file.name);
+                    $('#input-file-2').val(JSON.parse(data).value);
+				}else{
+					alertShow(JSON.parse(data).msg);
+				}
+            }
+        });
+
+        $('#up-file-remove').on('click',function () {
+            $('#file-up-1').hide();
+            $('#up-file-name').text('');
+            $('#input-file-2').val('');
+        });
+        
     }) ;
    function getUser(page){
   	    var name =  $('#sname').val();
@@ -131,7 +165,7 @@
                 type: "get",
                 url: '/user/rolePageList',
                 data: {
-                   page:page,name:name
+                   page:page,name:name,lessRoleId:4
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -175,10 +209,14 @@
 	  function commit(){
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
-                    // 提交成功后处理，message为提交页面的返回内容 
-					 alertShow(data.msg, function () {
-					 	location.reload();
-                    });
+                     // 提交成功后处理，message为提交页面的返回内容 
+					if(data.code==200){
+    					 alertShow(data.msg, function () {
+    					 	location.reload();
+                       	  });
+					}else{
+						 alertShow(data.msg);
+					}  
                 });
 			   });
 		}

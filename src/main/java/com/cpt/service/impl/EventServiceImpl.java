@@ -1,8 +1,10 @@
 package com.cpt.service.impl;
 
-import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,14 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.cpt.common.PageParam;
 import com.cpt.common.PageResult;
 import com.cpt.common.Result;
 import com.cpt.common.ResultCode;
 import com.cpt.common.constant.AuthorityStatus;
+import com.cpt.common.constant.CommonBean;
 import com.cpt.common.constant.EventStatus;
+import com.cpt.common.constant.EventType;
 import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.RespDepartment;
@@ -46,8 +49,10 @@ import com.cpt.service.OrganizationService;
 import com.cpt.service.UserCommonService;
 import com.cpt.service.UserService;
 import com.cpt.vo.EventVo;
+import com.cpt.vo.WorkFlowVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -85,8 +90,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Value("${oss.web.url}")
 	public String ossWebUrl;
-	
-	
+ 
 	@Override
 	public PageResult<EventVo> allReport(EventReq eventReq) {
 		 //当前页列表
@@ -154,6 +158,30 @@ public class EventServiceImpl implements EventService {
 		}
 		
 	}
+	 
+	@Override
+	public Result<WorkFlowVo> getWorkFlow() {
+		WorkFlowVo workFlowVo = new WorkFlowVo();
+		List<CommonBean> beanList = Lists.newArrayList();
+		List<WorkFlow> workFlowList = workFlowExtMapper.selectByUserId(userCommonService.getUserId());
+		workFlowVo.setSum(workFlowList.size());
+		Set<Byte> set = new HashSet<Byte>();
+		for(WorkFlow workFlow : workFlowList){
+			set.add(workFlow.getEventType());
+		}
+		Iterator<Byte> iterator = set.iterator();
+		CommonBean bean = null;
+		while(iterator.hasNext()){
+			bean = new CommonBean();
+			Byte type = iterator.next();
+			bean.setKey(type);
+			bean.setValue(EventType.getValueByKey(type));
+			beanList.add(bean);
+		}
+		workFlowVo.setBean(beanList);
+		return Result.newResult(workFlowVo);
+	}
+
 	@Override
 	public Result<EventVo> approval(Integer id) {
 		Event event = this.get(id);
@@ -191,7 +219,6 @@ public class EventServiceImpl implements EventService {
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_USER_REPEAT);
 		}
 		
-		
 		Event event = EventConvertor.reqToEvent(eventReq);
 		User user = userService.getUser();
 		//只有 网格人员可以提报
@@ -206,25 +233,6 @@ public class EventServiceImpl implements EventService {
 			event.setCcUser(ccUser.getName());
 		}
 		if(eventReq.getId()==null){
-			//保存图片
-			if(null!=eventReq.getMultFile()){
-				MultipartFile image = eventReq.getMultFile();
-//				String path = this.imagepath+this.attachment;
-				String imageName= image.getOriginalFilename();
-//				String realname = path+"/"+imageName;
-//				try {
-//					FileUtils.copyInputStreamToFile(image.getInputStream(), new File(realname));
-//				} catch (IOException e) {
-//					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
-//				}
-				String targetFile = ossPathFile+"/"+imageName;
-				try {
-					imageOSSUtil.upload(targetFile,image.getInputStream());
-				} catch (IOException e) {
-					return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
-				}
-				event.setAttachment(targetFile);
-			}
 			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setEventNo(CodeFactory.getCode());
 			event.setEventStatus(EventStatus.AUDIT.getKey());

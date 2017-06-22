@@ -5,6 +5,7 @@ import com.cpt.common.PageResult;
 import com.cpt.common.Result;
 import com.cpt.req.EventReq;
 import com.cpt.vo.EventVo;
+import com.cpt.vo.WorkFlowVo;
 
 public interface EventService {
 
@@ -25,5 +26,7 @@ public interface EventService {
 	public Result<Integer> higherUp(EventReq eventReq);
 	
 	public Result<Integer> handle(EventReq eventReq);
+	
+	public Result<WorkFlowVo> getWorkFlow();
 	
 }

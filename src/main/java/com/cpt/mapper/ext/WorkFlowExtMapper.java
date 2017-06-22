@@ -7,5 +7,7 @@ import com.cpt.model.WorkFlow;
 public interface WorkFlowExtMapper {
 
     List<WorkFlow> selectByRefId(Long id);
-
+    
+    List<WorkFlow> selectByUserId(Long userId);
+    
 }
