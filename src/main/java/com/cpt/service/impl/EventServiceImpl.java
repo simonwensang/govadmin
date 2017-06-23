@@ -22,6 +22,7 @@ import com.cpt.common.Result;
 import com.cpt.common.ResultCode;
 import com.cpt.common.constant.AuthorityStatus;
 import com.cpt.common.constant.CommonBean;
+import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
 import com.cpt.common.constant.HandleType;
@@ -354,6 +355,16 @@ public class EventServiceImpl implements EventService {
 		return workFlowMapper.insertSelective(workFlow);
 	}
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Integer updateWorkFlow(Long refId,Long appointUser){
+		WorkFlow workFlow = new WorkFlow();
+		workFlow.setIsRead(Constants.ISDELETED);
+		WorkFlowExample example = new WorkFlowExample();
+		example.createCriteria().andRefIdEqualTo(refId)
+		.andUserIdEqualTo(appointUser)
+		.andAuthorityEqualTo(AuthorityStatus.AUDITOR.getKey());
+		return workFlowMapper.updateByExampleSelective(workFlow, example);
+	}
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Integer deleteWorkFlow(Long refId, Long appointUser, AuthorityStatus authorityStatus ){
 		WorkFlowExample example = new WorkFlowExample();
 		WorkFlowExample.Criteria  criteria= example.createCriteria();
@@ -398,4 +409,6 @@ public class EventServiceImpl implements EventService {
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	private int update(Event event){
 		return eventMapper.updateByPrimaryKeySelective(event);
-	}}
+	} 
+ 
+}

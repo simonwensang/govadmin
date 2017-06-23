@@ -8,25 +8,33 @@
                 </small>
             </a>
         </div>
-		#if(  $!{user.role.roleCode}!="null")
+		#if(  $!{user.role.roleCode}!="village")
 			<div id="alert" class="alert alert-warning pull-left" style="margin-top: 20px;margin-left: 20px;display:none">
                
             </div>	
 			<script>
             	$(function(){
-				var html="<button type='button' class='close' data-dismiss='alert'><i class='icon-remove'></i></button>您有 <strong>1</strong> 条上报需要审核。上报类型：<a href='javascript:'>治安防范</a><br>";
                 setInterval(function(){
+				$("#alert").empty();
         			 $.ajax({
                     type: "post",
-                    url: '/projectPrice/savePriceOfferItem',
+                    url: '/event//workFlow',
                     dataType: 'json',
                     success: function (data) {
                         // 提交成功后处理，message为提交页面的返回内容 
-        				  $("#alert").append();
-						  //循环添加  
-                         for(var j=0;j<data.length;j++){  
-                            
-                        }  
+						if(data.value.sum>0){
+    						 var start="<button type='button' class='close' data-dismiss='alert'><i class='icon-remove'></i></button>您有 <strong>";
+    						 var mid = "</strong> 条上报需要审核。上报类型：";
+    						 var type="";
+    						  //循环添加  
+                             for(var j=0;j<data.value.bean.length;j++){  
+                                type=type+"<a href='/event/allReport?eventType="+data.value.bean[j].key+"'>"+data.value.bean[j].value+"</a><br>"
+                             }  
+    						
+    						$("#alert").append(start+data.value.sum+mid+type);
+    						$("#alert").show();
+						}
+        				
                     },
                     error: function (data) {
                         if(data.msg){
@@ -37,7 +45,7 @@
                         }
                     }
                 });
-                }，6000)//后面的500是以毫秒为单位。
+                },60000)//是以毫秒为单位
             });
             </script>
 		#end

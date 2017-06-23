@@ -3,6 +3,8 @@ package com.cpt.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,10 @@ import com.cpt.common.ResultCode;
 import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
-import com.cpt.common.constant.MessageConstants;
 import com.cpt.common.constant.RoleCode;
+import com.cpt.common.util.ExcelUtils;
 import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.model.Address;
-import com.cpt.model.Event;
 import com.cpt.model.User;
 import com.cpt.req.EventReq;
 import com.cpt.service.AddressService;
@@ -57,7 +58,22 @@ public class EventController {
 	private RoleExtMapper roleExtMapper;
 	@Autowired 
 	private  OrganizationService organizationService;
-	 /**
+	  private static final String EXPORT_RECORD_TEMPLATE = "templates/excel/event_record.xlsx";
+	/**
+     * 未处理的
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/excel", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Integer> excel(ModelAndView mav,EventReq eventReq, HttpServletResponse response) {
+    	eventReq.setEventType(null==eventReq.getEventType()?1:eventReq.getEventType()) ;
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "event_record.xlsx", result.getRows(), response);
+		return null;
+    }
+	/**
      * 事件分页查询
      *
      * @param mav
@@ -194,6 +210,7 @@ public class EventController {
 	   		 mav.setViewName("error");
 	   		 return mav;
     	}
+    	eventService.updateWorkFlow(id.longValue(), user.getId());
         mav.addObject("event", event);
 	    mav.setViewName("event/approval");
 	    mav.addObject("organizationList",organizationService.select() );

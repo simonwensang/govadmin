@@ -29,4 +29,6 @@ public interface EventService {
 	
 	public Result<WorkFlowVo> getWorkFlow();
 	
+	public Integer updateWorkFlow(Long refId,Long appointUser);
+	
 }

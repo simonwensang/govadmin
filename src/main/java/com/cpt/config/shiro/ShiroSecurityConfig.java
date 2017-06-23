@@ -120,7 +120,7 @@ public class ShiroSecurityConfig {
     	rcm.setRedisManager(redisManager());
     	return rcm;
     }
-	/*@Bean
+	/* @Bean
 	  public RedisManager redisManager(){
     	RedisManager redisManager = new RedisManager();
     	redisManager.setHost("r-bp11b90f462293a4.redis.rds.aliyuncs.com");
