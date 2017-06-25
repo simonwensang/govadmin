@@ -127,10 +127,11 @@
                                             <div class="col-sm-2">
                                                 <input type="text" class="col-sm-12" name="appellantTel">
                                             </div>
-											<div>
-												<label for="form-field-8">备注：</label> 
-												<textarea class="form-control" id="form-field-8" placeholder="点击填写" name="appellantRemark"></textarea>
-											</div>
+
+                                        </div>
+                                        <div>
+                                            <label for="form-field-8">备注：</label>
+                                            <textarea class="form-control" id="form-field-8" placeholder="点击填写" name="appellantRemark"></textarea>
                                         </div>
                                     </div>
                                 </div>
