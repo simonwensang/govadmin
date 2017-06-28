@@ -23,7 +23,9 @@ import com.cpt.common.constant.Constants;
 import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
 import com.cpt.common.constant.RoleCode;
+import com.cpt.common.util.DateUtils;
 import com.cpt.common.util.ExcelUtils;
+import com.cpt.convertor.EventConvertor;
 import com.cpt.mapper.ext.RoleExtMapper;
 import com.cpt.model.Address;
 import com.cpt.model.User;
@@ -70,9 +72,10 @@ public class EventController {
     public Result<Integer> excel(ModelAndView mav,EventReq eventReq, HttpServletResponse response) {
     	eventReq.setEventType(null==eventReq.getEventType()?1:eventReq.getEventType()) ;
     	PageResult<EventVo> result = eventService.allReport(eventReq);
-    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "event_record.xlsx", result.getRows(), response);
+    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "事件下载"+DateUtils.getCurrentDay(DateUtils.dateTimeString4FileName)+".xlsx", EventConvertor.fixExcel(result.getRows()), response);
 		return null;
     }
+     
 	/**
      * 事件分页查询
      *

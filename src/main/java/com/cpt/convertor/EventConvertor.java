@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.cglib.beans.BeanCopier;
 
+import com.cpt.common.constant.EventStatus;
+import com.cpt.common.constant.EventType;
+import com.cpt.common.constant.Grade;
 import com.cpt.model.Event;
 import com.cpt.req.EventReq;
 import com.cpt.vo.EventVo;
@@ -46,5 +49,14 @@ public class EventConvertor {
         	eventVoList.add(toEventVo(event));
         }
         return eventVoList;
+    }
+    
+    public static List<EventVo> fixExcel(List<EventVo> eventList){
+    	for(EventVo  event  : eventList){
+    		event.setEventTypeStr(EventType.getValueByKey(event.getEventType()));
+    		event.setGradeStr(Grade.getValueByKey(event.getGrade()));
+    		event.setEventStatusStr(EventStatus.getValueByKey(event.getEventStatus()));
+        }
+    	return eventList;
     }
 }

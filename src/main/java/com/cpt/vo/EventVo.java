@@ -31,10 +31,14 @@ public class EventVo {
     private String eventNo;
 
     private Byte eventType;
+    
+    private String eventTypeStr;
 
     private String reportTime;
 
     private Byte grade;
+    
+    private String gradeStr;
 
     private String attachment;
 
@@ -101,5 +105,7 @@ public class EventVo {
   	private Boolean showManager=false;
   	//("是否显示查看明细")
   	private Boolean showDetail=false;
+  	
+  	private String eventStatusStr;
     
 }
