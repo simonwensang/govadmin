@@ -72,10 +72,37 @@ public class EventController {
     public Result<Integer> excel(ModelAndView mav,EventReq eventReq, HttpServletResponse response) {
     	eventReq.setEventType(null==eventReq.getEventType()?1:eventReq.getEventType()) ;
     	PageResult<EventVo> result = eventService.allReport(eventReq);
-    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "事件下载"+DateUtils.getCurrentDay(DateUtils.dateTimeString4FileName)+".xlsx", EventConvertor.fixExcel(result.getRows()), response);
+    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "event"+DateUtils.getCurrentDay(DateUtils.dateTimeString4FileName)+".xlsx", EventConvertor.fixExcel(result.getRows()), response);
 		return null;
     }
-     
+    /**
+     * 未处理的
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/excelTreated", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Integer> excelTreated(ModelAndView mav,EventReq eventReq, HttpServletResponse response) {
+    	eventReq.setEventStatusList(Arrays.asList(EventStatus.CLOSE.getKey()));
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "treated"+DateUtils.getCurrentDay(DateUtils.dateTimeString4FileName)+".xlsx", EventConvertor.fixExcel(result.getRows()), response);
+		return null;
+    }
+    /**
+     * 未处理的
+     *
+     * @param mav
+     * @return
+     */
+    @RequestMapping(value = "/excelUntreated", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Integer> excelUntreated(ModelAndView mav,EventReq eventReq, HttpServletResponse response) {
+    	eventReq.setEventStatusList(Arrays.asList(EventStatus.INIT.getKey(),EventStatus.AUDIT.getKey(),EventStatus.HANDLE.getKey()));
+    	PageResult<EventVo> result = eventService.allReport(eventReq);
+    	ExcelUtils.write2excel(EXPORT_RECORD_TEMPLATE, "untreated"+DateUtils.getCurrentDay(DateUtils.dateTimeString4FileName)+".xlsx", EventConvertor.fixExcel(result.getRows()), response);
+		return null;
+    }
 	/**
      * 事件分页查询
      *
