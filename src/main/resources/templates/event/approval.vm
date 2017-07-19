@@ -265,7 +265,7 @@
                                             <span id="model_1_title">任务派遣</span>
                                         </div>
                                     </div>
-                                    <form role="form" id="createForm" method="post" action="/event/sendHandler">
+                                    <form role="form" id="sendForm" method="post" action="/event/sendHandler">
                                         <input type="hidden" id="eventId" value="$!{event.id}" name="id">
                                         <div class="modal-body no-padding">
                                             <div class="form-group clearfix"
@@ -319,10 +319,10 @@
                                                 <i class="icon-remove"></i>
                                                 取消
                                             </button>
-                                            <button class="btn btn-sm btn-primary">
+                                            <a class="btn btn-sm btn-primary" onclick="sendHandler()">
                                                 <i class="icon-ok"></i>
                                                 提交
-                                            </button>
+                                            </a>
                                         </div>
                                 </div>
                                 </form>
@@ -445,6 +445,21 @@
         	var type= "get";
         	var data={ auditorId: userId, id: id };
         	ajaxUtilReload(url,data,type,"/event/allReport?eventType="+$!{event.eventType});
+	 	});
+	}
+	
+	function sendHandler(){
+		confirmShows("确认派遣？", function () {
+        	 $("#sendForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					if(data.code==200){
+    					 alertShow(data.msg, function () {
+    					 	window.location.href="/event/allReport?eventType="+$!{event.eventType};
+                       	  });
+					}else{
+						 alertShow(data.msg);
+					}  
+                });
 	 	});
 	}
 	

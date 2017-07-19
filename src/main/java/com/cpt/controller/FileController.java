@@ -43,7 +43,7 @@ public class FileController   {
 	@Value("${oss.web.url}")
 	public String ossWebUrl;
 	
-	@RequestMapping(value = "upload" , method = { RequestMethod.POST })
+	@RequestMapping(value = "upload" , method = { RequestMethod.POST } , produces =  "application/json;charset=UTF-8")
 	@ResponseBody
 	public Result<String> upload( MultipartFile attachment ){
 		try {

@@ -251,7 +251,7 @@
                         </div>
 
                         <!--任务派遣弹窗-->
-            		<form  role="form" id="createForm" 	 method="post" action="/event/handle">
+            		<form  role="form" id="handleForm" 	 method="post" action="/event/handle">
                        <input type="hidden" value="$!{event.id}" name="id">
                         <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
                             <div class="modal-dialog">
@@ -290,10 +290,10 @@
                                             <i class="icon-remove"></i>
                                             取消
                                         </button>
-                                        <button class="btn btn-sm btn-primary">
+                                        <a class="btn btn-sm btn-primary" onclick="handle()">
                                             <i class="icon-remove"></i>
                                             提交
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -309,12 +309,7 @@
 
 
 </div>
-
-<script src="assets/js/jquery-1.10.2.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/ace-elements.min.js"></script>
-<script src="assets/js/ace.min.js"></script>
-<script src="assets/js/laydate.js"></script>
+ 
 <script>
     laydate({
         elem: '#report-time-picker',
@@ -329,6 +324,21 @@
     $('#dispatch_task').on('click',function () {
         $('#modal-table-1').modal('show');
     });
+	
+	function handle(){
+		confirmShows("确认提交？", function () {
+        	 $("#handleForm").ajaxSubmit(function(data) { 
+                    // 提交成功后处理，message为提交页面的返回内容 
+					if(data.code==200){
+    					 alertShow(data.msg, function () {
+    					 	window.location.href="/event/allReport?eventType="+$!{event.eventType};
+                       	  });
+					}else{
+						 alertShow(data.msg);
+					}  
+                });
+	 	});
+	}
 </script>
 </body>
 </html>
