@@ -17,6 +17,7 @@ public class MessageConstants {
 	public static final String PRODUCT_TYPE_EXIT = "商品类型已存在";
 	public static final String ACCOUNT_EXIT = "用户名存在";
 	public static final String NO_AUTHOR = "没有权限";
+	public static final String NO_AUTHOR_DELETE = "只有初始和待审核状态才可以删除";
 	public static final String NO_PRICE = "只有报价中状态的项目才能签合同";
     public static final String SAVE_SUCCESS = "保存成功";
     public static final String UPDATE_SUCCESS = "更新成功";

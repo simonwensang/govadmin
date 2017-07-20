@@ -311,7 +311,18 @@ public class EventController {
     public Result<Integer> addOrEdit(ModelMap map , EventReq eventReq) {
     	 return eventService.addOrEdit(eventReq);
     }
-  
+    /**
+     *  删除
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Integer> delete(Integer id) {
+    	 return eventService.delete(id);
+    }
     /**
      * 派遣
      *

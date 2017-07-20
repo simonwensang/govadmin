@@ -297,9 +297,9 @@
                                                        style="line-height: 40px"> 责任人 </label>
                                                 <div class="tags pull-left" id="add_shr"
                                                      style="width: 200px;position: relative;">
-                                                    <input type="hidden" id="responsibleId" name="responsibleId">
                                                     <i class="icon-plus-sign get-people" data-title="责任人"></i>
                                                 </div>
+												<input type="hidden" id="responsibleId" name="responsibleId">
                                             </div>
                                             <div class="form-group" style="padding: 0 10px">
                                                 <label for="form-field-8">处理要求：</label>
@@ -376,6 +376,7 @@
     $('.select-p-wrap').on('click', '.select-p', function () {
         if ($('#model_title').text().indexOf('责任人') > 0) {
             //弹出的窗口是给负责人的
+			alert($(this).data('id'));
             $('#responsibleId').val($(this).data('id'));
             $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
         }

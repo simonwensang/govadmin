@@ -282,6 +282,7 @@ public class EventServiceImpl implements EventService {
 		if(null!=eventReq.getResponsibleId()){
 			User Responsible = userService.get(eventReq.getResponsibleId().longValue());
 			param.setResponsible(Responsible.getName());
+			param.setResponsibleId(eventReq.getResponsibleId());
 		}
 		param.setExpiryDate(eventReq.getExpiryDate());
 		param.setRequest(eventReq.getRequest());
@@ -386,8 +387,24 @@ public class EventServiceImpl implements EventService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> delete(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(null==id){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
+		}
+		User user = userCommonService.getUser();
+		Event event =  this.get(id);
+		if(null==event){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		
+		if(user.getId().intValue()!=event.getCommitUserId().intValue()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}
+		if(!EventStatus.INIT.getValue().equals(event.getEventStatus())
+				&&!EventStatus.AUDIT.getValue().equals(event.getEventStatus())){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
+		}
+		
+		return Result.newResult(eventMapper.deleteByPrimaryKey(id));
 	}
 	
 	public Event get(Integer id) {
