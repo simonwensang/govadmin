@@ -376,7 +376,6 @@
     $('.select-p-wrap').on('click', '.select-p', function () {
         if ($('#model_title').text().indexOf('责任人') > 0) {
             //弹出的窗口是给负责人的
-			alert($(this).data('id'));
             $('#responsibleId').val($(this).data('id'));
             $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
         }
