@@ -384,6 +384,11 @@
 
     });
 
+    $('#add_shr').on('click','.close',function () {
+       $(this).parent().remove();
+        $('#responsibleId').val('');
+    });
+
     $('.get-people').on('click', function () {
         $('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
