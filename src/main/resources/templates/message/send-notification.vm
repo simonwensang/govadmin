@@ -19,7 +19,7 @@
     <![endif]-->
 </head>
 <body>
- #parse("header.vm")
+    #parse("header.vm")
 <div class="main-container" id="main-container">
 
     <div class="main-container-inner">
@@ -46,51 +46,64 @@
                         <!-- PAGE CONTENT BEGINS -->
 
                         <div class="row form-horizontal">
-							<form  role="form" id="createForm"  method="post" action="/message/addOrEdit">
-                            <div class="widget-box">
-                                <div class="widget-header">
-                                    <h4>发送通知</h4>
-                                </div>
-                                <div class="widget-body">
-                                    <div class="widget-main">
-										<div class="form-group" style="max-width: 1100px;">
-                                            <label class="pull-left control-label ml-20" style="line-height: 40px;padding-top: 0"> 网格员 </label>
-                                            <div class="pull-left ml-10">
-                                                <div class="tags pull-left" id="add_shr" style="min-width: 200px;position: relative;padding-right: 48px">
-                                                    <i class="icon-plus-sign get-people" data-title="审核人" style="top: 6px"></i>
+                            <form role="form" id="createForm" method="post" action="/message/addOrEdit">
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>发送通知</h4>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <div class="form-group" style="max-width: 1100px;">
+                                                <label class="pull-left control-label ml-20"
+                                                       style="line-height: 40px;padding-top: 0"> 网格员 </label>
+                                                <div class="pull-left ml-10">
+                                                    <div class="tags pull-left" id="add_shr"
+                                                         style="min-width: 200px;position: relative;padding-right: 48px;width: auto">
+                                                        <i class="icon-plus-sign get-people" data-title="审核人"
+                                                           style="top: 6px"></i>
+                                                    </div>
+                                                    <input id="replyId" hidden name="replyId">
                                                 </div>
-												<input id="replyId" hidden name="replyId">
                                             </div>
-                                        </div>
-                                        <div>
-                                            <label for="form-field-8">通知内容：</label>
-                                            <textarea class="form-control" id="form-field-8" name="content" placeholder="点击填写" style="height: 100px"></textarea>
-                                        </div>
-										<div class="widget-box">
-                                            <div class="widget-header">
-                                                <h4>附件上传</h4>
+                                            <div>
+                                                <label for="form-field-8">通知内容：</label>
+                                                <textarea class="form-control" id="form-field-8" name="content"
+                                                          placeholder="点击填写" style="height: 100px"></textarea>
                                             </div>
-                                            <div class="widget-body">
-                                                <div class="widget-main">
-                                                    <input type="file" id="id-input-file-2" name="attachment"/>
-													<div id="file-up-1" class="ace-file-input" style="width: 400px;display: none"><label class="file-label selected" data-title=""><span class="file-name"><i class="icon-file"></i><span id="up-file-name"></span></span></label><a class="remove" style="cursor: pointer" id="up-file-remove"><i class="icon-remove"></i></a></div>
-													<div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
+                                            <div class="widget-box">
+                                                <div class="widget-header">
+                                                    <h4>附件上传</h4>
                                                 </div>
-												 <input id="input-file-2" hidden name="attachment">
+                                                <div class="widget-body">
+                                                    <div class="widget-main">
+                                                        <input type="file" id="id-input-file-2" name="attachment"/>
+                                                        <div id="file-up-1" class="ace-file-input"
+                                                             style="width: 400px;display: none"><label
+                                                                class="file-label selected" data-title=""><span
+                                                                class="file-name"><i class="icon-file"></i><span
+                                                                id="up-file-name"></span></span></label><a
+                                                                class="remove" style="cursor: pointer"
+                                                                id="up-file-remove"><i class="icon-remove"></i></a>
+                                                        </div>
+                                                        <div class="well well-sm" style="margin-bottom: 0">
+                                                            要求：文件不大于10M
+                                                        </div>
+                                                    </div>
+                                                    <input id="input-file-2" hidden name="attachment">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div style="text-align: center;margin-top: 10px">
-                                            <a class="btn btn-sm btn-primary" onclick="commit()">
-                                                <i class="icon-ok"></i>
-                                                添加
-                                            </a>
+                                            <div style="text-align: center;margin-top: 10px">
+                                                <a class="btn btn-sm btn-primary" onclick="commit()">
+                                                    <i class="icon-ok"></i>
+                                                    添加
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </form>
                         </div>
-						#parse("common/choice_user.vm")
+                        #parse("common/choice_user.vm")
                         <!-- PAGE CONTENT ENDS -->
                     </div>
                 </div>
@@ -112,114 +125,170 @@
 
 <script>
     $(function () {
-  		$('.get-people').on('click', function () {
+        $('.get-people').on('click', function () {
             $('#model_title').text('选择' + $(this).data('title'));
             $('#modal-table').modal('show');
-              getUser(1);
+            getUser(1);
         });
-		
-		$('.tags').on('click', '.close', function () {
+
+        $('.tags').on('click', '.close', function () {
+            var ids = []
+            $(this).siblings().each(function (index, item) {
+                ids.push($(item).data('id'))
+            })
+            $('#replyId').val(ids.join(','));
             $(this).parent().remove();
         });
 
-        $('.select-p-wrap').on('click', '.select-p', function () {
-			$('#replyId').val($(this).data('id'));
-         	$('#add_shr').empty().append('<span class="tag">'+$(this).data('name')+'<button type="button" class="close">×</button></span>');
+        $('.select-p-wrap').on('click', '.js-ok-1', function () {
+            var ids = $('#replyId').val().split(',')
+            if(!ids[0]){
+                ids.shift()
+            }
+            var names = []
+            $('#add_shr').find('.tag').each(function (index, item) {
+                names.push($(item).data('name'))
+            })
+
+            $('.ace-sel-1').each(function (index, item) {
+                if ($(this).is(':checked') && !contain(ids, $(this).data('id'))) {
+                    names.push($(this).data('name'))
+                    ids.push($(this).data('id'))
+                }
+            })
+
+            $('#replyId').val(ids.join(',')).attr('v',ids.join(','));
+            var domString = ''
+
+            $.each(names, function (index, item) {
+                domString += '<span class="tag" data-id="' + ids[index] + '" data-name="' + item + '">' + item + '<button type="button" class="close">×</button></span>'
+            })
+            $('#add_shr').children('.tag').remove();
+            $('#add_shr').prepend(domString)
+//            var domString = '<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>'
+
+//            $('#add_shr').empty().append('<span class="tag">' + $(this).data('name') + '<button type="button" class="close">×</button></span>');
             $('#modal-table').modal('hide');
-           
         });
-		
- 		$("#id-input-file-2").uploadify({
-            height        : 30,
-            buttonText:'上传文件',
-            buttonClass : 'up-class',
-            swf           : '/js/uploadify/uploadify.swf',
-            uploader      : '/file/upload',
-			//服务器段访问的名称  
-            fileObjName :'attachment', 
-			method: 'post',
-            progressData : 'percentage',
-            width         : 120,
-			multi : true,
-            onUploadSuccess : function(file, data, response) {
-				if(JSON.parse(data).code==200){
+
+        $("#id-input-file-2").uploadify({
+            height: 30,
+            buttonText: '上传文件',
+            buttonClass: 'up-class',
+            swf: '/js/uploadify/uploadify.swf',
+            uploader: '/file/upload',
+            //服务器段访问的名称
+            fileObjName: 'attachment',
+            method: 'post',
+            progressData: 'percentage',
+            width: 120,
+            multi: true,
+            onUploadSuccess: function (file, data, response) {
+                if (JSON.parse(data).code == 200) {
                     $('#file-up-1').show();
                     $('#up-file-name').text(file.name);
                     $('#input-file-2').val(JSON.parse(data).value);
-				}else{
-					alertShow(JSON.parse(data).msg);
-				}
+                } else {
+                    alertShow(JSON.parse(data).msg);
+                }
             }
         });
 
-        $('#up-file-remove').on('click',function () {
+        $('#up-file-remove').on('click', function () {
             $('#file-up-1').hide();
             $('#up-file-name').text('');
             $('#input-file-2').val('');
         });
-        
-    }) ;
-   function getUser(page){
-  	    var name =  $('#sname').val();
-		 $.ajax({
-                type: "get",
-                url: '/user/rolePageList',
-                data: {
-                   page:page,name:name,lessRoleId:4
-                },
-                dataType: 'json',
-                success: function (data) {
-                     //提示审核通过成功信息并刷新页面
-	                 $("#tbody").empty(); 
-	                 var user = data.rows; 
-	                //循环添加  
-	                 for(var j=0;j<user.length;j++){  
-	                    var option = "<tr>"+
-                            "<td>"+user[j].id+"</td>"+
-                            "<td>"+user[j].name+"</td>"+
-                            "<td>"+user[j].role.roleName+"</td>"+
-                            "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
-                        	"</tr>";  
-	                   
-	                   $("#tbody").append(option);  
-	                }  
-	                
-	                $("#pager").empty(); 
-	                $("#pager").append("<li class='prev'><a onclick='getUser("+data.pre+")'><i class='icon-double-angle-left'></i></a></li>");  
-	               //循环添加  
-	                 for(var j=1;j<=data.total;j++){  
-	                    var option = "<li ";
-	                    if(data.page==j){option = option+	"class='active' "; }
-                        option = option+ "><a onclick='getUser("+j+")'>"+j+"</a></li>";
-	                   $("#pager").append(option);  
-	                }  
-                    $("#pager").append("<li class='next'><a onclick='getUser("+data.next+")'><i class='icon-double-angle-right'></i></a></li>");
-                },
-                error: function (data) {
-                    if(data.msg){
-                        alertShow(data.msg);
+
+        $('#select_all').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('.ace-sel-1').prop('checked', true)
+            } else {
+                $('.ace-sel-1').prop('checked', false)
+            }
+        })
+
+    });
+
+    function getUser(page) {
+        var name = $('#sname').val();
+        $.ajax({
+            type: "get",
+            url: '/user/rolePageList',
+            data: {
+                page: page, name: name, lessRoleId: 4
+            },
+            dataType: 'json',
+            success: function (data) {
+                //提示审核通过成功信息并刷新页面
+                $("#tbody").empty();
+                var user = data.rows;
+                //循环添加
+                for (var j = 0; j < user.length; j++) {
+                    var option = "<tr>" +
+                            "<td>" + user[j].id + "</td>" +
+                            "<td>" + user[j].name + "</td>" +
+                            "<td>" + user[j].role.roleName + "</td>" +
+                            '<td>' +
+                            '<label>' +
+                            '<input name="form-field-checkbox" type="checkbox" class="ace ace-sel-1" data-id="' + user[j].id + '" data-name="' + user[j].name + '">' +
+                            '<span class="lbl">选择</span>' +
+                            '</label>' +
+                            '</td>' +
+//                            "<td>"+"<a class='select-p' href='javascript:void(0)' data-id='"+user[j].id+"' data-name='"+user[j].name+"'>选择</a></td>"+
+                            "</tr>";
+
+                    $("#tbody").append(option);
+                }
+
+                $("#pager").empty();
+                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + ")'><i class='icon-double-angle-left'></i></a></li>");
+                //循环添加
+                for (var j = 1; j <= data.total; j++) {
+                    var option = "<li ";
+                    if (data.page == j) {
+                        option = option + "class='active' ";
                     }
-                    if(data.readyState == 4){
-                        alertShow("Request Not Found");
-                    }
+                    option = option + "><a onclick='getUser(" + j + ")'>" + j + "</a></li>";
+                    $("#pager").append(option);
+                }
+                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + ")'><i class='icon-double-angle-right'></i></a></li>");
+            },
+            error: function (data) {
+                if (data.msg) {
+                    alertShow(data.msg);
+                }
+                if (data.readyState == 4) {
+                    alertShow("Request Not Found");
+                }
+            }
+        });
+    }
+
+    function commit() {
+        confirmShows("确认提交？", function () {
+            $("#createForm").ajaxSubmit(function (data) {
+                // 提交成功后处理，message为提交页面的返回内容
+                if (data.code == 200) {
+                    alertShow(data.msg, function () {
+                        location.reload();
+                    });
+                } else {
+                    alertShow(data.msg);
                 }
             });
-	 }
-	 
-	  function commit(){
-			 confirmShows("确认提交？", function () {
-			  	 $("#createForm").ajaxSubmit(function(data) { 
-                     // 提交成功后处理，message为提交页面的返回内容 
-					if(data.code==200){
-    					 alertShow(data.msg, function () {
-    					 	location.reload();
-                       	  });
-					}else{
-						 alertShow(data.msg);
-					}  
-                });
-			   });
-		}
+        });
+    }
+
+    function contain(arr, target) {
+        var a = false
+        $.each(arr, function (index, item) {
+            if (item == target) {
+                a = true
+            }
+        })
+        return a
+    }
 </script>
 
 </body>
