@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cpt.mapper.EventResponseMapper">
+  <resultMap id="BaseResultMap" type="com.cpt.model.EventResponse">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="resp_department" jdbcType="VARCHAR" property="respDepartment" />
+    <result column="resp_department_id" jdbcType="BIGINT" property="respDepartmentId" />
+    <result column="responsible" jdbcType="VARCHAR" property="responsible" />
+    <result column="responsible_id" jdbcType="BIGINT" property="responsibleId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, event_id, resp_department, resp_department_id, responsible, responsible_id, create_time, 
+    status
+  </sql>
+  <insert id="insertList" parameterType="com.cpt.model.EventResponse">
+    insert into t_event_response (event_id, resp_department,
+    resp_department_id, responsible, responsible_id)
+    values
+    <foreach collection="list" item="item" index='index' separator="," >
+      (#{item.eventId,jdbcType=INTEGER}, #{item.respDepartment,jdbcType=VARCHAR},
+      #{item.respDepartmentId,jdbcType=BIGINT}, #{item.responsible,jdbcType=VARCHAR}, #{item.responsibleId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+</mapper>

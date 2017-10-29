@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.cpt.mapper.*;
+import com.cpt.mapper.ext.EventResponsetExMapper;
 import com.cpt.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,6 @@ import com.cpt.common.constant.RoleCode;
 import com.cpt.common.util.CodeFactory;
 import com.cpt.common.util.ImageOSSUtil;
 import com.cpt.convertor.EventConvertor;
-import com.cpt.mapper.EventHandleLogMapper;
-import com.cpt.mapper.EventMapper;
-import com.cpt.mapper.UserMapper;
-import com.cpt.mapper.WorkFlowMapper;
 import com.cpt.mapper.ext.EventExtMapper;
 import com.cpt.mapper.ext.WorkFlowExtMapper;
 import com.cpt.req.EventReq;
@@ -71,6 +69,10 @@ public class EventServiceImpl implements EventService {
 	@Resource
 	private  OrganizationService organizationService;
 	@Resource
+	private EventResponsetExMapper eventResponsetExMapper;
+	@Resource
+	private EventResponseMapper eventResponseMapper;
+	@Resource
 	private  ImageOSSUtil imageOSSUtil;
 	@Value("${image.url}")
 	private String imageurl ; 
@@ -103,7 +105,7 @@ public class EventServiceImpl implements EventService {
 		eventReq.setIsDeleted(Constants.ISNOTDELETED);
 		List<Event> events = eventExtMapper.selectAllReqport(eventReq);
         List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
-        this.packageProjectButton(eventVos);
+        this.packageProjectButton(eventVos,user);
         //构造分页结果
         PageResult<EventVo> pageResult = PageResult.newPageResult(eventVos, ((Page<Event>)events).getTotal(), eventReq.getPage(), eventReq.getRows());
         return pageResult;
@@ -114,25 +116,34 @@ public class EventServiceImpl implements EventService {
 	public PageResult<EventVo> pageList(PageParam pageParam, EventReq eventReq) {
 		//分页
         PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
+		//当前页列表
+		User user = userService.getUser();
         //当前页列表
 		eventReq.setIsDeleted(Constants.ISNOTDELETED);
         List<Event> events = eventExtMapper.pageList(eventReq);
         List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
-        this.packageProjectButton(eventVos);
+        this.packageProjectButton(eventVos,user);
         //构造分页结果
         PageResult<EventVo> pageResult = PageResult.newPageResult(eventVos, ((Page<Event>)events).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
 	
 	}
-	private void packageProjectButton(List<EventVo> eventVos){
+	private void packageProjectButton(List<EventVo> eventVos,User user){
 		for(EventVo eventVo:eventVos){
 			List<Byte> authoritys = eventVo.getAuthority();
+			if(RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+				||RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())
+					){
+				eventVo.setShowDelete(true);
+			}
 			for(int i =0 ;i<authoritys.size();i++){
 				Byte authority = authoritys.get(i); 
 				
 				 if(AuthorityStatus.COMMIT_USER.getKey().equals(authority)){
-				 	if(EventStatus.INIT.equal(eventVo.getEventStatus())){
-						eventVo.setShowCommit(true);
+				 	if(EventStatus.AUDIT.equal(eventVo.getEventStatus())
+							||EventStatus.INIT.equal(eventVo.getEventStatus())){
+						eventVo.setShowDelete(true);
+						eventVo.setShowEdit(true);
 					}
 					 eventVo.setShowDetail(true);
 				 }
@@ -152,7 +163,8 @@ public class EventServiceImpl implements EventService {
 						 eventVo.setShowDetail(true);
 					 }
 				 }
-				 if(AuthorityStatus.CC_USER.getKey().equals(authority)){
+				 if(AuthorityStatus.RESPONSE.getKey().equals(authority)
+						 ||AuthorityStatus.CC_USER.getKey().equals(authority)){
 					 eventVo.setShowDetail(true);
 				 }
 			}
@@ -204,9 +216,10 @@ public class EventServiceImpl implements EventService {
 		}
 		event.setAttachmentFile(StringUtils.substringAfterLast(event.getAttachment(), "/"));
 		event.setAttachment(ossWebUrl+event.getAttachment());
-		List<EventHandleLog> eventHandleLogList = this.selectEventHandleLogByEventId(id);
 		EventVo eventVo = EventConvertor.toEventVo(event);
-		eventVo.setEventHandleLogList(eventHandleLogList);
+		eventVo.setEventHandleLogList(this.selectEventHandleLogByEventId(id));
+		eventVo.setEventResponseList(this.selectEventResponseByEventId(id));
+
 		return eventVo;
 	}
 
@@ -260,9 +273,9 @@ public class EventServiceImpl implements EventService {
 			if(user.getId().intValue()!=eventExit.getCommitUserId()){
 				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 			}
-			if(!EventStatus.INIT.getValue().equals(eventExit.getEventStatus())
-					&&!EventStatus.AUDIT.getValue().equals(eventExit.getEventStatus())){
-				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
+			if(!EventStatus.INIT.getKey().equals(eventExit.getEventStatus())
+					&&!EventStatus.AUDIT.getKey().equals(eventExit.getEventStatus())){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_EDIT);
 			}
 
 			if(!EventStatus.INIT.equal(eventReq.getEventStatus())) {
@@ -329,7 +342,8 @@ public class EventServiceImpl implements EventService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	public Result<Integer> sendHandler(EventReq eventReq) {
-		if(null==eventReq.getId()||null==eventReq.getRespDepartmentId()){
+		if(null==eventReq.getId()
+				|| org.apache.commons.lang3.StringUtils.isBlank(eventReq.getResponsible())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
 		Event event =  this.get(eventReq.getId());
@@ -340,16 +354,42 @@ public class EventServiceImpl implements EventService {
 		if(user.getId().intValue()!=event.getAuditorId().intValue()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 		}
+
+		List<EventResponse> eventResponseList = Lists.newArrayList();
+		EventResponse eventResponse = null;
+		List<Long> ids = Lists.newArrayList();
+		String[] idstr = eventReq.getResponsible().split(",");
+		for (String id: idstr) {
+			ids.add(Long.parseLong(id));
+		}
+		if(ids.isEmpty()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		List<User> responsibles = userService.getUserList(ids);
+		WorkFlow workFlow = null;
+		List<WorkFlow> workFlowList = Lists.newArrayList();
+		for (User param: responsibles ) {
+			eventResponse = new EventResponse();
+			eventResponse.setResponsible(param.getName());
+			eventResponse.setResponsibleId(param.getId());
+			eventResponse.setRespDepartment(param.getDepartment());
+			eventResponse.setRespDepartmentId(param.getDepartmentId());
+			eventResponse.setEventId(eventReq.getId());
+			eventResponseList.add(eventResponse);
+
+			workFlow = new WorkFlow();
+			workFlow.setAuthority(AuthorityStatus.RESPONSE.getKey());
+			workFlow.setCreator(user.getId());
+			workFlow.setRefId(eventReq.getId().longValue());
+			workFlow.setUserId(param.getId());
+			workFlow.setStatus(EventStatus.HANDLE.getKey());
+			workFlowList.add(workFlow);
+		}
+		eventResponsetExMapper.insertList(eventResponseList);
+		workFlowExtMapper.insertList(workFlowList);
+
 		Event param = new Event();
 		param.setId(eventReq.getId());
-		Organization organization = organizationService.selectById(eventReq.getRespDepartmentId().longValue());
-		param.setRespDepartment(organization.getName());
-		param.setRespDepartmentId(eventReq.getRespDepartmentId());
-		if(null!=eventReq.getResponsibleId()){
-			User Responsible = userService.get(eventReq.getResponsibleId().longValue());
-			param.setResponsible(Responsible.getName());
-			param.setResponsibleId(eventReq.getResponsibleId());
-		}
 		param.setExpiryDate(eventReq.getExpiryDate());
 		param.setRequest(eventReq.getRequest());
 		param.setAuditRemark(eventReq.getAuditRemark());
@@ -467,8 +507,8 @@ public class EventServiceImpl implements EventService {
 			if(user.getId().intValue()!=event.getCommitUserId().intValue()){
 				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 			}
-			if(!EventStatus.INIT.getValue().equals(event.getEventStatus())
-					&&!EventStatus.AUDIT.getValue().equals(event.getEventStatus())){
+			if(!EventStatus.INIT.getKey().equals(event.getEventStatus())
+					&&!EventStatus.AUDIT.getKey().equals(event.getEventStatus())){
 				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
 			}
 		}
@@ -502,7 +542,14 @@ public class EventServiceImpl implements EventService {
 		criteria.andEventIdEqualTo(eventId);
 		return eventHandleLogMapper.selectByExample(example);
 	}
-	 
+
+	public List<EventResponse> selectEventResponseByEventId(Integer eventId) {
+		EventResponseExample example = new EventResponseExample();
+		EventResponseExample.Criteria criteria = example.createCriteria();
+		criteria.andEventIdEqualTo(eventId);
+		return eventResponseMapper.selectByExample(example);
+	}
+
 	private int insert(Event event){
 		return eventExtMapper.insertSelective(event);
 	}

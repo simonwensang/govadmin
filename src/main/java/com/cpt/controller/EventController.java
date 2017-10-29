@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,6 +225,40 @@ public class EventController {
         mav.addObject("user",user);
         return mav;
     }
+
+    /**
+     * 详情
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView edit(ModelAndView mav, Integer id) {
+        User user = userService.getUser();
+        //只有 网格人员可以提报
+        if(!RoleCode.VILLAGE.getKey().equals(user.getRole().getRoleCode())){
+            mav.addObject("result", new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc()));
+            mav.setViewName("error");
+            return mav;
+        }
+        List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
+        List<EnumBean> eventTypeList = Lists.newArrayList();
+        for (EventType eventType:EventType.values()
+             ) {
+            eventTypeList.add(new EnumBean(eventType.getKey(),eventType.getValue()));
+        }
+        mav.addObject("eventTypeList",eventTypeList);
+        mav.addObject("addressList", addressList);
+
+        EventVo event = eventService.detail(id);
+        mav.addObject("event", event);
+        mav.setViewName("event/edit");
+        mav.addObject("user",user);
+        mav.addObject("cur_module","event_List");
+        return mav;
+    }
+
     /**
      * 审批
      *
@@ -343,7 +378,7 @@ public class EventController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> delete(Integer id) {
     	 return eventService.delete(id);

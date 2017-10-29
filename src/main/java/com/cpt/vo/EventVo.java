@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cpt.model.EventHandleLog;
+import com.cpt.model.EventResponse;
 import com.cpt.model.WorkFlow;
 
 import lombok.Data;
@@ -98,7 +99,9 @@ public class EventVo {
     private List<WorkFlow> workFlows;
     
     private String attachmentFile ;
-    
+
+    private List<EventResponse> eventResponseList;
+
     //("是否显示审核")
   	private Boolean showAudit=false;
   	//("是否显示选择处理")
@@ -107,6 +110,12 @@ public class EventVo {
   	private Boolean showDetail=false;
     //("是否显示查看提报")
     private Boolean showCommit=false;
+    //("是否显示删除")
+    private Boolean showDelete=false;
+    //("是否显示编辑")
+    private Boolean showEdit=false;
   	private String eventStatusStr;
+
+    private String handleAttachment;
     
 }

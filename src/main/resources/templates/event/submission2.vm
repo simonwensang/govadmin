@@ -154,9 +154,9 @@
                                             <label class="col-sm-1 control-label no-padding-right text-left"> #if ($!{event.grade}==1)
                                                 <span class="label">一般</span>
                                             #elseif	($!{event.grade}==2)
-                                                <span class="label label-danger">重大</span>
-                                            #elseif	($!{event.grade}==2)
-                                                <span class="label label-warning">严重</span>
+                                                <span class="label label-danger">严重</span>
+                                            #elseif	($!{event.grade}==3)
+                                                <span class="label label-warning">重大</span>
                                             #else
                                                 <span class="label">--</span>
                                             #end </label>

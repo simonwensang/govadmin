@@ -58,9 +58,9 @@
     
     <sql id="Page_Column_List">
     a.id,  a.community,  a.community_id,  a.window,  a.window_id,  a.address,  a.appellant, a.appellant_tel, 
-     a.event_no,  a.event_type,  a.report_time,  a.grade,  a.description ,  a.commit_user,  a.commit_user_id, 
+     a.event_no,  a.event_type,  a.report_time,  a.grade,  a.description ,  a.commit_user,  a.commit_user_id,
      a.commit_time,  a.auditor,  a.auditor_id,  a.auditor_time,    a.handler,  a.handler_id,  a.handle_time,    
-     a.event_status,  a.cc_user,  a.cc_user_id
+     a.event_status,  a.cc_user,  a.cc_user_id,a.handle_result,a.request
   </sql>
    
     <select id="selectAllReqport" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">

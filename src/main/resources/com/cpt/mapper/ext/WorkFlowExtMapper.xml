@@ -34,5 +34,15 @@
 	  AND a.`is_read` = 0 
 	  and user_id = #{userId,jdbcType=BIGINT}
   </select>
-   
+
+    <insert id="insertList" parameterType="com.cpt.model.WorkFlow">
+        insert into t_work_flow (ref_id, authority,
+        status, user_id, creator)
+        values
+        <foreach collection="list" item="item" index='index' separator="," >
+        (#{item.refId,jdbcType=BIGINT}, #{item.authority,jdbcType=TINYINT},
+        #{item.status,jdbcType=TINYINT},  #{item.userId,jdbcType=BIGINT}, #{item.creator,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
 </mapper>
