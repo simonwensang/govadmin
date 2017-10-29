@@ -16,7 +16,9 @@ public interface UserService {
 	public User get(Long id);
  	
 	public PageResult<User> query(UserQuery userQuery);
-	
+
+	public List<UserVo> queryResponse( Long departmentId );
+
 	List<UserVo> queryPriceOffer();
 	
 	public PageResult<User> pageList(UserQuery userQuery);

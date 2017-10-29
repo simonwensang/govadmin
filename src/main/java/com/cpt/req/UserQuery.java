@@ -22,4 +22,6 @@ public class UserQuery extends PageParam {
 	private Byte isDeleted;
 	
 	private Long sefId;
+
+	private Long departmentId;
 }

@@ -125,9 +125,10 @@
     select 
      *
     from t_user
-    <where> 
-	    <if test="orgId != null" >
-	      department_id = #{orgId,jdbcType=BIGINT}
+    <where>
+        is_deleted = 1
+	    <if test="departmentId != null" >
+	         AND department_id = #{departmentId,jdbcType=BIGINT}
 	    </if>
 	    <if test="name != null and name != ''">
               AND  name LIKE concat('%',#{name},'%')

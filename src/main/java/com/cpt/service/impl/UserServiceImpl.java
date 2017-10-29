@@ -3,6 +3,7 @@ package com.cpt.service.impl;
  
 import java.util.List;
 
+import com.cpt.common.constant.UserStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -134,6 +135,16 @@ public class UserServiceImpl implements UserService {
         //构造分页结果
         PageResult<User> pageResult = PageResult.newPageResult(users, ((Page<User>)users).getTotal(), pageParam.getPage(), pageParam.getRows());
         return pageResult;
+	}
+
+	@Override
+	public List<UserVo> queryResponse( Long departmentId) {
+
+		UserExample userExample =new UserExample();
+		UserExample.Criteria criteria =userExample.createCriteria();
+		criteria.andDepartmentIdEqualTo(departmentId);
+		criteria.andIsDeletedEqualTo(UserStatus.AVAILABLE.getKey());
+		return UserConvertor.toUserVoList(userMapper.selectByExample(userExample));
 	}
 
 	@Override
