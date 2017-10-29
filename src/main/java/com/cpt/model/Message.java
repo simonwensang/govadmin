@@ -131,6 +131,8 @@ public class Message {
 
     private Byte status;
 
+    private Long recId;
+
 	public String getAttachmentFile() {
 		return attachmentFile;
 	}
@@ -153,5 +155,13 @@ public class Message {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Long getRecId() {
+        return recId;
+    }
+
+    public void setRecId(Long recId) {
+        this.recId = recId;
     }
 }

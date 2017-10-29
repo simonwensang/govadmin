@@ -21,4 +21,12 @@
     </foreach>
   </insert>
 
+  <update id="updateStatus" parameterType="com.cpt.model.MessageReceive" >
+    update t_message_receive
+        status = #{status,jdbcType=TINYINT},
+     where message_id=#{messageId,jdbcType=BIGINT}
+     and receive_id=#{receiveId,jdbcType=BIGINT}
+  </update>
+
+
 </mapper>

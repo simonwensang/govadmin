@@ -80,7 +80,7 @@
 													</td>
                                                     <td>
 														#if ($!{message.status}==0)
-    													    <a class="delete" href="javascript:void(0)" data-id="$!{message.id}">回复</a>
+    													    <a class="delete" href="javascript:void(0)" data-id="$!{message.recId}">回复</a>
                                                         #elseif ($!{message.status}==1)
     														 已读
                                                         #elseif ($!{message.status}==2)
@@ -152,7 +152,7 @@
                 type: "post",
                 url: '/message/read',
                 data: {
-                   id:id
+                   id:id,status:1
                 },
                 dataType: 'json',
                 success: function (data) {
