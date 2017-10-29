@@ -186,7 +186,7 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-main">
-                                        <input type="file" id="id-input-file-2" name="attachment"/>
+                                        <input type="file" id="id-input-file-2" name="upload"/>
                                         <div id="file-up-1" class="ace-file-input" style="width: 400px;display: none"><label class="file-label selected" data-title=""><span class="file-name"><i class="icon-file"></i><span id="up-file-name"></span></span></label><a class="remove" style="cursor: pointer" id="up-file-remove"><i class="icon-remove"></i></a></div>
                                         <div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
                                     </div>
@@ -265,7 +265,7 @@
             swf           : '/js/uploadify/uploadify.swf',
             uploader      : '/file/upload',
 			//服务器段访问的名称  
-            fileObjName :'attachment', 
+            fileObjName :'upload',
 			method: 'post',
             progressData : 'percentage',
             width         : 120,

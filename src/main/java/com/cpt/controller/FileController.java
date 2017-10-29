@@ -45,20 +45,20 @@ public class FileController   {
 	
 	@RequestMapping(value = "upload" , method = { RequestMethod.POST } , produces =  "application/json;charset=UTF-8")
 	@ResponseBody
-	public Result<String> upload( MultipartFile attachment ){
+	public Result<String> upload( MultipartFile upload ){
 		try {
 			//保存图片
-			if(null == attachment){
+			if(null == upload){
 				return new Result<String>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 			}
-			if(attachment.getBytes().length>10*1024*1024){
+			if(upload.getBytes().length>10*1024*1024){
 				return new Result<String>(ResultCode.C500.getCode(),MessageConstants.FILE_SIZE_LARAGE);
 			}
 			
-			String imageName=  DateUtils.getCurrentDay(DateUtils.YYYY_MM_DD)+"_"+attachment.getOriginalFilename();
+			String imageName=  DateUtils.getCurrentDay(DateUtils.YYYY_MM_DD)+"_"+upload.getOriginalFilename();
 			String targetFile = ossPathFile+"/"+imageName;
 			try {
-				imageOSSUtil.upload(targetFile,attachment.getInputStream());
+				imageOSSUtil.upload(targetFile,upload.getInputStream());
 			} catch (IOException e) {
 				return new Result<String>(ResultCode.C500.getCode(),MessageConstants.FILE_SAVE_ERROR);
 			}
