@@ -101,6 +101,9 @@
           <if test="eventType != null ">
               AND a.event_type = #{eventType} 
           </if>
+            <if test="isDeleted != null">
+               AND is_deleted = #{isDeleted,jdbcType=TINYINT}
+            </if>
           <if test="eventStatusList != null ">
               AND a.event_status in 
               <foreach collection="eventStatusList" item="item" separator=","  index="index"
@@ -134,6 +137,9 @@
           </if>
           <if test="grade != null ">
               AND a.grade = #{grade} 
+          </if>
+          <if test="isDeleted != null">
+             AND is_deleted = #{isDeleted,jdbcType=TINYINT}
           </if>
 	      </where>
 	      ORDER BY a.event_status ,a.commit_time DESC 

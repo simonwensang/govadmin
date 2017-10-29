@@ -39,5 +39,7 @@ public enum EventStatus {
 		return null;
 	}
 	
-
+	public  Boolean equal(Byte key){
+		return key== null ? false : this.getKey()== key.byteValue();
+	}
 }

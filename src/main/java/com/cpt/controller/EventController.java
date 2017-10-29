@@ -188,7 +188,7 @@ public class EventController {
      * 分页数据
      *
      * @param pageParam
-     * @param projectVo
+     * @param eventReq
      * @return
      */
     @ResponseBody
@@ -286,6 +286,32 @@ public class EventController {
         return mav;
     }
     /**
+     * 提报
+     *
+     * @param mav
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/submission2", method = RequestMethod.GET)
+    public ModelAndView submission2(ModelAndView mav, Integer id) {
+        mav.addObject("event", eventService.detail(id));
+        mav.addObject("user",userService.getUser());
+        mav.setViewName("event/submission2");
+        return mav;
+    }
+
+    /**
+     * 提报
+     *
+     * @param eventReq
+     * @return
+     */
+    @RequestMapping(value = "/commit", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<Integer> commit(EventReq eventReq) {
+        return eventService.commit(eventReq);
+    }
+    /**
      * 工程创建页面
      *
      * @param mav
@@ -302,8 +328,8 @@ public class EventController {
     /**
      * 增加或者修改
      *
-     * @param mav
-     * @param id
+     * @param map
+     * @param eventReq
      * @return
      */
     @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
@@ -314,7 +340,6 @@ public class EventController {
     /**
      *  删除
      *
-     * @param mav
      * @param id
      * @return
      */
@@ -326,8 +351,8 @@ public class EventController {
     /**
      * 派遣
      *
-     * @param mav
-     * @param id
+     * @param map
+     * @param eventReq
      * @return
      */
     @RequestMapping(value = "/sendHandler", method = RequestMethod.POST)
@@ -339,8 +364,8 @@ public class EventController {
     /**
      * 上报
      *
-     * @param mav
-     * @param id
+     * @param map
+     * @param eventReq
      * @return
      */
     @RequestMapping(value = "/higherUp", method = RequestMethod.GET)
@@ -351,8 +376,8 @@ public class EventController {
     /**
      * 处理
      *
-     * @param mav
-     * @param id
+     * @param map
+     * @param eventReq
      * @return
      */
     @RequestMapping(value = "/handle", method = RequestMethod.POST)
@@ -365,8 +390,6 @@ public class EventController {
     /**
      * 得到最新审核记录
      *
-     * @param mav
-     * @param id
      * @return
      */
     @RequestMapping(value = "/workFlow", method = RequestMethod.POST)

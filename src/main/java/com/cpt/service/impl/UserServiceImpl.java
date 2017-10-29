@@ -99,6 +99,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> getUserList(List<Long> idList) {
+		UserExample example = new UserExample();
+		UserExample.Criteria criteria = example.createCriteria();
+		criteria.andIdIn(idList);
+		List<User> users =  userMapper.selectByExample(example);
+		return users;
+	}
+
+	@Override
 	public Result<Integer> exist(String name) {
 		UserExample userExample =new UserExample();
 		UserExample.Criteria criteria =userExample.createCriteria();

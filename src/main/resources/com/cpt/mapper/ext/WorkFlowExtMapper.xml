@@ -29,7 +29,7 @@
 	FROM
 	  `t_work_flow` a 
 	  JOIN `t_event` b 
-	    ON a.`ref_id`=b.`id` 
+	    ON a.`ref_id`=b.`id` and b.is_deleted=0
 	WHERE a.`authority` = 2 
 	  AND a.`is_read` = 0 
 	  and user_id = #{userId,jdbcType=BIGINT}

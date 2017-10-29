@@ -62,7 +62,7 @@
                                                         <i class="icon-plus-sign get-people" data-title="审核人"
                                                            style="top: 6px"></i>
                                                     </div>
-                                                    <input id="replyId" hidden name="replyId">
+                                                    <input id="reply" hidden name="reply">
                                                 </div>
                                             </div>
                                             <div>
@@ -136,12 +136,12 @@
             $(this).siblings().each(function (index, item) {
                 ids.push($(item).data('id'))
             })
-            $('#replyId').val(ids.join(','));
+            $('#reply').val(ids.join(','));
             $(this).parent().remove();
         });
 
         $('.select-p-wrap').on('click', '.js-ok-1', function () {
-            var ids = $('#replyId').val().split(',')
+            var ids = $('#reply').val().split(',')
             if(!ids[0]){
                 ids.shift()
             }
@@ -157,7 +157,7 @@
                 }
             })
 
-            $('#replyId').val(ids.join(',')).attr('v',ids.join(','));
+            $('#reply').val(ids.join(',')).attr('v',ids.join(','));
             var domString = ''
 
             $.each(names, function (index, item) {

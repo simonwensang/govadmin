@@ -1,6 +1,7 @@
 package com.cpt.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Message {
     private Long id;
@@ -12,7 +13,9 @@ public class Message {
     private String content;
 
     private String attachment;
-    
+
+    private String reply;
+
     private Long replyId;
 
     private String user;
@@ -65,6 +68,14 @@ public class Message {
         this.attachment = attachment == null ? null : attachment.trim();
     }
 
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply == null ? null : reply.trim();
+    }
+
     public Long getReplyId() {
         return replyId;
     }
@@ -113,8 +124,12 @@ public class Message {
         this.isDeleted = isDeleted;
     }
     /*---------------*/
-    
+
     private String  attachmentFile;
+
+    private List<Long> replyIdList;
+
+    private Byte status;
 
 	public String getAttachmentFile() {
 		return attachmentFile;
@@ -124,4 +139,19 @@ public class Message {
 		this.attachmentFile = attachmentFile;
 	}
 
+    public List<Long> getReplyIdList() {
+        return replyIdList;
+    }
+
+    public void setReplyIdList(List<Long> replyIdList) {
+        this.replyIdList = replyIdList;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
 }

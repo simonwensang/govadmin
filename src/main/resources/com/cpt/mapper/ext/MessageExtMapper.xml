@@ -6,16 +6,18 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="attachment" jdbcType="VARCHAR" property="attachment" />
     <result column="reply_id" jdbcType="BIGINT" property="replyId" />
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_read" jdbcType="TINYINT" property="isRead" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+      <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    id, title, subject, content, reply_id, user, user_id, create_time, is_deleted
+    id, title, subject,attachment, content, reply_id, user, user_id, create_time, is_deleted
   </sql>
   
    <select id="pageList"   resultMap="BaseResultMap" parameterType="com.cpt.req.MessageReq">
@@ -24,22 +26,116 @@
     from t_message a  
      <where>
     	 a.is_deleted=0 
-   	  	 <if test="replyId != null">
+   	  	 <if test="userId != null">
+             AND a.user_id=#{userId}
+         </if>
+         <if test="replyId != null">
              AND a.reply_id=#{replyId}
          </if>
-     </where> 
+     </where>
      order by a.create_time desc
-  </select> 
- 
-   <select id="selectByReplyId"   resultMap="BaseResultMap">
+  </select>
+
+    <select id="receiveList"   resultMap="BaseResultMap" parameterType="com.cpt.req.MessageReq">
+        select a.id,a.content,a.attachment,a.create_time,a.user,a.user_id,b.status
+        from t_message_receive b left join t_message a
+        on a.id=b.message_id
+        <where>
+        a.is_deleted=0
+        <if test="replyId != null">
+        and b.receive_id=#{replyId}
+        </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="selectByUserId"   resultMap="BaseResultMap">
     select 
      a.* 
     from   t_message a
-     where a.is_deleted=0 AND a.`reply_id` =#{id}
-     order by a.create_time  
-  </select> 
-  
-   <update id="logicalDelete" parameterType="java.lang.Long">
+     where a.is_deleted=0 AND a.`user_id` =#{userId}
+     order by a.create_time  desc
+  </select>
+
+    <insert id="insertSelective" parameterType="com.cpt.model.Message">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="subject != null">
+                subject,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="attachment != null">
+                attachment,
+            </if>
+            <if test="replyId != null">
+                reply_id,
+            </if>
+            <if test="user != null">
+                user,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="isRead != null">
+                is_read,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="attachment != null">
+                #{attachment,jdbcType=VARCHAR},
+            </if>
+            <if test="replyId != null">
+                #{replyId,jdbcType=BIGINT},
+            </if>
+            <if test="user != null">
+                #{user,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isRead != null">
+                #{isRead,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="logicalDelete" parameterType="java.lang.Long">
     update t_message
     set is_deleted = 1
     where id = #{id,jdbcType=BIGINT}

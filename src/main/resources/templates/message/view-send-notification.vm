@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>查看发送通知</title>
+    #parse("tags.vm")
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+  #parse("header.vm")
+<div class="main-container" id="main-container">
+
+    <div class="main-container-inner">
+
+         #parse("menu.vm")
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#">Other Pages</a>-->
+                    <!--</li>-->
+                    <!--<li class="active">Blank Page</li>-->
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="row form-horizontal">
+
+                            <div class="space-10"></div>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>查看通知</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="table-responsive">
+                                            <table id="sample-table-1" class="table table-striped table-bordered table-hover" style="margin-bottom: 0;">
+                                                <thead>
+                                                <tr>
+                                                    <th>通知时间</th>
+                                                    <th>受通知人</th>
+                                                    <th>通知内容</th>
+													<th>附件</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+												#foreach($message in $result.rows)
+                                                <tr>
+                                                    <td>$dateTimeUtil.format($!{message.createTime},'yyyy-MM-dd HH:mm:ss')</td>
+                                                    <td>$!{message.user}</td>
+                                                    <td>$!{message.content}</td>
+													<td>
+                                                        #if (!$!{message.attachment})
+                                                            <label>$!{message.attachmentFile}</label>
+                                                            <a href="$!{message.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+                                                        #else
+                                                            无
+                                                        #end
+													</td>
+                                                    <td>
+														 <a class="delete" href="javascript:void(0)" data-id="$!{message.id}">查看</a>
+
+													</td>
+                                                </tr>
+                                                #end
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div style="text-align: center;">
+                                            <ul class="pagination">
+                                                <li>
+                                                      <a href="/message/view?page=$!{result.pre}">
+                                                        <i class="icon-double-angle-left"></i>
+													  </a>
+                                                </li>
+
+                                                 #foreach($pag in [1..$result.total])
+                								 <li 
+                									#if($result.page==$!{pag})
+                									class="active" 
+                									#end
+                								 ><a href="/message/view?page=$!{pag}">$!{pag}</a></li>
+                								 #end
+                                                <li>
+                                                    <a href="/message/view?page=$!{result.next}">
+                                                        <i class="icon-double-angle-right"></i>
+                                                   </a>
+                                                </li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-10"></div>
+
+                        </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="assets/js/jquery-1.10.2.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/laydate.js"></script>
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<script>
+    $(function () {
+
+        $('#sample-table-1').on('click', '.delete', function () {
+		var id = $(this).data('id');
+            // TODO ajax删除当前的行
+			 $.ajax({
+                type: "post",
+                url: '/message/read',
+                data: {
+                   id:id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alertShow(data.msg, function () {
+					 	location.reload();
+                    });
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+        });
+    })
+    ;
+</script>
+
+</body>
+</html>

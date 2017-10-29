@@ -11,7 +11,7 @@
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/gov" userId="root"
-                        password="123">
+                        password="123456">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -19,23 +19,23 @@
         </javaTypeResolver>
 
         <javaModelGenerator targetPackage="com.cpt.model"
-                            targetProject="D:\eclipse\workspace\govadmin\src\main\java">
+                            targetProject="/Users/souibun/IdeaProjects/govadmin/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <sqlMapGenerator targetPackage="com.cpt.mapper"
-                         targetProject="D:\eclipse\workspace\govadmin\src\main\resources">
+                         targetProject="/Users/souibun/IdeaProjects/govadmin/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
 
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.cpt.mapper"
-                             targetProject="D:\eclipse\workspace\govadmin\src\main\java">
+                             targetProject="/Users/souibun/IdeaProjects/govadmin/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成table名称-->
-        <table tableName="t_work_flow" domainObjectName="WorkFlow" enableCountByExample="true"
+        <table tableName="t_event" domainObjectName="Event" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true"
                enableSelectByExample="true" selectByExampleQueryId="true"
                enableInsert="true" enableUpdateByPrimaryKey="true" enableSelectByPrimaryKey="true"

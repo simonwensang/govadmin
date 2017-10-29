@@ -70,6 +70,8 @@ public class Event {
 
     private String handleRemark;
 
+    private String handleAttachment;
+
     private String updateUser;
 
     private Integer updateUserId;
@@ -348,6 +350,14 @@ public class Event {
         this.handleRemark = handleRemark == null ? null : handleRemark.trim();
     }
 
+    public String getHandleAttachment() {
+        return handleAttachment;
+    }
+
+    public void setHandleAttachment(String handleAttachment) {
+        this.handleAttachment = handleAttachment == null ? null : handleAttachment.trim();
+    }
+
     public String getUpdateUser() {
         return updateUser;
     }
@@ -403,15 +413,15 @@ public class Event {
     public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
-    
+
     //---------------
     private List<EventHandleLog> eventHandleLogList;
-    
+
     private List<WorkFlow> workFlows;
-    
+
     private String attachmentFile ;
-    
-    
+
+
 	public String getAttachmentFile() {
 		return attachmentFile;
 	}
@@ -427,7 +437,7 @@ public class Event {
 	public void setEventHandleLogList(List<EventHandleLog> eventHandleLogList) {
 		this.eventHandleLogList = eventHandleLogList;
 	}
-  
+
 	public List<WorkFlow> getWorkFlows() {
 		return workFlows;
 	}
@@ -444,5 +454,5 @@ public class Event {
 	public void setAuthority(List<Byte> authority) {
 		this.authority = authority;
 	}
-    
+
 }

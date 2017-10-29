@@ -1,5 +1,7 @@
  package com.cpt.controller;
 
+import com.alibaba.druid.sql.visitor.functions.Char;
+import com.cpt.req.MessageReceiveReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,25 +28,40 @@ public class MessageController {
     /**
      * 分页消息
      *
-     * @param UserQuery
-     * @param user
+     * @param modelMap
+     * @param messageReq
      * @return
      */
     @RequestMapping(value = "/view")
     public ModelAndView view(ModelAndView modelMap,MessageReq messageReq ) {
-    	modelMap.addObject("result", messageService.pageList(messageReq));
+    	modelMap.addObject("result", messageService.queryReceiveMessage(messageReq));
         modelMap.setViewName("message/view-notification");
         modelMap.addObject("user",userService.getUser());
         modelMap.addObject("cur_module","account");
         modelMap.addObject("cur_menu","view_message");
 		return modelMap;
     }
-    
+    /**
+     * 分页消息
+     *
+     * @param modelMap
+     * @param messageReq
+     * @return
+     */
+    @RequestMapping(value = "/viewSend")
+    public ModelAndView viewSend(ModelAndView modelMap,MessageReq messageReq ) {
+        modelMap.addObject("result", messageService.querySendMessage(messageReq));
+        modelMap.setViewName("message/view-send-notification");
+        modelMap.addObject("user",userService.getUser());
+        modelMap.addObject("cur_module","account");
+        modelMap.addObject("cur_menu","view_send_message");
+        return modelMap;
+    }
     /**
      * 发送消息
      *
-     * @param UserQuery
-     * @param user
+     * @param modelMap
+     * @param pageParam
      * @return
      */
     @RequestMapping(value = "/send")
@@ -58,8 +75,7 @@ public class MessageController {
     /**
      * 增加或者修改
      *
-     * @param mav
-     * @param id
+     * @param message
      * @return
      */
     @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
@@ -71,19 +87,17 @@ public class MessageController {
 	/**
      * 阅读
      *
-     * @param mav
-     * @param id
+     * @param messageReceiveReq
      * @return
      */
     @RequestMapping(value = "/read", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> read(Long id) {
-    	return messageService.read(id);
+    public Result<Integer> read(MessageReceiveReq messageReceiveReq) {
+    	return messageService.read(messageReceiveReq);
     }
     /**
      * 删除
      *
-     * @param mav
      * @param id
      * @return
      */

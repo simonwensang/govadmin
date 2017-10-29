@@ -1,9 +1,15 @@
 package com.cpt.service.impl;
 
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.cpt.mapper.MessageReceiveMapper;
+import com.cpt.mapper.ext.MessageReceiveExtMapper;
+import com.cpt.model.MessageReceive;
+import com.cpt.model.MessageReceiveExample;
+import com.cpt.req.MessageReceiveReq;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +40,12 @@ public class MessageServiceImpl implements MessageService {
 	
 	@Autowired
 	private MessageMapper messageMapper;
+
+	@Autowired
+	private MessageReceiveMapper messageReceiveMapper;
+
+	@Autowired
+	private MessageReceiveExtMapper messageReceiveExtMapper;
 	
 	@Resource
 	private UserCommonService userCommonService;
@@ -44,6 +56,16 @@ public class MessageServiceImpl implements MessageService {
 	public String ossWebUrl;
 	
 	@Override
+	public Result<List<MessageReceive>> getReceiveList(Long id) {
+		if(id==null){
+			return new Result<List<MessageReceive>>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		MessageReceiveExample example =  new MessageReceiveExample();
+		example.createCriteria().andMessageIdEqualTo(id);
+		return Result.newResult(messageReceiveMapper.selectByExample(example));
+	}
+
+	@Override
 	public Result<Message> get(Long id) {
 		if(id==null){
 			return new Result<Message>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
@@ -52,15 +74,17 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public PageResult<Message> pageList(MessageReq pageParam) {
+	public PageResult<Message> querySendMessage(MessageReq pageParam) {
 		//分页
         PageHelper.startPage(pageParam.getPage(), pageParam.getRows());
         //当前页列表
-        pageParam.setReplyId(userCommonService.getUserId());
+        pageParam.setUserId(userCommonService.getUserId());
         List<Message> messages = messageExtMapper.pageList(pageParam);
         for ( Message message : messages) {
-        	message.setAttachmentFile(StringUtils.substringAfterLast(message.getAttachment(), "/"));
-        	message.setAttachment(ossWebUrl+message.getAttachment());
+			if(StringUtils.isNotBlank(message.getAttachment())) {
+				message.setAttachmentFile(StringUtils.substringAfterLast(message.getAttachment(), "/"));
+				message.setAttachment(ossWebUrl + message.getAttachment());
+			}
 		}
         //构造分页结果
         PageResult<Message> pageResult = PageResult.newPageResult(messages, ((Page<Message>)messages).getTotal(), pageParam.getPage(), pageParam.getRows());
@@ -68,8 +92,26 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
+	public PageResult<Message> queryReceiveMessage(MessageReq pageParam) {
+		//分页
+		PageHelper.startPage(pageParam.getPage(), pageParam.getRows());
+		//当前页列表
+		pageParam.setReplyId(userCommonService.getUserId());
+		List<Message> messages = messageExtMapper.receiveList(pageParam);
+		for ( Message message : messages) {
+			if(StringUtils.isNotBlank(message.getAttachment())){
+				message.setAttachmentFile(StringUtils.substringAfterLast(message.getAttachment(), "/"));
+				message.setAttachment(ossWebUrl+message.getAttachment());
+			}
+		}
+		//构造分页结果
+		PageResult<Message> pageResult = PageResult.newPageResult(messages, ((Page<Message>)messages).getTotal(), pageParam.getPage(), pageParam.getRows());
+		return pageResult;
+	}
+	@Override
 	public Result<Integer> addOrEdit(Message message) {
-		if(StringUtils.isBlank( message.getContent())){
+		if(StringUtils.isBlank( message.getContent())
+				||StringUtils.isBlank(message.getReply())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		User user = userService.getUser();
@@ -79,19 +121,52 @@ public class MessageServiceImpl implements MessageService {
     	}
 		message.setUser(user.getName());
 		message.setUserId(user.getId());
+		List<Long> ids = Lists.newArrayList();
+		String[] idstr = message.getReply().split(",");
+		for (String id: idstr) {
+			ids.add(Long.parseLong(id));
+		}
+		if(ids.isEmpty()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		message.setReplyIdList(ids);
 		if(message.getId()==null){
-			return Result.newResult(this.insert(message));
+			StringBuilder reply = new StringBuilder();
+			List<User> users = userService.getUserList(message.getReplyIdList());
+			Map<Long,String> map =new HashMap<Long,String>();
+			for (int i =0 ; i< users.size();i++) {
+				User model = users.get(i);
+				map.put(model.getId(),model.getName());
+			}
+			if(users.size()>2){
+				reply.append(users.get(0).getName()).append(",")
+				.append(users.get(1).getName()).append("..等");
+			}
+			message.setReply(reply.toString());
+			this.insert(message);
+
+			List<MessageReceive> messageReceiveList = Lists.newArrayList();
+			MessageReceive messageReceive = null;
+			for (Long replyId : message.getReplyIdList()){
+				messageReceive = new  MessageReceive();
+				messageReceive.setMessageId(message.getId());
+				messageReceive.setReceiveId(replyId);
+				messageReceive.setReceiver(map.get(replyId));
+				messageReceiveList.add(messageReceive);
+			}
+
+			return Result.newResult(messageReceiveExtMapper.insertList(messageReceiveList));
 		}else{
 			return Result.newResult(this.update(message));
 		}
 	}
 
 	@Override
-	public Result<Integer> read(Long id) {
-		Message message = new Message();
-		message.setId(id);
-		message.setIsRead(ReadType.READ.getKey());
-		return Result.newResult(this.update(message));
+	public Result<Integer> read(MessageReceiveReq messageReceiveReq) {
+		MessageReceive messageReceive = new MessageReceive();
+		messageReceive.setId(messageReceiveReq.getId());
+		messageReceive.setStatus(messageReceiveReq.getStatus());
+		return Result.newResult(this.updateReceive(messageReceive));
 	}
 	
 	@Override
@@ -100,10 +175,14 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	private int insert(Message message){
-		return messageMapper.insertSelective(message);
+		return messageExtMapper.insertSelective(message);
 	}
 
 	private int update(Message message){
 		return messageMapper.updateByPrimaryKeySelective(message);
+	}
+
+	private int updateReceive(MessageReceive messageReceive){
+		return messageReceiveMapper.updateByPrimaryKeySelective(messageReceive);
 	}
 }

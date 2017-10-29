@@ -228,6 +228,11 @@
                             <div class="space-10"></div>
 
                             <div style="text-align: center">
+                                <input type="hidden" value="" name="eventStatus">
+                                <a onclick="save()" class="btn btn-lg btn-success"  >
+                                    <i class="icon-ok"></i>
+                                    保存草稿
+                                </a>
                                 <a onclick="commit()" class="btn btn-lg btn-success"  >
                                     <i class="icon-ok"></i>
                                     提交
@@ -383,8 +388,24 @@
                 }
             });
 	 }
+
+    function save(){
+        $("#eventStatus").val(0);
+        confirmShows("确认提交？", function () {
+            $("#createForm").ajaxSubmit(function(data) {
+                // 提交成功后处理，message为提交页面的返回内容
+                if(data.code==200){
+                    alertShow(data.msg, function () {
+                        location.reload();
+                    });
+                }else{
+                    alertShow(data.msg);
+                }
+            });
+        });
+    }
     //确认提交
-	
+
         function commit(){
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 

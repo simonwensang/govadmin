@@ -71,14 +71,20 @@
                                                     <td>$!{message.user}</td>
                                                     <td>$!{message.content}</td>
 													<td>
-														<label>$!{message.attachmentFile}</label>
-														<a href="$!{message.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+                                                        #if (!$!{message.attachment})
+                                                            <label>$!{message.attachmentFile}</label>
+                                                            <a href="$!{message.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+                                                        #else
+                                                            无
+                                                        #end
 													</td>
                                                     <td>
-														#if ($!{message.isRead}==0)
-    													<a class="delete" href="javascript:void(0)" data-id="$!{message.id}">未读</a>
-														#else
+														#if ($!{message.status}==0)
+    													    <a class="delete" href="javascript:void(0)" data-id="$!{message.id}">回复</a>
+                                                        #elseif ($!{message.status}==1)
     														 已读
+                                                        #elseif ($!{message.status}==2)
+                                                             已执行
     													#end
 													</td>
                                                 </tr>

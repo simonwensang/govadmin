@@ -1,6 +1,7 @@
 package com.cpt.req;
 
 import java.util.Date;
+import java.util.List;
 
 import com.cpt.common.PageParam;
 
@@ -27,5 +28,7 @@ public class MessageReq extends PageParam{
     private Byte isRead;
 
     private Boolean isDeleted;
+
+    private Byte status;
 
 }

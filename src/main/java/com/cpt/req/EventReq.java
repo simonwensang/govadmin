@@ -97,4 +97,6 @@ public class EventReq extends PageParam{
 	    private String reportTimeStart;
 	    
 	    private String reportTimeEnd;
+
+		private Byte isDeleted;
 }

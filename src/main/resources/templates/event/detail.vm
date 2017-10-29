@@ -188,7 +188,6 @@
                                             <tr>
                                                 <th>处理内容</th>
                                                 <th>处理人</th>
-                                                <th>处理时间</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -206,7 +205,6 @@
 														#end 
                                                         </td>
                                                         <td>$!{eventHandleLog.handler}</td>
-                                                        <td>$dateTimeUtil.format($!{eventHandleLog.handleTime},'yyyy-MM-dd HH:mm:ss') </td>
                                                     </tr>
 												 #end
                                            

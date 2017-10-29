@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.cpt.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,12 +39,6 @@ import com.cpt.mapper.UserMapper;
 import com.cpt.mapper.WorkFlowMapper;
 import com.cpt.mapper.ext.EventExtMapper;
 import com.cpt.mapper.ext.WorkFlowExtMapper;
-import com.cpt.model.Event;
-import com.cpt.model.EventHandleLog;
-import com.cpt.model.EventHandleLogExample;
-import com.cpt.model.User;
-import com.cpt.model.WorkFlow;
-import com.cpt.model.WorkFlowExample;
 import com.cpt.req.EventReq;
 import com.cpt.service.EventService;
 import com.cpt.service.OrganizationService;
@@ -103,9 +98,10 @@ public class EventServiceImpl implements EventService {
         PageHelper.startPage(eventReq.getPage(), eventReq.getLimit());
         if(StringUtils.isNotBlank(eventReq.getReportTime())){
         	eventReq.setReportTimeStart(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 00:00:00");
-        	eventReq.setReportTimeEnd(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 23:59:59");
-        }
-        List<Event> events = eventExtMapper.selectAllReqport(eventReq);
+			eventReq.setReportTimeEnd(StringUtils.substringBefore(eventReq.getReportTime(), " ")+" 23:59:59");
+		}
+		eventReq.setIsDeleted(Constants.ISNOTDELETED);
+		List<Event> events = eventExtMapper.selectAllReqport(eventReq);
         List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
         this.packageProjectButton(eventVos);
         //构造分页结果
@@ -119,6 +115,7 @@ public class EventServiceImpl implements EventService {
 		//分页
         PageHelper.startPage(pageParam.getPage(), pageParam.getLimit());
         //当前页列表
+		eventReq.setIsDeleted(Constants.ISNOTDELETED);
         List<Event> events = eventExtMapper.pageList(eventReq);
         List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
         this.packageProjectButton(eventVos);
@@ -134,6 +131,9 @@ public class EventServiceImpl implements EventService {
 				Byte authority = authoritys.get(i); 
 				
 				 if(AuthorityStatus.COMMIT_USER.getKey().equals(authority)){
+				 	if(EventStatus.INIT.equal(eventVo.getEventStatus())){
+						eventVo.setShowCommit(true);
+					}
 					 eventVo.setShowDetail(true);
 				 }
 				 if(AuthorityStatus.AUDITOR.getKey().equals(authority)){
@@ -236,26 +236,91 @@ public class EventServiceImpl implements EventService {
 		if(eventReq.getId()==null){
 			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setEventNo(CodeFactory.getCode());
-			event.setEventStatus(EventStatus.AUDIT.getKey());
 			event.setCommitUser(user.getName());
 			event.setCommitUserId(user.getId().intValue());
 			event.setCommitTime(new Date());
 			event.setUpdateUser(user.getName());
 			event.setUpdateUserId(user.getId().intValue());
 			this.insert(event);
-			this.insertEventHandleLog(HandleType.COMMIT, user.getName(), user.getId().intValue(), event.getId());
-			this.insertWorkFlow(event.getId().longValue(), user.getId(), user.getId(), AuthorityStatus.COMMIT_USER,EventStatus.INIT);
-			if(null!=event.getCcUserId()){
-				this.insertWorkFlow(event.getId().longValue(), event.getCcUserId().longValue() ,user.getId(), AuthorityStatus.CC_USER,EventStatus.INIT);
+			if(!EventStatus.INIT.equal(eventReq.getEventStatus())) {
+				this.insertWorkFlow(event.getId().longValue(), eventReq.getAuditorId().longValue(),user.getId() , AuthorityStatus.AUDITOR,EventStatus.AUDIT);
+				if(null!=event.getCcUserId()){
+					this.insertWorkFlow(event.getId().longValue(), event.getCcUserId().longValue() ,user.getId(), AuthorityStatus.CC_USER,EventStatus.INIT);
+				}
+				this.insertEventHandleLog(HandleType.COMMIT, user.getName(), user.getId().intValue(), event.getId());
 			}
-			return Result.newResult(this.insertWorkFlow(event.getId().longValue(), eventReq.getAuditorId().longValue(),user.getId() , AuthorityStatus.AUDITOR,EventStatus.AUDIT));
+
+			return Result.newResult(this.insertWorkFlow(event.getId().longValue(), user.getId(), user.getId(), AuthorityStatus.COMMIT_USER,EventStatus.INIT));
 		}else{
-			//权限 只能修改自己有项目
-			//TODO...
+			//权限 只能修改自己的项目
+			Event eventExit =  this.get(eventReq.getId());
+			if(null==eventExit){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+			}
+			if(user.getId().intValue()!=eventExit.getCommitUserId()){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+			}
+			if(!EventStatus.INIT.getValue().equals(eventExit.getEventStatus())
+					&&!EventStatus.AUDIT.getValue().equals(eventExit.getEventStatus())){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
+			}
+
+			if(!EventStatus.INIT.equal(eventReq.getEventStatus())) {
+				if(null!=event.getCcUserId() && !event.getCcUserId().equals(eventExit.getCcUserId())){
+					this.deleteWorkFlow(event.getId().longValue(), eventExit.getCcUserId().longValue(), AuthorityStatus.CC_USER);
+					this.insertWorkFlow(event.getId().longValue(), event.getCcUserId().longValue() ,user.getId(), AuthorityStatus.CC_USER,EventStatus.INIT);
+				}
+				if(null!=event.getCommitUserId() && !event.getCommitUserId().equals(eventExit.getCommitUserId())) {
+					this.insertEventHandleLog(HandleType.COMMIT, user.getName(), user.getId().intValue(), event.getId());
+					this.deleteWorkFlow(event.getId().longValue(), eventExit.getCommitUserId().longValue(), AuthorityStatus.AUDITOR);
+					this.insertWorkFlow(event.getId().longValue(), eventReq.getAuditorId().longValue(), user.getId(), AuthorityStatus.AUDITOR, EventStatus.AUDIT);
+				}
+			}
+			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setUpdateUser(user.getName());
 			event.setUpdateUserId(user.getId().intValue());
 			return Result.newResult(this.update(event));
 		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+	public Result<Integer> commit(EventReq eventReq) {
+		if (null == eventReq.getAuditorId() ) {
+			return new Result<Integer>(ResultCode.C500.getCode(), MessageConstants.PRARM_EMPTY);
+		}
+		if (null != eventReq.getCcUserId() && eventReq.getCcUserId().equals(eventReq.getAuditorId())) {
+			return new Result<Integer>(ResultCode.C500.getCode(), MessageConstants.PRARM_USER_REPEAT);
+		}
+
+		Event event = EventConvertor.reqToEvent(eventReq);
+		User user = userService.getUser();
+
+		//只有 网格人员可以提报
+		if (!RoleCode.VILLAGE.getKey().equals(user.getRole().getRoleCode())) {
+			return new Result<Integer>(ResultCode.C402.getCode(), ResultCode.C402.getDesc());
+		}
+
+		Event eventExit =  this.get(eventReq.getId());
+		if(null==eventExit){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		if(user.getId().intValue()!=eventExit.getCommitUserId()){
+			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		}
+		if(eventExit.getAuditorId()==null){
+			User auditor = userService.get(eventReq.getAuditorId().longValue());
+			event.setAuditor(auditor.getName());
+
+		}
+		if ( eventExit.getCcUserId()==null && null != eventReq.getCcUserId()) {
+			User ccUser = userService.get(eventReq.getCcUserId().longValue());
+			event.setCcUser(ccUser.getName());
+			this.insertWorkFlow(event.getId().longValue(), event.getCcUserId().longValue(), user.getId(), AuthorityStatus.CC_USER, EventStatus.INIT);
+		}
+
+		this.insertWorkFlow(event.getId().longValue(), eventReq.getAuditorId().longValue(), user.getId(), AuthorityStatus.AUDITOR, EventStatus.AUDIT);
+		return Result.newResult(this.insertEventHandleLog(HandleType.COMMIT, user.getName(), user.getId().intValue(), event.getId()));
 	}
 
 	/* (non-Javadoc)
@@ -277,7 +342,8 @@ public class EventServiceImpl implements EventService {
 		}
 		Event param = new Event();
 		param.setId(eventReq.getId());
-		param.setRespDepartment(RespDepartment.getValueByKey(eventReq.getRespDepartmentId().byteValue()));
+		Organization organization = organizationService.selectById(eventReq.getRespDepartmentId().longValue());
+		param.setRespDepartment(organization.getName());
 		param.setRespDepartmentId(eventReq.getRespDepartmentId());
 		if(null!=eventReq.getResponsibleId()){
 			User Responsible = userService.get(eventReq.getResponsibleId().longValue());
@@ -395,20 +461,39 @@ public class EventServiceImpl implements EventService {
 		if(null==event){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
-		
-		if(user.getId().intValue()!=event.getCommitUserId().intValue()){
-			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+		//管理人员可以删除
+		if (!RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+				&&!RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())) {
+			if(user.getId().intValue()!=event.getCommitUserId().intValue()){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
+			}
+			if(!EventStatus.INIT.getValue().equals(event.getEventStatus())
+					&&!EventStatus.AUDIT.getValue().equals(event.getEventStatus())){
+				return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
+			}
 		}
-		if(!EventStatus.INIT.getValue().equals(event.getEventStatus())
-				&&!EventStatus.AUDIT.getValue().equals(event.getEventStatus())){
-			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR_DELETE);
-		}
-		
-		return Result.newResult(eventMapper.deleteByPrimaryKey(id));
+
+		//deleteWorkFlowByEventId(id.longValue());
+		return Result.newResult(logicDelete(id));
 	}
-	
+
+	public Integer deleteWorkFlowByEventId(Long refId){
+		WorkFlowExample example = new WorkFlowExample();
+		WorkFlowExample.Criteria  criteria= example.createCriteria();
+		criteria.andRefIdEqualTo(refId);
+		return workFlowMapper.deleteByExample(example);
+	}
+
 	public Event get(Integer id) {
-		return eventMapper.selectByPrimaryKey(id);
+		EventExample example = new EventExample();
+		EventExample.Criteria  criteria= example.createCriteria();
+		criteria.andIdEqualTo(id);
+		criteria.andIsDeletedEqualTo(Constants.ISNOTDELETED);
+		List<Event> result = eventMapper.selectByExample(example);
+		if(result.isEmpty()){
+			return  null;
+		}
+		return result.get(0);
 	}
 	
 	public List<EventHandleLog> selectEventHandleLogByEventId(Integer eventId) {
@@ -418,14 +503,19 @@ public class EventServiceImpl implements EventService {
 		return eventHandleLogMapper.selectByExample(example);
 	}
 	 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	private int insert(Event event){
 		return eventExtMapper.insertSelective(event);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
 	private int update(Event event){
 		return eventMapper.updateByPrimaryKeySelective(event);
-	} 
- 
+	}
+
+	private int logicDelete(Integer id){
+		Event event =  new Event();
+		event.setId(id);
+		event.setIsDeleted(Constants.ISDELETED);
+		return eventMapper.updateByPrimaryKeySelective(event);
+	}
+
 }

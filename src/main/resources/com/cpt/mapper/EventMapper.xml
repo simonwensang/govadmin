@@ -35,6 +35,7 @@
     <result column="handle_time" jdbcType="VARCHAR" property="handleTime" />
     <result column="handle_result" jdbcType="VARCHAR" property="handleResult" />
     <result column="handle_remark" jdbcType="VARCHAR" property="handleRemark" />
+    <result column="handle_attachment" jdbcType="VARCHAR" property="handleAttachment" />
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -106,8 +107,8 @@
     appellant_remark, event_no, event_type, report_time, grade, description, attachment, 
     commit_user, commit_user_id, commit_time, auditor, auditor_id, auditor_time, resp_department, 
     resp_department_id, responsible, responsible_id, expiry_date, request, audit_remark, 
-    handler, handler_id, handle_time, handle_result, handle_remark, update_user, update_user_id, 
-    update_time, event_status, cc_user, cc_user_id, is_deleted
+    handler, handler_id, handle_time, handle_result, handle_remark, handle_attachment, 
+    update_user, update_user_id, update_time, event_status, cc_user, cc_user_id, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cpt.model.EventExample" resultMap="BaseResultMap">
     select
@@ -152,9 +153,9 @@
       responsible_id, expiry_date, request, 
       audit_remark, handler, handler_id, 
       handle_time, handle_result, handle_remark, 
-      update_user, update_user_id, update_time, 
-      event_status, cc_user, cc_user_id, 
-      is_deleted)
+      handle_attachment, update_user, update_user_id, 
+      update_time, event_status, cc_user, 
+      cc_user_id, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{community,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}, 
       #{window,jdbcType=VARCHAR}, #{windowId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
       #{appellant,jdbcType=VARCHAR}, #{appellantTel,jdbcType=VARCHAR}, #{appellantRemark,jdbcType=VARCHAR}, 
@@ -166,9 +167,9 @@
       #{responsibleId,jdbcType=INTEGER}, #{expiryDate,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, 
       #{auditRemark,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, #{handlerId,jdbcType=INTEGER}, 
       #{handleTime,jdbcType=VARCHAR}, #{handleResult,jdbcType=VARCHAR}, #{handleRemark,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{eventStatus,jdbcType=TINYINT}, #{ccUser,jdbcType=VARCHAR}, #{ccUserId,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=TINYINT})
+      #{handleAttachment,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{eventStatus,jdbcType=TINYINT}, #{ccUser,jdbcType=VARCHAR}, 
+      #{ccUserId,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.cpt.model.Event">
     insert into t_event
@@ -271,6 +272,9 @@
       </if>
       <if test="handleRemark != null">
         handle_remark,
+      </if>
+      <if test="handleAttachment != null">
+        handle_attachment,
       </if>
       <if test="updateUser != null">
         update_user,
@@ -393,6 +397,9 @@
       </if>
       <if test="handleRemark != null">
         #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handleAttachment != null">
+        #{handleAttachment,jdbcType=VARCHAR},
       </if>
       <if test="updateUser != null">
         #{updateUser,jdbcType=VARCHAR},
@@ -525,6 +532,9 @@
       <if test="record.handleRemark != null">
         handle_remark = #{record.handleRemark,jdbcType=VARCHAR},
       </if>
+      <if test="record.handleAttachment != null">
+        handle_attachment = #{record.handleAttachment,jdbcType=VARCHAR},
+      </if>
       <if test="record.updateUser != null">
         update_user = #{record.updateUser,jdbcType=VARCHAR},
       </if>
@@ -586,6 +596,7 @@
       handle_time = #{record.handleTime,jdbcType=VARCHAR},
       handle_result = #{record.handleResult,jdbcType=VARCHAR},
       handle_remark = #{record.handleRemark,jdbcType=VARCHAR},
+      handle_attachment = #{record.handleAttachment,jdbcType=VARCHAR},
       update_user = #{record.updateUser,jdbcType=VARCHAR},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -696,6 +707,9 @@
       <if test="handleRemark != null">
         handle_remark = #{handleRemark,jdbcType=VARCHAR},
       </if>
+      <if test="handleAttachment != null">
+        handle_attachment = #{handleAttachment,jdbcType=VARCHAR},
+      </if>
       <if test="updateUser != null">
         update_user = #{updateUser,jdbcType=VARCHAR},
       </if>
@@ -754,6 +768,7 @@
       handle_time = #{handleTime,jdbcType=VARCHAR},
       handle_result = #{handleResult,jdbcType=VARCHAR},
       handle_remark = #{handleRemark,jdbcType=VARCHAR},
+      handle_attachment = #{handleAttachment,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=VARCHAR},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

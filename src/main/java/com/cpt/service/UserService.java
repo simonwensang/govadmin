@@ -28,6 +28,8 @@ public interface UserService {
 	public Result<Integer> role(UserQuery userQuery);
 	
 	public List<Role> getRoleList() ;
+
+	public List<User> getUserList(List<Long> idList);
 	
 	public Result<Integer> opt(UserVo userReq) ;
 	

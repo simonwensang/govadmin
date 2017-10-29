@@ -2295,6 +2295,76 @@ public class EventExample {
             return (Criteria) this;
         }
 
+        public Criteria andHandleAttachmentIsNull() {
+            addCriterion("handle_attachment is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentIsNotNull() {
+            addCriterion("handle_attachment is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentEqualTo(String value) {
+            addCriterion("handle_attachment =", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentNotEqualTo(String value) {
+            addCriterion("handle_attachment <>", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentGreaterThan(String value) {
+            addCriterion("handle_attachment >", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentGreaterThanOrEqualTo(String value) {
+            addCriterion("handle_attachment >=", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentLessThan(String value) {
+            addCriterion("handle_attachment <", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentLessThanOrEqualTo(String value) {
+            addCriterion("handle_attachment <=", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentLike(String value) {
+            addCriterion("handle_attachment like", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentNotLike(String value) {
+            addCriterion("handle_attachment not like", value, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentIn(List<String> values) {
+            addCriterion("handle_attachment in", values, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentNotIn(List<String> values) {
+            addCriterion("handle_attachment not in", values, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentBetween(String value1, String value2) {
+            addCriterion("handle_attachment between", value1, value2, "handleAttachment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleAttachmentNotBetween(String value1, String value2) {
+            addCriterion("handle_attachment not between", value1, value2, "handleAttachment");
+            return (Criteria) this;
+        }
+
         public Criteria andUpdateUserIsNull() {
             addCriterion("update_user is null");
             return (Criteria) this;

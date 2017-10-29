@@ -18,7 +18,9 @@ public interface EventService {
 	EventVo detail(Integer id);
 	
 	Result<Integer> addOrEdit(EventReq eventReq);
-	
+
+	Result<Integer> commit(EventReq eventReq);
+
 	Result<Integer> delete(Integer id);
 	
 	public Result<Integer> sendHandler(EventReq eventReq);

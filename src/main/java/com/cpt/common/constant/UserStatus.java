@@ -2,7 +2,7 @@ package com.cpt.common.constant;
 
 public enum UserStatus {
 
-	// 0用户1报价人2费用录入人
+	// 0待审核1启用2禁止
 	AUDIT((byte)0,"待审核"),
 	AVAILABLE((byte)1,"启用"),
 	FORBIDDEN((byte)2,"禁止") ;
