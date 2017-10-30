@@ -203,7 +203,7 @@
                                                     #if	($!{event.showDelete}==true)
                                                         <a class='btn btn-primary btn-sm ' style='margin-right: 6px'
                                                            href= 'javascript:void(0)'
-                                                            onclick='deleteEvent()'>
+                                                            onclick='deleteEvent($!{event.id})'>
                                                             <i class='ace-icon fa fa-pencil'></i>删除</a>
                                                     #end
                                                     #if	($!{event.showEdit}==true)

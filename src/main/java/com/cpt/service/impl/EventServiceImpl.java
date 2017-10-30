@@ -496,7 +496,7 @@ public class EventServiceImpl implements EventService {
 		if(null==id){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_EMPTY);
 		}
-		User user = userCommonService.getUser();
+		User user = userService.getUser();
 		Event event =  this.get(id);
 		if(null==event){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);

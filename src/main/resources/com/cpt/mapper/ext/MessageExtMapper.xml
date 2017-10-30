@@ -14,6 +14,7 @@
     <result column="is_read" jdbcType="TINYINT" property="isRead" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
       <result column="status" jdbcType="TINYINT" property="status" />
+      <result column="rec_id" jdbcType="BIGINT" property="recId" />
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -37,7 +38,7 @@
   </select>
 
     <select id="receiveList"   resultMap="BaseResultMap" parameterType="com.cpt.req.MessageReq">
-        select a.id,a.content,a.attachment,a.create_time,a.user,a.user_id,b.status
+        select a.id,a.content,a.attachment,a.create_time,a.user,a.user_id,b.status,b.id as rec_id
         from t_message_receive b left join t_message a
         on a.id=b.message_id
         <where>

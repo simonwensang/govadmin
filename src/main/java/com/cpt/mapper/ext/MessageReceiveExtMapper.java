@@ -10,5 +10,5 @@ public interface MessageReceiveExtMapper {
 
     int insertList(List<MessageReceive> list);
 
-
+    int updateStatus(MessageReceive  messageReceive);
 }

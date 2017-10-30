@@ -199,6 +199,17 @@
 													href= '/event/detail?id=$!{event.id}' >
 													<i class='ace-icon fa fa-pencil'></i>明细</a> 
 													#end
+                                                    #if	($!{event.showDelete}==true)
+                                                        <a class='btn btn-primary btn-sm ' style='margin-right: 6px'
+                                                           href= 'javascript:void(0)'
+                                                           onclick='deleteEvent($!{event.id})'>
+                                                            <i class='ace-icon fa fa-pencil'></i>删除</a>
+                                                    #end
+                                                    #if	($!{event.showEdit}==true)
+                                                        <a class='btn btn-primary btn-sm ' style='margin-right: 6px'
+                                                           href= '/event/edit?id=$!{event.id}' >
+                                                            <i class='ace-icon fa fa-pencil'></i>编辑</a>
+                                                    #end
 												</td>
                                             </tr>
                                            #end
@@ -272,6 +283,33 @@
 		var url = "/event/excelTreated?&window="+windowparam+"&auditor="+auditor+"&reportTime="+reportTime+"&commitUser="+commitUser+"&handler="+handler+"&eventNo="+eventNo+"&grade="+grade+"&community="+community;
 		window.location.href = url;
 	}
+
+    function deleteEvent(id){
+        confirmShows("确认删除？", function () {
+            $.ajax({
+                type: "post",
+                url: '/event/delete',
+                data: {
+                    id:id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alertShow(data.msg, function () {
+                        location.reload();
+                    });
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+        });
+
+    }
 </script>
 </body>
 </html>

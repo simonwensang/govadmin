@@ -223,6 +223,7 @@ public class EventController {
         mav.addObject("event", event);
         mav.setViewName("event/detail");
         mav.addObject("user",user);
+        mav.addObject("cur_module","event_List");
         return mav;
     }
 
