@@ -34,6 +34,14 @@
             color: #5a87a2;
             cursor: pointer;
         }
+
+        #modal-table-1 th, #modal-table-1 td {
+            padding: 2px 4px !important;
+        }
+
+        .icon-trash {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +107,7 @@
                                             <label class="col-sm-1 control-label no-padding-right text-left">$!{event.appellant} </label>
                                             <label class="col-sm-1 control-label no-padding-right"> 联系方式： </label>
                                             <label class="col-sm-1 control-label no-padding-right text-left"> $!{event.appellantTel} </label>
-										</div>
+                                        </div>
                                         <div class="alert alert-block alert-success">
                                             <label>备注：</label>
                                             <div>$!{event.appellantRemark}</div>
@@ -244,15 +252,14 @@
                                 #if  ( $!{user.role.roleCode}=="superuser" || $!{user.role.roleCode}=="admin")
                                     <button data-title="指派人" class="btn btn-lg btn-pink select-p" style="float: right;">
                                         指派人员
-                                    </button> 
+                                    </button>
                                 #end
                             </div>
                         </div>
 
                         <!--任务派遣弹窗222-->
-                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true"
-                             style="display: none;">
-                            <div class="modal-dialog">
+                        <div id="modal-table-1" class="modal fade select-p-wrap" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog" style="width: 800px">
                                 <div class="modal-content">
                                     <div class="modal-header no-padding">
                                         <div class="table-header">
@@ -265,48 +272,78 @@
                                     <form role="form" id="sendForm" method="post" action="/event/sendHandler">
                                         <input type="hidden" id="eventId" value="$!{event.id}" name="id">
                                         <div class="modal-body no-padding">
-                                            <div class="form-group clearfix"
-                                                 style="margin-top: 10px;margin-bottom: 10px">
-                                                <label class="col-sm-2 control-label no-padding-right"
-                                                       style="width: auto;"> 责任部门 </label>
-                                                <div class="btn-group col-sm-3">
-                                                    <select class="form-control" id="form-field-select-1"
-                                                            name="respDepartmentId">
-                                                         <option value=""></option>
-                                                     #foreach($organization in $organizationList)
-            											<option value="$!{organization.id}">$!{organization.name}</option>
-            										 #end
-                                                    </select>
-                                                </div>
-                                                <label class="col-sm-2 control-label no-padding-right text-right">
-                                                    处理截止时间 </label>
+                                            <div class="form-group clearfix" style="margin-top: 10px;margin-bottom: 10px">
+                                            ##                                                <label class="col-sm-2 control-label no-padding-right" style="width: auto;"> 责任部门 </label>
+                                            ##                                                <div class="btn-group col-sm-3">
+                                            ##                                                    <select class="form-control" id="form-field-select-1" name="respDepartmentId">
+                                            ##                                                         <option value=""></option>
+                                            ##                                                     #foreach($organization in $organizationList)
+                                            ##            											 <option value="$!{organization.id}">$!{organization.name}</option>
+                                            ##            										 #end
+                                            ##                                                    </select>
+                                            ##                                                </div>
+                                                <label class="col-sm-3 control-label no-padding-right text-right"> 处理截止时间 </label>
                                                 <div class="col-sm-4">
                                                     <div class="input-group">
-                                                        <input class="" id="report-time-picker" type="text"
-                                                               name="expiryDate">
-                                                        <span class="input-group-addon"><i
-                                                                class="icon-calendar bigger-110"></i></span>
+                                                        <input class="" id="report-time-picker" type="text" name="expiryDate">
+                                                        <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                             <div class="form-group clearfix" style="padding: 0 10px;">
-                                                <label class="control-label no-padding-right text-right pull-left"
-                                                       style="line-height: 40px"> 责任人 </label>
-                                                <div class="tags pull-left" id="add_shr"
-                                                     style="width: 200px;position: relative;">
-                                                    <i class="icon-plus-sign get-people" data-title="责任人"></i>
+                                            ##                                                <label class="control-label no-padding-right text-right pull-left" style="line-height: 40px"> 责任人 </label>
+                                            ##                                                <div class="tags pull-left" id="add_shr" style="width: 200px;position: relative;">
+                                            ##                                                    <i class="icon-plus-sign get-people" data-title="责任人"></i>
+                                            ##                                                </div>
+                                            ##												<input type="hidden" id="responsibleId" name="responsibleId">
+                                                <div class="col-sm-4">
+                                                    <label for="form-field-select-2">责任部门</label>
+                                                    <select class="form-control" id="form-field-select-2" multiple="multiple" style="height: 150px">
+                                                        #foreach($organization in $organizationList)
+                                                            <option value="$!{organization.id}">$!{organization.name}</option>
+                                                        #end
+                                                    </select>
                                                 </div>
-												<input type="hidden" id="responsibleId" name="responsibleId">
+                                                <div class="col-sm-4">
+                                                    <label for="form-field-select-2">责任人</label>
+                                                    <select class="form-control" id="form-field-select-3" multiple="multiple" style="height: 150px">
+                                                    ##                                                        <option value="AL">Alabama</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label for="form-field-select-2">已选责任部门和负责人</label>
+                                                    <div style="height: 150px;overflow-y: auto">
+                                                        <table class="table table-striped table-bordered table-hover no-margin-bottom">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>责任部门</th>
+                                                                <th>责任人</th>
+                                                                <th>操作</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="tzbody">
+                                                            ##                                                        <tr>
+##                                                            <td>受通知人</td>
+##                                                            <td>操作情况</td>
+##                                                        </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="responsibleId" name="responsibleId">
+
                                             </div>
+
+
                                             <div class="form-group" style="padding: 0 10px">
                                                 <label for="form-field-8">处理要求：</label>
-                                                <textarea class="form-control" id="form-field-1" name="request"
-                                                          placeholder="点击填写" style="height: 100px"></textarea>
+                                                <textarea class="form-control" id="form-field-1" name="request" placeholder="点击填写" style="height: 100px"></textarea>
                                             </div>
                                             <div class="form-group" style="padding: 0 10px">
                                                 <label for="form-field-8">备注</label>
-                                                <textarea class="form-control" id="form-field-8" name="auditRemark"
-                                                          placeholder="点击填写" style="height: 100px"></textarea>
+                                                <textarea class="form-control" id="form-field-8" name="auditRemark" placeholder="点击填写" style="height: 100px"></textarea>
                                             </div>
                                         </div>
 
@@ -358,13 +395,13 @@
     $('.select-p').on('click', function () {
         $('#model_title').text('选择' + $(this).data('title'));
         $('#modal-table').modal('show');
-		
-		if ($('#model_title').text().indexOf('指派人') > 0){
-		 	getUser(1,5);
-		}else{
-			getUser(1,$!{user.role.id});
-		}
-        
+
+        if ($('#model_title').text().indexOf('指派人') > 0) {
+            getUser(1, 5);
+        } else {
+            getUser(1,$!{user.role.id});
+        }
+
     });
 
     $('#dispatch_task').on('click', function () {
@@ -380,8 +417,8 @@
 
     });
 
-    $('#add_shr').on('click','.close',function () {
-       $(this).parent().remove();
+    $('#add_shr').on('click', '.close', function () {
+        $(this).parent().remove();
         $('#responsibleId').val('');
     });
 
@@ -391,14 +428,14 @@
         getRespUser(1);
     });
 
-    function getUser(page,roleId) {
+    function getUser(page, roleId) {
         var name = $('#sname').val();
         var eventId = $('#eventId').val();
         $.ajax({
             type: "get",
             url: '/user/rolePageList',
             data: {
-                page: page, name: name,roleId:roleId
+                page: page, name: name, roleId: roleId
             },
             dataType: 'json',
             success: function (data) {
@@ -418,17 +455,17 @@
                 }
 
                 $("#pager").empty();
-                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + ","+roleId+")'><i class='icon-double-angle-left'></i></a></li>");
+                $("#pager").append("<li class='prev'><a onclick='getUser(" + data.pre + "," + roleId + ")'><i class='icon-double-angle-left'></i></a></li>");
                 //循环添加
                 for (var j = 1; j <= data.total; j++) {
                     var option = "<li ";
                     if (data.page == j) {
                         option = option + "class='active' ";
                     }
-                    option = option + "><a onclick='getUser(" + j + ","+roleId+")'>" + j + "</a></li>";
+                    option = option + "><a onclick='getUser(" + j + "," + roleId + ")'>" + j + "</a></li>";
                     $("#pager").append(option);
                 }
-                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + ","+roleId+")'><i class='icon-double-angle-right'></i></a></li>");
+                $("#pager").append("<li class='next'><a onclick='getUser(" + data.next + "," + roleId + ")'><i class='icon-double-angle-right'></i></a></li>");
             },
             error: function (data) {
                 if (data.msg) {
@@ -441,38 +478,38 @@
         });
     }
 
-	function higherUp(userId,id){
-	 	confirmShows("确认指派？", function () {
-        	var url = '/event/higherUp';
-        	var type= "get";
-        	var data={ auditorId: userId, id: id };
-        	ajaxUtilReload(url,data,type,"/event/allReport?eventType="+$!{event.eventType});
-	 	});
-	}
-	
-	function sendHandler(){
-		confirmShows("确认派遣？", function () {
-        	 $("#sendForm").ajaxSubmit(function(data) { 
-                    // 提交成功后处理，message为提交页面的返回内容 
-					if(data.code==200){
-    					 alertShow(data.msg, function () {
-    					 	window.location.href="/event/allReport?eventType="+$!{event.eventType};
-                       	  });
-					}else{
-						 alertShow(data.msg);
-					}  
-                });
-	 	});
-	}
-	
-	function getRespUser(page,departmentId) {
-	
+    function higherUp(userId, id) {
+        confirmShows("确认指派？", function () {
+            var url = '/event/higherUp';
+            var type = "get";
+            var data = {auditorId: userId, id: id};
+            ajaxUtilReload(url, data, type, "/event/allReport?eventType=" +$!{event.eventType});
+        });
+    }
+
+    function sendHandler() {
+        confirmShows("确认派遣？", function () {
+            $("#sendForm").ajaxSubmit(function (data) {
+                // 提交成功后处理，message为提交页面的返回内容
+                if (data.code == 200) {
+                    alertShow(data.msg, function () {
+                        window.location.href = "/event/allReport?eventType=" +$!{event.eventType};
+                    });
+                } else {
+                    alertShow(data.msg);
+                }
+            });
+        });
+    }
+
+    function getRespUser(page, departmentId) {
+
         var name = $('#sname').val();
         $.ajax({
             type: "get",
             url: '/user/rolePageList',
             data: {
-                page: page, name: name,roleId:5
+                page: page, name: name, roleId: 5
             },
             dataType: 'json',
             success: function (data) {
@@ -514,6 +551,53 @@
             }
         });
     }
+
+    $('#form-field-select-2').on('click', 'option', function () {
+        var deptId = $(this).attr('value')
+        $.ajax({
+            url: '/user/queryResponse/' + deptId,
+            type: 'get',
+            dataType: 'json'
+        }).done(function (res) {
+            var aa = ''
+            $.each(res, function (index, item) {
+                aa += '<option value="' + item.id + '" data-dp="' + item.department + '">' + item.name + '</option>';
+            })
+            $('#form-field-select-3').empty().append(aa)
+        })
+    })
+
+    $('#form-field-select-3').on('dblclick', 'option', function () {
+        var id = $(this).attr('value')
+        var dp = $(this).data('dp')
+        var name = $(this).text()
+
+        var hasIn = false
+        $('#tzbody').children('tr').each(function (index, item) {
+            if ((id + '') == ($(item).data('id') + '')) {
+                hasIn = true
+            }
+        })
+
+        if (!hasIn) {
+            $('#tzbody').append('<tr data-id="' + id + '"><td>' + dp + '</td><td>' + name + '</td><td><i class="icon-trash"></i></td></tr>')
+        }
+        getPqzrr()
+    })
+
+    $('#tzbody').on('click', '.icon-trash', function () {
+        $(this).parent().parent().remove()
+        getPqzrr()
+    })
+
+    function getPqzrr() {
+        var a = []
+        $('#tzbody').children('tr').each(function (index, item) {
+            a.push($(item).data('id'))
+        })
+        $('#responsibleId').val(a.join(','))
+    }
+
 </script>
 </body>
 </html>
