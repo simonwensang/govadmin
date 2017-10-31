@@ -94,16 +94,14 @@
                                                             #end
                                                         </td>
                                                         <td>
-                                                            <a class="delete" href="javascript:void(0)"
-                                                               data-id="$!{message.id}">回复</a>
-                                                        ##                                                            #if ($!{message.status}==0)
-                                                        ##                                                                <a class="delete" href="javascript:void(0)"
-                                                        ##                                                                   data-id="$!{message.id}">回复</a>
-                                                        ##                                                            #elseif ($!{message.status}==1)
-                                                        ##                                                                已读
-                                                        ##                                                            #elseif ($!{message.status}==2)
-                                                        ##                                                                已执行
-                                                        ##                                                            #end
+                                                            #if ($!{message.status}==0)
+                                                                <a class="delete" href="javascript:void(0)"
+                                                                   data-id="$!{message.recId}">回复</a>
+                                                            #elseif ($!{message.status}==1)
+                                                                已读
+                                                            #elseif ($!{message.status}==2)
+                                                                已执行
+                                                            #end
                                                         </td>
                                                     </tr>
                                                     #end
@@ -194,27 +192,7 @@
             var id = $(this).data('id');
             msgId = id
             // TODO ajax删除当前的行
-//            $.ajax({
-//                type: "post",
-//                url: '/message/read',
-//                data: {
-//                    id: id
-//                },
-//                dataType: 'json',
-//                success: function (data) {
-//                    alertShow(data.msg, function () {
-//                        location.reload();
-//                    });
-//                },
-//                error: function (data) {
-//                    if (data.msg) {
-//                        alertShow(data.msg);
-//                    }
-//                    if (data.readyState == 4) {
-//                        alertShow("Request Not Found");
-//                    }
-//                }
-//            });
+
         });
 
         var msgId = 0
@@ -223,7 +201,34 @@
             $('.aa-b').hide()
             $('.js-sel').prop('checked', false)
             // TODO 请求处理
-            alert('消息ID:  ' + msgId + '  点击了  ' + type)
+            //alert('消息ID:  ' + msgId + '  点击了  ' + type)
+            var status=0;
+            if(type=='read'){
+                status=1
+            }else{
+                status =2
+            }
+            $.ajax({
+                type: "post",
+                url: '/message/read',
+                data: {
+                    id: msgId,status:status
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alertShow(data.msg, function () {
+                        location.reload();
+                    });
+                },
+                error: function (data) {
+                    if (data.msg) {
+                        alertShow(data.msg);
+                    }
+                    if (data.readyState == 4) {
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
         })
     })
     ;

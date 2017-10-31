@@ -4,11 +4,13 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.cpt.common.constant.MessageStatus;
 import com.cpt.mapper.MessageReceiveMapper;
 import com.cpt.mapper.ext.MessageReceiveExtMapper;
 import com.cpt.model.MessageReceive;
 import com.cpt.model.MessageReceiveExample;
 import com.cpt.req.MessageReceiveReq;
+import com.cpt.vo.MessageJsonVo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,13 +58,30 @@ public class MessageServiceImpl implements MessageService {
 	public String ossWebUrl;
 	
 	@Override
-	public Result<List<MessageReceive>> getReceiveList(Long id) {
+	public Result<MessageJsonVo> getReceiveList(Long id) {
 		if(id==null){
-			return new Result<List<MessageReceive>>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+			return new Result<MessageJsonVo>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
+		}
+		Message message  = messageMapper.selectByPrimaryKey(id);
+		if(message==null){
+			return new Result<MessageJsonVo>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
 		MessageReceiveExample example =  new MessageReceiveExample();
 		example.createCriteria().andMessageIdEqualTo(id);
-		return Result.newResult(messageReceiveMapper.selectByExample(example));
+		List<MessageReceive> messageReceiveList = messageReceiveMapper.selectByExample(example);
+		MessageJsonVo messageJsonVo = new MessageJsonVo();
+		messageJsonVo.setContent(message.getContent());
+		MessageJsonVo.MessageNode messageNode = null;
+		List<MessageJsonVo.MessageNode> msgs =Lists.newArrayList();
+		for ( MessageReceive messageReceive : messageReceiveList ) {
+			messageNode = new MessageJsonVo.MessageNode();
+			messageNode.setName(messageReceive.getReceiver());
+			messageNode.setStatus(MessageStatus.getValueByKey(messageReceive.getStatus()));
+			msgs.add(messageNode);
+		}
+
+		messageJsonVo.setMsgs(msgs);
+		return Result.newResult(messageJsonVo);
 	}
 
 	@Override
@@ -116,7 +135,9 @@ public class MessageServiceImpl implements MessageService {
 		}
 		User user = userService.getUser();
 		//只有 乡镇人员可以发送消息
-    	if(!RoleCode.TOWN.getKey().equals(user.getRole().getRoleCode())){
+    	if(!RoleCode.TOWN.getKey().equals(user.getRole().getRoleCode())
+		    &&!RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+				&&!RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())){
     		return new Result<Integer>(ResultCode.C402.getCode(),ResultCode.C402.getDesc());
     	}
 		message.setUser(user.getName());

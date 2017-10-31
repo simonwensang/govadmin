@@ -96,7 +96,7 @@
                                         <div style="text-align: center;">
                                             <ul class="pagination">
                                                 <li>
-                                                    <a href="/message/view?page=$!{result.pre}">
+                                                    <a href="/message/viewSend?page=$!{result.pre}">
                                                         <i class="icon-double-angle-left"></i>
                                                     </a>
                                                 </li>
@@ -106,10 +106,10 @@
                                                         #if($result.page==$!{pag})
                                                                 class="active"
                                                         #end
-                                                    ><a href="/message/view?page=$!{pag}">$!{pag}</a></li>
+                                                    ><a href="/message/viewSend?page=$!{pag}">$!{pag}</a></li>
                                                 #end
                                                 <li>
-                                                    <a href="/message/view?page=$!{result.next}">
+                                                    <a href="/message/viewSend?page=$!{result.next}">
                                                         <i class="icon-double-angle-right"></i>
                                                     </a>
                                                 </li>
@@ -182,53 +182,41 @@
         $('#sample-table-1').on('click', '.delete', function () {
             var id = $(this).data('id');
             // TODO ajax拉取列表
-//			 $.ajax({
-//                type: "post",
-//                url: '/message/read',
-//                data: {
-//                   id:id
-//                },
-//                dataType: 'json',
-//                success: function (data) {
-//                    alertShow(data.msg, function () {
-//					 	location.reload();
-//                    });
-//                },
-//                error: function (data) {
-//                    if(data.msg){
-//                        alertShow(data.msg);
-//                    }
-//                    if(data.readyState == 4){
-//                        alertShow("Request Not Found");
-//                    }
-//                }
-//            });
+			 $.ajax({
+                type: "post",
+                url: '/message/view',
+                data: {
+                   id:id
+                },
+                dataType: 'json',
+                success: function (data) {
 
-            // 下面是demo json
+                    // 下面是demo json
 
-            var res = {
-                content: '我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，我是通知内容，',
-                msgs: [{
-                    name: 'aaaaaa',
-                    status: '未读'
-                }, {
-                    name: 'aaaaaa',
-                    status: '已读'
-                }, {
-                    name: 'aaaaaa',
-                    status: '已处理'
-                }]
-            }
+                    var res = data.value;
 
-            $('#tzxq').text(res.content)
+                    $('#tzxq').text(res.content)
 
-            var domString = ''
-            $.each(res.msgs, function (index, item) {
-                domString += '<tr><th>' + item.name + '</th><th>' + item.status + '</th></tr>'
-            })
-            $('#tzbody').empty().append(domString)
+                    var domString = ''
+                    $.each(res.msgs, function (index, item) {
+                        domString += '<tr><th>' + item.name + '</th><th>' + item.status + '</th></tr>'
+                    })
+                    $('#tzbody').empty().append(domString)
 
-            $('#modal-table').modal('show');
+                    $('#modal-table').modal('show');
+
+                },
+                error: function (data) {
+                    if(data.msg){
+                        alertShow(data.msg);
+                    }
+                    if(data.readyState == 4){
+                        alertShow("Request Not Found");
+                    }
+                }
+            });
+
+
         });
     })
     ;

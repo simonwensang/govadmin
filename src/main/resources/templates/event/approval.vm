@@ -332,7 +332,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" id="responsibleId" name="responsibleId">
+                                                <input type="hidden" id="responsibleId" name="responsible">
 
                                             </div>
 

@@ -239,7 +239,7 @@
                                             <div class="col-sm-2">
 												<input type="hidden" id="auditorId" name="auditorId" value="$!{event.auditorId}">
                                                 <div class="tags" id="add_shr">
-                                                    #if(!$!{event.auditorId})
+                                                    #if($!{event.auditorId})
                                                         <span class="tag"> $!{event.auditor}<button type="button" class="close">×</button></span>
                                                     #end
                                                 </div>
@@ -250,7 +250,7 @@
                                             <div class="col-sm-2">
 												<input type="hidden"  id="ccUserId" name="ccUserId" value="$!{event.ccUserId}">
                                                 <div class="tags" id="add_csr">
-                                                    #if(!$!{event.ccUserId})
+                                                    #if($!{event.ccUserId})
                                                         <span class="tag">$!{event.ccUser}<button type="button" class="close">×</button></span>
                                                     #end
                                                     </div>
@@ -264,7 +264,7 @@
                             <div class="space-10"></div>
 
                             <div style="text-align: center">
-                                <input type="hidden" value="" name="eventStatus">
+                                <input type="hidden" value="" name="eventStatus" id="eventStatus">
                                 <a onclick="save()" class="btn btn-lg btn-success"  >
                                     <i class="icon-ok"></i>
                                     保存草稿
@@ -443,6 +443,7 @@
     //确认提交
 
         function commit(){
+            $("#eventStatus").val(1);
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 

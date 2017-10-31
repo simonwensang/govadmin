@@ -288,6 +288,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="widget-box">
+                                            <div class="widget-header">
+                                                <h4>附件上传</h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="widget-main">
+                                                    <input type="file" id="id-input-file-2" name="upload"/>
+                                                    <div id="file-up-1" class="ace-file-input" style="width: 400px;display: none"><label class="file-label selected" data-title=""><span class="file-name"><i class="icon-file"></i><span id="up-file-name"></span></span></label><a class="remove" style="cursor: pointer" id="up-file-remove"><i class="icon-remove"></i></a></div>
+                                                    <div class="well well-sm" style="margin-bottom: 0"> 要求：文件不大于10M</div>
+                                                </div>
+                                                <input id="input-file-2" hidden name="attachment">
+                                            </div>
+                                        </div>
+
                                         <div class="form-group" style="padding: 0 10px">
                                             <label for="form-field-8">处理结果：</label>
                                             <textarea class="form-control" id="form-field-1" name="handleResult" placeholder="点击填写" style="height: 100px"></textarea>

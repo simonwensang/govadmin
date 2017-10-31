@@ -228,7 +228,7 @@
                             <div class="space-10"></div>
 
                             <div style="text-align: center">
-                                <input type="hidden" value="" name="eventStatus">
+                                <input type="hidden" value="" name="eventStatus" id="eventStatus">
                                 <a onclick="save()" class="btn btn-lg btn-success"  >
                                     <i class="icon-ok"></i>
                                     保存草稿
@@ -407,6 +407,7 @@
     //确认提交
 
         function commit(){
+            $("#eventStatus").val(0);
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 

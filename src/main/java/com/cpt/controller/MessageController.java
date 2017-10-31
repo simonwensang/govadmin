@@ -2,6 +2,7 @@
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.cpt.req.MessageReceiveReq;
+import com.cpt.vo.MessageJsonVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -109,14 +110,13 @@ public class MessageController {
     /**
      * 查询
      *
-     * @param mav
      * @param id
      * @return
      */
-   /* @RequestMapping(value = "/get", method = RequestMethod.POST)
+   @RequestMapping(value = "/view", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Message> get(Long id) {
-    	return messageService.get(id);
-    }*/
+    public Result<MessageJsonVo> view(Long id) {
+    	return messageService.getReceiveList(id);
+    }
 	
 }

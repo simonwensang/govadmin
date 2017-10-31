@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.cpt.mapper.*;
-import com.cpt.mapper.ext.EventResponsetExMapper;
+import com.cpt.mapper.ext.EventResponseExtMapper;
 import com.cpt.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ import com.cpt.common.constant.EventStatus;
 import com.cpt.common.constant.EventType;
 import com.cpt.common.constant.HandleType;
 import com.cpt.common.constant.MessageConstants;
-import com.cpt.common.constant.RespDepartment;
 import com.cpt.common.constant.RoleCode;
 import com.cpt.common.util.CodeFactory;
 import com.cpt.common.util.ImageOSSUtil;
@@ -69,7 +68,7 @@ public class EventServiceImpl implements EventService {
 	@Resource
 	private  OrganizationService organizationService;
 	@Resource
-	private EventResponsetExMapper eventResponsetExMapper;
+	private EventResponseExtMapper eventResponseExtMapper;
 	@Resource
 	private EventResponseMapper eventResponseMapper;
 	@Resource
@@ -93,7 +92,8 @@ public class EventServiceImpl implements EventService {
 	public PageResult<EventVo> allReport(EventReq eventReq) {
 		 //当前页列表
         User user = userService.getUser();
-        if(!"admin".equals(user.getRole().getRoleCode())&&!"superuser".equals(user.getRole().getRoleCode())){
+        if(RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+				&&!RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())){
         	 eventReq.setUserId(user.getId().intValue());
         }
 		//分页
@@ -385,7 +385,7 @@ public class EventServiceImpl implements EventService {
 			workFlow.setStatus(EventStatus.HANDLE.getKey());
 			workFlowList.add(workFlow);
 		}
-		eventResponsetExMapper.insertList(eventResponseList);
+		eventResponseExtMapper.insertList(eventResponseList);
 		workFlowExtMapper.insertList(workFlowList);
 
 		Event param = new Event();
