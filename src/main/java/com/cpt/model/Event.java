@@ -420,7 +420,8 @@ public class Event {
     private List<WorkFlow> workFlows;
 
     private String attachmentFile ;
-
+    
+    private String handleAttachmentFile;
 
 	public String getAttachmentFile() {
 		return attachmentFile;
@@ -453,6 +454,14 @@ public class Event {
 
 	public void setAuthority(List<Byte> authority) {
 		this.authority = authority;
+	}
+
+	public String getHandleAttachmentFile() {
+		return handleAttachmentFile;
+	}
+
+	public void setHandleAttachmentFile(String handleAttachmentFile) {
+		this.handleAttachmentFile = handleAttachmentFile;
 	}
 
 }

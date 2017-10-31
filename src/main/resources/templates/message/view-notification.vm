@@ -85,7 +85,7 @@
                                                         <td>$!{message.user}</td>
                                                         <td>$!{message.content}</td>
                                                         <td>
-                                                            #if (!$!{message.attachment})
+                                                            #if ($!{message.attachmentFile})
                                                                 <label>$!{message.attachmentFile}</label>
                                                                 <a href="$!{message.attachment}" target="_blank"
                                                                    style="cursor: pointer;margin-left: 10px">查看附件</a>

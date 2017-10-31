@@ -151,8 +151,13 @@
                                 </div>
                                 <div class="widget-body">
                                    <div class="widget-main">
-                                        <label>$!{event.attachmentFile}</label>
+									#if ($!{event.attachmentFile})
+										 <label>$!{event.attachmentFile}</label>
                                         <a href="$!{event.attachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+									#else
+											无
+									#end
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -277,8 +282,24 @@
                                     </div>
                                 </div>
                             </div>
-
-
+							<div class="space-10"></div>
+							<div class="widget-box">
+                                <div class="widget-header">
+                                    <h4>附件</h4>
+                                </div>
+                                <div class="widget-body">
+                                   <div class="widget-main">
+									#if ($!{event.handleAttachmentFile})
+										 <label>$!{event.handleAttachmentFile}</label>
+                                        <a href="$!{event.handleAttachment}" target="_blank" style="cursor: pointer;margin-left: 10px">查看附件</a>
+									#else
+											无
+									#end
+                                       
+                                   </div>
+                                </div>
+                            </div>
+ 
                         </div>
                         <!-- PAGE CONTENT ENDS -->
                     </div>

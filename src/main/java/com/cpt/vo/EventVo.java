@@ -118,4 +118,6 @@ public class EventVo {
 
     private String handleAttachment;
     
+    private String handleAttachmentFile;
+    
 }

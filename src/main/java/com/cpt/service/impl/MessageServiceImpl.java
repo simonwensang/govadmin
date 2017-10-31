@@ -133,6 +133,9 @@ public class MessageServiceImpl implements MessageService {
 				||StringUtils.isBlank(message.getReply())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_ERROR);
 		}
+		if(StringUtils.isBlank(message.getAttachment())){
+			message.setAttachment(null);
+		}
 		User user = userService.getUser();
 		//只有 乡镇人员可以发送消息
     	if(!RoleCode.TOWN.getKey().equals(user.getRole().getRoleCode())

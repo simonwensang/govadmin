@@ -192,7 +192,7 @@
       <if test="description != null">
         description,
       </if>
-      <if test="attachment != null">
+      <if test="attachment != null  and attachment != ''">
         attachment,
       </if>
       <if test="commitUser != null">
@@ -314,7 +314,7 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="attachment != null">
+      <if test="attachment != null and attachment != ''">
         #{attachment,jdbcType=VARCHAR},
       </if>
       <if test="commitUser != null">

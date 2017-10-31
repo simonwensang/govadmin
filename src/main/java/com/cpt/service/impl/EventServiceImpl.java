@@ -216,6 +216,8 @@ public class EventServiceImpl implements EventService {
 		}
 		event.setAttachmentFile(StringUtils.substringAfterLast(event.getAttachment(), "/"));
 		event.setAttachment(ossWebUrl+event.getAttachment());
+		event.setHandleAttachmentFile(StringUtils.substringAfterLast(event.getHandleAttachment(), "/"));
+		event.setHandleAttachment(ossWebUrl+event.getHandleAttachment());
 		EventVo eventVo = EventConvertor.toEventVo(event);
 		eventVo.setEventHandleLogList(this.selectEventHandleLogByEventId(id));
 		eventVo.setEventResponseList(this.selectEventResponseByEventId(id));
@@ -232,7 +234,9 @@ public class EventServiceImpl implements EventService {
 		if(null!=eventReq.getCcUserId() && eventReq.getCcUserId().equals(eventReq.getAuditorId())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_USER_REPEAT);
 		}
-		
+		if(StringUtils.isBlank(eventReq.getAttachment())){
+			eventReq.setAttachment(null);
+		}
 		Event event = EventConvertor.reqToEvent(eventReq);
 		User user = userService.getUser();
 		//只有 网格人员可以提报
@@ -413,6 +417,9 @@ public class EventServiceImpl implements EventService {
 		if(user.getId().intValue()!=event.getAuditorId().intValue() && user.getId().intValue()!=event.getHandlerId().intValue()){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.NO_AUTHOR);
 		}
+		if(StringUtils.isBlank(eventReq.getHandleAttachment())){
+			eventReq.setHandleAttachment(null);
+		}
 		Event param = new Event();
 		param.setId(eventReq.getId());
 		param.setHandler(user.getName());
@@ -420,6 +427,7 @@ public class EventServiceImpl implements EventService {
 		param.setHandleTime(eventReq.getHandleTime());
 		param.setHandleResult(eventReq.getHandleResult());
 		param.setHandleRemark(eventReq.getHandleRemark());
+		param.setHandleAttachment(eventReq.getHandleAttachment());
 		param.setEventStatus(EventStatus.CLOSE.getKey());
 		Result.newResult(this.update(param));
 		return Result.newResult(this.insertEventHandleLog(HandleType.HANDLE, user.getName(), user.getId().intValue(), eventReq.getId()));
