@@ -92,7 +92,7 @@ public class EventServiceImpl implements EventService {
 	public PageResult<EventVo> allReport(EventReq eventReq) {
 		 //当前页列表
         User user = userService.getUser();
-        if(RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
+        if(!RoleCode.ADMIN.getKey().equals(user.getRole().getRoleCode())
 				&&!RoleCode.SUPERUSER.getKey().equals(user.getRole().getRoleCode())){
         	 eventReq.setUserId(user.getId().intValue());
         }
