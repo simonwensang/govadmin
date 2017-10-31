@@ -407,7 +407,7 @@
     //确认提交
 
         function commit(){
-            $("#eventStatus").val(0);
+            $("#eventStatus").val(1);
 			 confirmShows("确认提交？", function () {
 			  	 $("#createForm").ajaxSubmit(function(data) { 
                     // 提交成功后处理，message为提交页面的返回内容 
