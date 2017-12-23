@@ -53,10 +53,11 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-					<form  role="form" id="createForm" 	 method="get" action="/event/allReport?eventType=$!{eventType}">
+					<form  role="form" id="createForm" 	 method="post" action="/event/allReport?eventType=$!{eventType}">
                         <div class="row form-horizontal">
                             <div class="form-group" style="max-width: 1100px;">
 								<input type="hidden" class="col-sm-12" id="eventType" name="eventType" value="$!{eventType}">
+                                <input type="hidden" class="col-sm-12" id="page" name="page">
                                 <label class="col-sm-1 control-label no-padding-right"> 上报时间 </label>
                                 <div class="col-sm-2">
                                     <div class="input-group">
@@ -223,7 +224,7 @@
                         <div style="text-align: center;">
                             <ul class="pagination">
                                 <li  >
-                                    <a href="/event/allReport?eventType=$!{eventType}&page=$!{result.pre}">
+                                    <a onclick="queryAll($!{result.pre})">
                                         <i class="icon-double-angle-left"></i>
                                     </a>
                                 </li>
@@ -233,11 +234,11 @@
 									#if($result.page==$!{page})
 									class="active" 
 									#end
-								 ><a href="/event/allReport?eventType=$!{eventType}&page=$!{page}">$!{page}</a></li>
+								 ><a onclick="queryAll($!{page})">$!{page}</a></li>
 								 #end
  
                                 <li>
-                                    <a href="/event/allReport?eventType=$!{eventType}&page=$!{result.next}">
+                                    <a onclick="queryAll($!{result.next})">
                                         <i class="icon-double-angle-right"></i>
                                     </a>
                                 </li>
@@ -313,6 +314,11 @@
             });
         });
 
+    }
+
+    function queryAll(page){
+        $("#page").val(page);
+        $("#createForm").submit();
     }
 </script>
 </body>

@@ -53,9 +53,10 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-					<form  role="form" id="createForm" 	 method="get" action="/event/untreated">
+					<form  role="form" id="createForm" 	 method="post" action="/event/untreated">
                         <div class="row form-horizontal">
                             <div class="form-group" style="max-width: 1100px;">
+                                <input type="hidden" class="col-sm-12" id="page" name="page">
                                 <label class="col-sm-1 control-label no-padding-right"> 上报时间 </label>
                                 <div class="col-sm-2">
                                     <div class="input-group">
@@ -222,21 +223,21 @@
                         <div style="text-align: center;">
                             <ul class="pagination">
                                 <li  >
-                                    <a href="/event/untreated?page=$!{result.pre}">
+                                    <a onclick="queryAll($!{result.pre})">
                                         <i class="icon-double-angle-left"></i>
                                     </a>
                                 </li>
-								
-								 #foreach($page in [1..$result.total])
-								 <li 
-									#if($result.page==$!{page})
-									class="active" 
-									#end
-								 ><a href="/event/untreated?page=$!{page}">$!{page}</a></li>
-								 #end
- 
+
+                                #foreach($page in [1..$result.total])
+                                    <li
+                                        #if($result.page==$!{page})
+                                                class="active"
+                                        #end
+                                    ><a onclick="queryAll($!{page})">$!{page}</a></li>
+                                #end
+
                                 <li>
-                                    <a href="/event/untreated?page=$!{result.next}">
+                                    <a onclick="queryAll($!{result.next})">
                                         <i class="icon-double-angle-right"></i>
                                     </a>
                                 </li>
@@ -308,7 +309,10 @@
                 }
             });
         });
-
+    }
+    function queryAll(page){
+        $("#page").val(page);
+        $("#createForm").submit();
     }
 </script>
 </body>

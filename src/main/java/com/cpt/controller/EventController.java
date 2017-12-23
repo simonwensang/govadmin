@@ -139,7 +139,7 @@ public class EventController {
      * @param mav
      * @return
      */
-    @RequestMapping(value = "/untreated", method = RequestMethod.GET)
+    @RequestMapping(value = "/untreated")
     public ModelAndView untreated(ModelAndView mav,EventReq eventReq) {
     	eventReq.setEventStatusList(Arrays.asList(EventStatus.INIT.getKey(),EventStatus.AUDIT.getKey(),EventStatus.HANDLE.getKey()));
     	PageResult<EventVo> result = eventService.allReport(eventReq);
@@ -159,7 +159,7 @@ public class EventController {
      * @param mav
      * @return
      */
-    @RequestMapping(value = "/treated", method = RequestMethod.GET)
+    @RequestMapping(value = "/treated")
     public ModelAndView treated(ModelAndView mav,EventReq eventReq) {
     	eventReq.setEventStatusList(Arrays.asList(EventStatus.CLOSE.getKey()));
     	PageResult<EventVo> result = eventService.allReport(eventReq);
