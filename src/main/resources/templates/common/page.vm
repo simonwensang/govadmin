@@ -1,0 +1,29 @@
+<div style="text-align: center;">
+    <ul class="pagination">
+        <li  >
+            <a onclick="query($!{result.pre})">
+                <i class="icon-double-angle-left"></i>
+            </a>
+        </li>
+
+        #foreach($page in [1..$result.total])
+            <li
+                #if($result.page==$!{page})
+                        class="active"
+                #end
+            ><a onclick="query($!{page})">$!{page}</a></li>
+        #end
+
+        <li>
+            <a onclick="query($!{result.next})">
+                <i class="icon-double-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<script>
+    function query(page){
+        $("#page").val(page);
+        $("#createForm").submit();
+    }
+</script>

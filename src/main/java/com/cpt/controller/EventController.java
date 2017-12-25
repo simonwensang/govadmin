@@ -117,7 +117,7 @@ public class EventController {
     	List<Address> addressList = addressService.selectByLevel(Constants.LEVEL_4);
     	mav.addObject("addressList", addressList);
     	mav.addObject("result", result);
-    	mav.addObject("eventType", eventReq.getEventType());
+    	mav.addObject("eventReq", eventReq);
     	mav.addObject("user",userService.getUser());
         mav.setViewName("event/allReport");
         mav.addObject("cur_module","event_List");

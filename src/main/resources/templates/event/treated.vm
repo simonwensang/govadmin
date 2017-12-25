@@ -53,66 +53,8 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-					<form  role="form" id="createForm" 	 method="post" action="/event/treated">
-                        <div class="row form-horizontal">
-                            <div class="form-group" style="max-width: 1100px;">
-                                <input type="hidden" class="col-sm-12" id="page" name="page">
-                                <label class="col-sm-1 control-label no-padding-right"> 上报时间 </label>
-                                <div class="col-sm-2">
-                                    <div class="input-group">
-                                        <input class="" id="report-time-picker" type="text" name="reportTime" >
-                                        <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
-                                    </div>
-                                </div>
-                                 <label class="col-sm-1 control-label no-padding-right"> 网格员 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" name="window" id="window">  
-                                </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 审核人 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" name="auditor" id="auditor">
-                                </div>
-                            </div>
-                            <div class="form-group" style="max-width: 1100px;">
-                                <label class="col-sm-1 control-label no-padding-right"> 提报人 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" name="commitUser" id="commitUser">
-                                </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 派遣人 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" name="handler" id="handler">
-                                </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 事件编号 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" style="width: 202px;" name="eventNo" id="eventNo">
-                                </div>
-                            </div>  
-                            <div class="form-group" style="max-width: 1100px;">
-                                <label class="col-sm-1 control-label no-padding-right"> </label>
-                                <div class="col-sm-2">
-                                    <select class="form-control" id="form-field-select-1" name="grade">
-                                        <option value="">全部事件级别</option>
-                                        <option value="1">一般</option>
-                                        <option value="2">严重</option>
-                                        <option value="3">重大</option>
-                                    </select>
-                                </div>
-                                <label class="col-sm-1 control-label no-padding-right"> 村/社区 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="col-sm-12" name="community" id="community">
-                                </div>
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-sm btn-primary" style="width: 100px;margin-right: 10px;">
-                                        查询
-                                        <i class="icon-search bigger-110"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-success" onclick="download()">
-                                        导出Excel
-                                        <i class="icon-file-text bigger-110"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+					    <form  role="form" id="createForm" 	 method="post" action="/event/treated">
+                        #parse("common/search_form.vm")
 						</form>
                         <div class="row">
                             <div class="col-xs-12">
@@ -220,30 +162,7 @@
                             </div><!-- /span -->
                         </div>
 
-                        <div style="text-align: center;">
-                            <ul class="pagination">
-                                <li  >
-                                    <a onclick="queryAll($!{result.pre})">
-                                        <i class="icon-double-angle-left"></i>
-                                    </a>
-                                </li>
-
-                                #foreach($page in [1..$result.total])
-                                    <li
-                                        #if($result.page==$!{page})
-                                                class="active"
-                                        #end
-                                    ><a onclick="queryAll($!{page})">$!{page}</a></li>
-                                #end
-
-                                <li>
-                                    <a onclick="queryAll($!{result.next})">
-                                        <i class="icon-double-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
+                        #parse("common/page.vm")
                         <!-- PAGE CONTENT ENDS -->
                     </div>
                 </div>
@@ -310,11 +229,6 @@
             });
         });
 
-    }
-
-    function queryAll(page){
-        $("#page").val(page);
-        $("#createForm").submit();
     }
 </script>
 </body>
