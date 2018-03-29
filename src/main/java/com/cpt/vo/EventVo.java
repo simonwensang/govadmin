@@ -3,6 +3,7 @@ package com.cpt.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.cpt.model.EventAttachment;
 import com.cpt.model.EventHandleLog;
 import com.cpt.model.EventResponse;
 import com.cpt.model.WorkFlow;
@@ -119,5 +120,7 @@ public class EventVo {
     private String handleAttachment;
     
     private String handleAttachmentFile;
+
+    private  List<EventAttachment>  eventAttachmentList;
     
 }

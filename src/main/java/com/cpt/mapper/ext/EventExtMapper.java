@@ -8,7 +8,9 @@ import com.cpt.req.EventReq;
 public interface EventExtMapper {
    
 	List<Event> selectAllReqport(EventReq eventReq);
-	
+
+    List<Event> selectAllReqportWorkFlow(EventReq eventReq);
+
     List<Event> pageList(EventReq eventReq);
     
     int insertSelective(Event record);

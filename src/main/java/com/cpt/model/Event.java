@@ -464,4 +464,13 @@ public class Event {
 		this.handleAttachmentFile = handleAttachmentFile;
 	}
 
+    private  List<EventAttachment>  eventAttachmentList;
+
+    public List<EventAttachment> getEventAttachmentList() {
+        return eventAttachmentList;
+    }
+
+    public void setEventAttachmentList(List<EventAttachment> eventAttachmentList) {
+        this.eventAttachmentList = eventAttachmentList;
+    }
 }

@@ -16,7 +16,7 @@ public class PageParam implements Serializable {
     /**
      * 每页显示记录数
      */
-    private int rows=10;
+    private int rows=3;
 
     /**
      * 排序字段

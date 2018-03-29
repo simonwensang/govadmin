@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.cpt.mapper.*;
+import com.cpt.mapper.ext.EventAttachmentExtMapper;
 import com.cpt.mapper.ext.EventResponseExtMapper;
 import com.cpt.model.*;
 import org.apache.commons.lang.StringUtils;
@@ -72,6 +73,10 @@ public class EventServiceImpl implements EventService {
 	@Resource
 	private EventResponseMapper eventResponseMapper;
 	@Resource
+	private EventAttachmentExtMapper eventAttachmentExtMapper;
+	@Resource
+	private EventAttachmentMapper eventAttachmentMapper;
+	@Resource
 	private  ImageOSSUtil imageOSSUtil;
 	@Value("${image.url}")
 	private String imageurl ; 
@@ -104,14 +109,27 @@ public class EventServiceImpl implements EventService {
 		}
 		eventReq.setIsDeleted(Constants.ISNOTDELETED);
 		List<Event> events = eventExtMapper.selectAllReqport(eventReq);
-        List<EventVo> eventVos =  EventConvertor.toEventVoList( events);
-        this.packageProjectButton(eventVos,user);
+		List<Event> eventsWorkFlow = Lists.newArrayList();
+		if(!events.isEmpty()){
+			this.setIdList(eventReq,events);
+			eventsWorkFlow = eventExtMapper.selectAllReqportWorkFlow(eventReq);
+		}
+		List<EventVo> eventVos =  EventConvertor.toEventVoList(eventsWorkFlow);
+		this.packageProjectButton(eventVos,user);
         //构造分页结果
         PageResult<EventVo> pageResult = PageResult.newPageResult(eventVos, ((Page<Event>)events).getTotal(), eventReq.getPage(), eventReq.getRows());
         return pageResult;
 	
 	}
- 
+
+	private void setIdList(EventReq eventReq ,List<Event> events){
+		List idList = Lists.newArrayList();
+		for ( Event  event :events) {
+			idList.add(event.getId());
+		}
+		eventReq.setIdList(idList);
+	}
+
 	@Override
 	public PageResult<EventVo> pageList(PageParam pageParam, EventReq eventReq) {
 		//分页
@@ -214,14 +232,14 @@ public class EventServiceImpl implements EventService {
 		if( null == event){
 			return new EventVo();
 		}
-		event.setAttachmentFile(StringUtils.substringAfterLast(event.getAttachment(), "/"));
-		event.setAttachment(ossWebUrl+event.getAttachment());
+		//event.setAttachmentFile(StringUtils.substringAfterLast(event.getAttachment(), "/"));
+		//event.setAttachment(ossWebUrl+event.getAttachment());
 		event.setHandleAttachmentFile(StringUtils.substringAfterLast(event.getHandleAttachment(), "/"));
 		event.setHandleAttachment(ossWebUrl+event.getHandleAttachment());
 		EventVo eventVo = EventConvertor.toEventVo(event);
 		eventVo.setEventHandleLogList(this.selectEventHandleLogByEventId(id));
 		eventVo.setEventResponseList(this.selectEventResponseByEventId(id));
-
+		eventVo.setEventAttachmentList(this.selectAttachmentByEventId(id));
 		return eventVo;
 	}
 
@@ -234,9 +252,9 @@ public class EventServiceImpl implements EventService {
 		if(null!=eventReq.getCcUserId() && eventReq.getCcUserId().equals(eventReq.getAuditorId())){
 			return new Result<Integer>(ResultCode.C500.getCode(),MessageConstants.PRARM_USER_REPEAT);
 		}
-		if(StringUtils.isBlank(eventReq.getAttachment())){
+		/*if(StringUtils.isBlank(eventReq.getAttachment())){
 			eventReq.setAttachment(null);
-		}
+		}*/
 		Event event = EventConvertor.reqToEvent(eventReq);
 		User user = userService.getUser();
 		//只有 网格人员可以提报
@@ -558,11 +576,45 @@ public class EventServiceImpl implements EventService {
 		return eventResponseMapper.selectByExample(example);
 	}
 
-	private int insert(Event event){
-		return eventExtMapper.insertSelective(event);
+	public List<EventAttachment> selectAttachmentByEventId(Integer eventId) {
+		EventAttachmentExample example = new EventAttachmentExample();
+		example.createCriteria().andEventIdEqualTo(eventId);
+		List<EventAttachment>  eventAttachmentList  = eventAttachmentMapper.selectByExample(example);
+		for (EventAttachment eventAttachment : eventAttachmentList){
+			eventAttachment.setAttachment(ossWebUrl+eventAttachment.getAttachment());
+		}
+		return eventAttachmentList;
+	}
+
+	private boolean insert(Event event){
+		eventExtMapper.insertSelective(event);
+
+		if(null!=event.getEventAttachmentList() && !event.getEventAttachmentList().isEmpty()){
+			this.insertEventAttachment(event);
+		}
+
+		return true;
+	}
+
+	private int deleteEventAttachment( Integer eventId){
+		EventAttachmentExample example = new EventAttachmentExample() ;
+		example.createCriteria().andEventIdEqualTo(eventId);
+		return eventAttachmentMapper.deleteByExample(example);
+	}
+
+	private int insertEventAttachment(Event event){
+		List<EventAttachment> eventAttachments = event.getEventAttachmentList();
+		for ( EventAttachment eventAttachment : eventAttachments){
+			eventAttachment.setEventId(event.getId());
+		}
+		return eventAttachmentExtMapper.insertBatch(eventAttachments);
 	}
 
 	private int update(Event event){
+		this.deleteEventAttachment(event.getId());
+		if(null!=event.getEventAttachmentList() && !event.getEventAttachmentList().isEmpty()){
+			this.insertEventAttachment(event);
+		}
 		return eventMapper.updateByPrimaryKeySelective(event);
 	}
 

@@ -62,59 +62,79 @@
      a.commit_time,  a.auditor,  a.auditor_id,  a.auditor_time,    a.handler,  a.handler_id,  a.handle_time,    
      a.event_status,  a.cc_user,  a.cc_user_id,a.handle_result,a.request
   </sql>
-   
+
     <select id="selectAllReqport" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
-	    select 
-	  	 distinct  <include refid="Page_Column_List" />  ,b.authority   f_authority
-	    from   t_event a join t_work_flow b  on b.ref_id=a.id
-	    <where>
-	      <if test="userId != null">
-              AND b.user_id=#{userId}
-          </if>
-          <if test="reportTime != null and reportTime != ''">
-              AND a.report_time between #{reportTimeStart} and #{reportTimeEnd} 
-          </if>
-          <if test="window != null and window != ''">
-              AND a.window LIKE concat(#{window},'%')
-          </if>
-          <if test="auditor != null and auditor != ''">
-              AND a.auditor LIKE concat(#{auditor},'%')
-          </if>
-          <if test="commitUser != null and commitUser != ''">
-              AND a.commit_user LIKE concat(#{commitUser},'%')
-          </if>
-          <if test="handler != null and handler != ''">
-              AND a.handler LIKE concat(#{handler},'%')
-          </if>
-          <if test="appellant != null and appellant != ''">
-              AND a.appellant LIKE concat(#{appellant},'%')
-          </if>
-          <if test="eventNo != null and eventNo != ''">
-              AND a.event_no LIKE concat(#{eventNo},'%')
-          </if>
-          <if test="community != null and community != ''">
-              AND a.community LIKE concat(#{community},'%')
-          </if>
-          <if test="grade != null ">
-              AND a.grade = #{grade} 
-          </if>
-          <if test="eventType != null ">
-              AND a.event_type = #{eventType} 
-          </if>
-            <if test="isDeleted != null">
-               AND is_deleted = #{isDeleted,jdbcType=TINYINT}
+        select
+        distinct a.id ,min(b.authority)   f_authority
+        from   t_event a join t_work_flow b  on b.ref_id=a.id
+        <where>
+            <if test="userId != null">
+                AND b.user_id=#{userId}
             </if>
-          <if test="eventStatusList != null ">
-              AND a.event_status in 
-              <foreach collection="eventStatusList" item="item" separator=","  index="index"
-					 open="(" close=")" >
-				#{item,jdbcType=TINYINT}
-			  </foreach>
-          </if>
-	      </where>
-	      ORDER BY a.event_status ,a.commit_time DESC 
-	 </select>
-   
+            <if test="reportTime != null and reportTime != ''">
+                AND a.report_time between #{reportTimeStart} and #{reportTimeEnd}
+            </if>
+            <if test="window != null and window != ''">
+                AND a.window LIKE concat(#{window},'%')
+            </if>
+            <if test="auditor != null and auditor != ''">
+                AND a.auditor LIKE concat(#{auditor},'%')
+            </if>
+            <if test="commitUser != null and commitUser != ''">
+                AND a.commit_user LIKE concat(#{commitUser},'%')
+            </if>
+            <if test="handler != null and handler != ''">
+                AND a.handler LIKE concat(#{handler},'%')
+            </if>
+            <if test="appellant != null and appellant != ''">
+                AND a.appellant LIKE concat(#{appellant},'%')
+            </if>
+            <if test="eventNo != null and eventNo != ''">
+                AND a.event_no LIKE concat(#{eventNo},'%')
+            </if>
+            <if test="community != null and community != ''">
+                AND a.community LIKE concat(#{community},'%')
+            </if>
+            <if test="grade != null ">
+                AND a.grade = #{grade}
+            </if>
+            <if test="eventType != null ">
+                AND a.event_type = #{eventType}
+            </if>
+            <if test="isDeleted != null">
+                AND is_deleted = #{isDeleted,jdbcType=TINYINT}
+            </if>
+            <if test="eventStatusList != null ">
+                AND a.event_status in
+                <foreach collection="eventStatusList" item="item" separator=","  index="index"
+                         open="(" close=")" >
+                    #{item,jdbcType=TINYINT}
+                </foreach>
+            </if>
+        </where>
+        group by a.id
+        ORDER BY a.event_status ,a.commit_time DESC
+    </select>
+
+    <select id="selectAllReqportWorkFlow" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
+        select
+        distinct  <include refid="Page_Column_List" />  ,b.authority   f_authority
+        from   t_event a join t_work_flow b  on b.ref_id=a.id
+        <where>
+            <if test="userId != null">
+                AND b.user_id=#{userId}
+            </if>
+            <if test="idList != null ">
+                AND a.id in
+                <foreach collection="idList" item="item" separator=","  index="index"
+                         open="(" close=")" >
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.event_status ,a.commit_time DESC
+    </select>
+
   <select id="pageList" parameterType="com.cpt.req.EventReq" resultMap="BaseResultMap">
     select 
     <include refid="Page_Column_List" />

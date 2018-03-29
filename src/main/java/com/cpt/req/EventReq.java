@@ -3,6 +3,7 @@ package com.cpt.req;
 import java.util.Date;
 import java.util.List;
 
+import com.cpt.model.EventAttachment;
 import lombok.Data;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -101,4 +102,8 @@ public class EventReq extends PageParam{
 		private Byte isDeleted;
 
 		private String handleAttachment;
-}
+
+		private List<Integer> idList;
+
+		private  List<String>  eventAttachmentList;
+ }

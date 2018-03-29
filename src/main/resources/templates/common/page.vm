@@ -7,11 +7,44 @@
         </li>
 
         #foreach($page in [1..$result.total])
-            <li
-                #if($result.page==$!{page})
-                        class="active"
+
+            #if ($!{result.total}>5)
+
+                #if($!{page} == 1)
+
+                    <li><a onclick="query($!{page})">$!{page}</a></li>
+                    #if( (($result.page) - 2) > 1)
+                        <li><a> ..</a></li>
+                    #end
+                #elseif ($!{page} <($result.page + 2 ) && ($result.page - 2 ) < $!{page} )
+
+                    <li
+                        #if($result.page==$!{page})
+                                class="active"
+                        #end
+                    ><a onclick="query($!{page})">$!{page}</a></li>
+
+
+                #elseif ($!{page} == $result.total)
+
+                    #if( (($result.page) + 2) <  $result.total)
+                        <li><a> ..</a></li>
+                    #end
+
+                    <li><a onclick="query($!{page})">$!{page}</a></li>
+
                 #end
-            ><a onclick="query($!{page})">$!{page}</a></li>
+
+            #else
+
+                <li
+                    #if($result.page==$!{page})
+                            class="active"
+                    #end
+                ><a onclick="query($!{page})">$!{page}</a></li>
+
+            #end
+
         #end
 
         <li>

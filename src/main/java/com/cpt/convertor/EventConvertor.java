@@ -2,6 +2,8 @@ package com.cpt.convertor;
 
 import java.util.List;
 
+import com.cpt.model.EventAttachment;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.cglib.beans.BeanCopier;
 
 import com.cpt.common.constant.EventStatus;
@@ -26,6 +28,21 @@ public class EventConvertor {
         /*if(StringUtils.isNotBlank(projectReq.getTenderTime())){
         	 project.setTenderTime(DateUtils.parseStr(projectReq.getTenderTime(), DateUtils.dateTimeString));
         }*/
+
+        if(eventReq.getEventAttachmentList()!=null && !eventReq.getEventAttachmentList().isEmpty()){
+            List<EventAttachment> eventAttachments = Lists.newArrayList();
+
+            for (String attachment : eventReq.getEventAttachmentList()){
+                if(StringUtils.isNotBlank(attachment)){
+                    EventAttachment eventAttachment = new EventAttachment();
+                    eventAttachment.setAttachment(attachment);
+                    eventAttachment.setAttachmentName(StringUtils.substringAfterLast(attachment, "/"));
+                    eventAttachments.add(eventAttachment);
+                }
+            }
+
+            event.setEventAttachmentList(eventAttachments);
+        }
         return event;
     }
 
