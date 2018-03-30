@@ -314,7 +314,7 @@ public class EventServiceImpl implements EventService {
 			event.setCommunity(organizationService.selectById(eventReq.getCommunityId().longValue()).getName());
 			event.setUpdateUser(user.getName());
 			event.setUpdateUserId(user.getId().intValue());
-			return Result.newResult(this.update(event));
+			return Result.newResult(this.updateForEdit(event));
 		}
 	}
 
@@ -610,14 +610,16 @@ public class EventServiceImpl implements EventService {
 		return eventAttachmentExtMapper.insertBatch(eventAttachments);
 	}
 
-	private int update(Event event){
+	private int updateForEdit(Event event){
 		this.deleteEventAttachment(event.getId());
 		if(null!=event.getEventAttachmentList() && !event.getEventAttachmentList().isEmpty()){
 			this.insertEventAttachment(event);
 		}
 		return eventMapper.updateByPrimaryKeySelective(event);
 	}
-
+	private int update(Event event){
+		return eventMapper.updateByPrimaryKeySelective(event);
+	}
 	private int logicDelete(Integer id){
 		Event event =  new Event();
 		event.setId(id);
