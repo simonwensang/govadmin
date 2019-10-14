@@ -67,7 +67,8 @@
 											    <span class="block">
                                                     <label class="yzm-l">验证码</label>
 												    <input type="text" class="form-control yzm-i" placeholder="验证码" name="captcha"/>
-                                                    <img style="margin-left: 10px;margin-top: 2px;" src="/captcha">
+                                                    <img id="codeImg" style="margin-left: 10px;margin-top: 2px;" src="/captcha">
+
 											    </span>
                                             </label>
                                             <div class="clearfix">
@@ -98,6 +99,13 @@
 	<script src="/js/urms.common.js"></script>
 	<script src="/js/jquery.form.js"></script>
 <script>
+    //刷新验证码
+    $(document).on('click','#codeImg',function(){
+        var randomnum = Math.random();
+        var img=document.getElementById("codeImg");
+        img.src="/captcha?"+randomnum;
+    });
+
     $('#login_submit').on('click',function () {
         //TODO 提交表单
 	  	 $("#loginForm").ajaxSubmit(function(data) { 

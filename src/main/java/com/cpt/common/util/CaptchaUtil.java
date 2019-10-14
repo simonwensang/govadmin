@@ -18,17 +18,17 @@ import javax.imageio.ImageIO;
 public class CaptchaUtil {
 
 	// 随机产生的字符串
-//	private static final String RANDOM_STRS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String RANDOM_STRS = "3467ACDEFHJKMNPRTUVWXY";
+	//private static final String RANDOM_STRS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String RANDOM_STRS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	private static final String FONT_NAME = "Fixedsys";
+	private static final String FONT_NAME = "msbm10";
 	private static final int FONT_SIZE = 18;
 
 	private Random random = new Random();
 
 	private int width = 80;// 图片宽
 	private int height = 25;// 图片高
-	private int lineNum = 50;// 干扰线数量
+	private int lineNum = 10;// 干扰线数量
 	private int strNum = 4;// 随机产生字符数量
 
 	/**
