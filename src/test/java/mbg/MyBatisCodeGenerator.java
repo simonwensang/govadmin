@@ -16,7 +16,9 @@ public class MyBatisCodeGenerator {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
        // String url = MyBatisCodeGenerator.class.getResource("").getPath() + "MBG_configuration.xml";
-        String url ="/Users/souibun/IdeaProjects/govadmin/src/test/resources/MBG_configuration.xml";
+       // String url ="/Users/souibun/IdeaProjects/govadmin/src/test/resources/MBG_configuration.xml";
+        String url ="E:/ideaworkspace/govadmin/src/test/resources/MBG_configuration.xml";
+
         File configFile = new File(url);
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
