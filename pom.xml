@@ -26,7 +26,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<druid>1.0.2</druid>
 			<lombok.version>1.16.6</lombok.version>
 			<pagehelper>4.0.0</pagehelper>
-			<shiro.version>1.2.5</shiro.version>
+			<shiro.version>1.8.0</shiro.version>
 			<shiro.redis.version>2.4.2.1-RELEASE</shiro.redis.version>
 			<jackson.version>2.6.1</jackson.version>
 			<jackson.asl.version>1.9.13</jackson.asl.version>
