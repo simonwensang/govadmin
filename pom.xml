@@ -28,7 +28,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<pagehelper>4.0.0</pagehelper>
 			<shiro.version>1.2.5</shiro.version>
 			<shiro.redis.version>2.4.2.1-RELEASE</shiro.redis.version>
-			<jackson.version>2.6.1</jackson.version>
+			<jackson.version>2.12.6.1</jackson.version>
 			<jackson.asl.version>1.9.13</jackson.asl.version>
 			<aliyun.oss>2.2.1</aliyun.oss>
 	</properties>
